@@ -19,4 +19,11 @@
     <ProjectReference Include="..\LDBeauty.Core\LDBeauty.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Gallery\" />
+    <Folder Include="Views\About\" />
+    <Folder Include="Views\Cart\" />
+    <Folder Include="Views\Service\" />
+  </ItemGroup>
+
 </Project>
