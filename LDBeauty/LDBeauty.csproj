@@ -24,6 +24,7 @@
     <Folder Include="Views\About\" />
     <Folder Include="Views\Cart\" />
     <Folder Include="Views\Service\" />
+    <Folder Include="wwwroot\shopPart\" />
   </ItemGroup>
 
 </Project>
