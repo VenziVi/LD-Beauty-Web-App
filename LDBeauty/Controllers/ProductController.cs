@@ -8,5 +8,15 @@ namespace LDBeauty.Controllers
         {
             return View();
         }
+
+        public IActionResult Details()
+        {
+            return View();
+        }
+
+        public IActionResult Add()
+        {
+            return View();
+        }
     }
 }
