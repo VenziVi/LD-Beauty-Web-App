@@ -18,5 +18,10 @@ namespace LDBeauty.Controllers
         {
             return View();
         }
+
+        public IActionResult Filter()
+        {
+            return View();
+        }
     }
 }
