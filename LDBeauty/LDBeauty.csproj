@@ -27,21 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\About\" />
-    <Folder Include="Views\Cart\" />
-    <Folder Include="Views\Service\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\assets\img\close-icon.svg" />
-    <None Include="wwwroot\assets\img\logos\facebook.svg" />
-    <None Include="wwwroot\assets\img\logos\google.svg" />
-    <None Include="wwwroot\assets\img\logos\ibm.svg" />
-    <None Include="wwwroot\assets\img\logos\microsoft.svg" />
-    <None Include="wwwroot\assets\img\navbar-logo.svg" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Update="wwwroot\css\styles.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
