@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace LDBeauty.Data
+namespace LDBeauty.Infrastructure.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
