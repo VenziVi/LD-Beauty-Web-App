@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LDBeauty.Infrastructure.Data
+﻿namespace LDBeauty.Infrastructure.Data
 {
     public class Client
     {

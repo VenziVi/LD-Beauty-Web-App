@@ -5,7 +5,17 @@
       "ProjectGuid": "cb9f4b3e-c38a-44bb-aa60-808e396bf02f",
       "DisplayName": "LDBeauty",
       "ColorIndex": 0
+    },
+    "7f3fadd2-78b3-4ff8-bb0e-0420a6c5258d": {
+      "ProjectGuid": "7f3fadd2-78b3-4ff8-bb0e-0420a6c5258d",
+      "DisplayName": "LDBeauty.Infrastructure",
+      "ColorIndex": 1
+    },
+    "ca315d16-4654-4a83-96b1-bd690d5a7865": {
+      "ProjectGuid": "ca315d16-4654-4a83-96b1-bd690d5a7865",
+      "DisplayName": "LDBeauty.Core",
+      "ColorIndex": 2
     }
   },
-  "NextColorIndex": 1
+  "NextColorIndex": 3
 }
