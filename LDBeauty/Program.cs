@@ -1,4 +1,7 @@
+using LDBeauty.Core.Contracts;
+using LDBeauty.Core.Services;
 using LDBeauty.Infrastructure.Data;
+using LDBeauty.Infrastructure.Data.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +18,9 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IApplicationDbRepository, ApplicationDbRepository>();
+builder.Services.AddScoped<IGalleryService, GalleryService>();
 
 var app = builder.Build();
 
