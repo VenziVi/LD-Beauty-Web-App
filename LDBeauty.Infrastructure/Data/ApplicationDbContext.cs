@@ -18,6 +18,12 @@ namespace LDBeauty.Infrastructure.Data
             builder.Entity<Client>()
                 .HasIndex(u => u.Email)
                 .IsUnique();
+
+            builder.Entity<ClientImage>()
+                .HasKey(x => new { x.ImageId, x.ClientId });
+
+            builder.Entity<ClientProduct>()
+                .HasKey(x => new { x.ProductId, x.ClientId });
         }
 
         public DbSet<AddedProduct> AddedProducts { get; set; }
@@ -41,5 +47,9 @@ namespace LDBeauty.Infrastructure.Data
         public DbSet<Tag> Tags { get; set; }
 
         public DbSet<Client> Clients { get; set; }
+
+        public DbSet<ClientImage> ClientsImages { get; set; }
+
+        public DbSet<ClientProduct> ClientsProducts { get; set; }
     }
 }

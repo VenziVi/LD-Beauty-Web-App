@@ -4,6 +4,7 @@ using LDBeauty.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LDBeauty.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220312124619_added mapping tables")]
+    partial class addedmappingtables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -141,36 +143,6 @@ namespace LDBeauty.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Clients");
-                });
-
-            modelBuilder.Entity("LDBeauty.Infrastructure.Data.ClientImage", b =>
-                {
-                    b.Property<int>("ImageId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("ClientId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ImageId", "ClientId");
-
-                    b.HasIndex("ClientId");
-
-                    b.ToTable("ClientsImages");
-                });
-
-            modelBuilder.Entity("LDBeauty.Infrastructure.Data.ClientProduct", b =>
-                {
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ClientId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ProductId", "ClientId");
-
-                    b.HasIndex("ClientId");
-
-                    b.ToTable("ClientsProducts");
                 });
 
             modelBuilder.Entity("LDBeauty.Infrastructure.Data.Image", b =>
@@ -626,44 +598,6 @@ namespace LDBeauty.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Cart");
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("LDBeauty.Infrastructure.Data.ClientImage", b =>
-                {
-                    b.HasOne("LDBeauty.Infrastructure.Data.Client", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LDBeauty.Infrastructure.Data.Image", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Client");
-
-                    b.Navigation("Image");
-                });
-
-            modelBuilder.Entity("LDBeauty.Infrastructure.Data.ClientProduct", b =>
-                {
-                    b.HasOne("LDBeauty.Infrastructure.Data.Client", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LDBeauty.Infrastructure.Data.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Client");
 
                     b.Navigation("Product");
                 });

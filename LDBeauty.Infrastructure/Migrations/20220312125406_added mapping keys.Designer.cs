@@ -4,6 +4,7 @@ using LDBeauty.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LDBeauty.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220312125406_added mapping keys")]
+    partial class addedmappingkeys
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -586,13 +588,13 @@ namespace LDBeauty.Infrastructure.Migrations
                     b.HasOne("LDBeauty.Infrastructure.Data.Image", null)
                         .WithMany()
                         .HasForeignKey("FavouriteImagesId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("LDBeauty.Infrastructure.Data.Client", null)
                         .WithMany()
                         .HasForeignKey("UsersFaovuriteId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -601,13 +603,13 @@ namespace LDBeauty.Infrastructure.Migrations
                     b.HasOne("LDBeauty.Infrastructure.Data.Product", null)
                         .WithMany()
                         .HasForeignKey("FavouriteProductsId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("LDBeauty.Infrastructure.Data.Client", null)
                         .WithMany()
                         .HasForeignKey("UsersFavouriteId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -616,13 +618,13 @@ namespace LDBeauty.Infrastructure.Migrations
                     b.HasOne("LDBeauty.Infrastructure.Data.Cart", "Cart")
                         .WithMany("AddedProducts")
                         .HasForeignKey("CartId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("LDBeauty.Infrastructure.Data.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Cart");
@@ -635,13 +637,13 @@ namespace LDBeauty.Infrastructure.Migrations
                     b.HasOne("LDBeauty.Infrastructure.Data.Client", "Client")
                         .WithMany()
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("LDBeauty.Infrastructure.Data.Image", "Image")
                         .WithMany()
                         .HasForeignKey("ImageId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Client");
@@ -654,13 +656,13 @@ namespace LDBeauty.Infrastructure.Migrations
                     b.HasOne("LDBeauty.Infrastructure.Data.Client", "Client")
                         .WithMany()
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("LDBeauty.Infrastructure.Data.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Client");
@@ -673,7 +675,7 @@ namespace LDBeauty.Infrastructure.Migrations
                     b.HasOne("LDBeauty.Infrastructure.Data.ImgCategory", "Category")
                         .WithMany("Images")
                         .HasForeignKey("CategoruId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Category");
@@ -684,7 +686,7 @@ namespace LDBeauty.Infrastructure.Migrations
                     b.HasOne("LDBeauty.Infrastructure.Data.Cart", "Cart")
                         .WithMany()
                         .HasForeignKey("CartId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("LDBeauty.Infrastructure.Data.Client", "Client")
@@ -701,13 +703,13 @@ namespace LDBeauty.Infrastructure.Migrations
                     b.HasOne("LDBeauty.Infrastructure.Data.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("LDBeauty.Infrastructure.Data.Make", "Make")
                         .WithMany("Products")
                         .HasForeignKey("MakeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Category");
@@ -720,7 +722,7 @@ namespace LDBeauty.Infrastructure.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -729,7 +731,7 @@ namespace LDBeauty.Infrastructure.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -738,7 +740,7 @@ namespace LDBeauty.Infrastructure.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -747,13 +749,13 @@ namespace LDBeauty.Infrastructure.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -762,7 +764,7 @@ namespace LDBeauty.Infrastructure.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -771,13 +773,13 @@ namespace LDBeauty.Infrastructure.Migrations
                     b.HasOne("LDBeauty.Infrastructure.Data.Product", null)
                         .WithMany()
                         .HasForeignKey("ProductsId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("LDBeauty.Infrastructure.Data.Tag", null)
                         .WithMany()
                         .HasForeignKey("TagsId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
