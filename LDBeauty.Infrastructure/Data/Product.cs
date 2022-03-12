@@ -18,8 +18,10 @@ namespace LDBeauty.Infrastructure.Data
         [Required]
         public string Description { get; set; }
 
+        [Range(0.01, 999.99)]
         public decimal Price { get; set; }
-
+        
+        [Range(0, 100)]
         public int Quantity { get; set; }
 
         public int CategoryId { get; set; }
@@ -33,5 +35,7 @@ namespace LDBeauty.Infrastructure.Data
         public Make Make { get; set; }
 
         public IList<Tag> Tags { get; set; } = new List<Tag>();
+
+        public IList<Client> UsersFavourite { get; set; } = new List<Client>();
     }
 }

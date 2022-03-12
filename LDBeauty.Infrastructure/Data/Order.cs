@@ -8,11 +8,35 @@ namespace LDBeauty.Infrastructure.Data
         [Key]
         public Guid Id { get; set; } = Guid.NewGuid();
 
+        [Required]
+        [StringLength(50)]
+        public string ClientFirstName { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string ClientLastName { get; set; }
+
+        [Required]
+        [StringLength(200)]
+        public string Address { get; set; }
+
+        [Required]
+        [StringLength(17)]
+        [Phone]
+        public string Phone { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+
         public Guid? ClientId { get; set; }
 
         [ForeignKey(nameof(ClientId))]
         public Client? Client { get; set; }
 
-        public IList<AddedProduct> Products { get; set; } = new List<AddedProduct>();
+        public Guid CartId { get; set; }
+
+        [ForeignKey(nameof(CartId))]
+        public Cart Cart { get; set; }
     }
 }
