@@ -1,97 +1,32 @@
-﻿<header>
-    <div class="container px-lg-5">
-        <div class="p-4 p-lg-5  rounded-3 text-center">
-            <div class="m-4 m-lg-5">
-                <div>
-                    <img src="../assets/logo.png" alt="logo">
-                    <h2 class="display-5 fw-bold">Gallery</h2>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
+﻿@using LDBeauty.Core.Models.Gallery
+@model IEnumerable<GalleryCategoryViewModel>
+@{
+    ViewData["Title"] = "Category";
+}
+
+<partial name="Logo" />
 
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-5">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <img class="card-img-top" src="~/assets/all-pic-small.jpg" alt="..." />
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <h5 class="fw-bolder">View all pictures</h5>
-                        </div>
-                    </div>
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="/Gallery/GalleryTemp">View</a></div>
-                    </div>
-                </div>
-            </div>
-           <div class="col mb-5">
-                <div class="card h-100">
-                    <img height="330" class="card-img-top" src="~/assets/wedding.jpg" alt="..." />
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <h5 class="fw-bolder">Wedding day pictures</h5>
-                        </div>
-                    </div>
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="/Gallery/GalleryTemp">View</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <img class="card-img-top" src="~/assets/balliage.jpg" alt="..." />
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <h5 class="fw-bolder">Balliage pictures</h5>
-                        </div>
-                    </div>
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="/Gallery/GalleryTemp">View</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <img class="card-img-top" src="~/assets/style.jpg" alt="..." />
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <h5 class="fw-bolder">New style pictures</h5>
-                        </div>
-                    </div>
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="/Gallery/GalleryTemp">View</a></div>
-                    </div>
-                </div>
-            </div>
+            
+            @foreach (var item in @Model)
+            {
              <div class="col mb-5">
                 <div class="card h-100">
-                    <img class="card-img-top" src="~/assets/gloss.jpg" alt="..." />
+                    <img height="330" class="card-img-top" src="@item.ImgUrl" alt="..." />
                     <div class="card-body p-4">
                         <div class="text-center">
-                            <h5 class="fw-bolder">Gloss hair pictures</h5>
+                            <h5 class="fw-bolder">@item.Name</h5>
                         </div>
                     </div>
                     <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="/Gallery/GalleryTemp">View</a></div>
+                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="/Gallery/Images?categoryId=@item.Id">View</a></div>
                     </div>
                 </div>
             </div>
-             <div class="col mb-5">
-                <div class="card h-100">
-                    <img height="330" class="card-img-top" src="~/assets/question.jpg" alt="..." />
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <h5 class="fw-bolder">Add picture</h5>
-                        </div>
-                    </div>
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="/Gallery/AddImage">Add Image</a></div>
-                    </div>
-                </div>
-            </div>
+            }
+          
         </div>
     </div>
 </section>

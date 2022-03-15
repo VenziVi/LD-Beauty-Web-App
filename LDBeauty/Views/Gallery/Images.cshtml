@@ -1,0 +1,23 @@
+﻿@using LDBeauty.Core.Models.Gallery
+@model IEnumerable<ImageViewModel>
+
+<partial name="Logo" />
+
+<div class="album py-5">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+            @foreach (var img in @Model)
+            {
+                <div class="col">
+                    <a href="/Gallery/Details?imageId=@img.Id">
+                    <img src="@img.ImgUrl" width="300" height="300" class="img-thumbnail" alt="...">
+                    </a>
+                </div>
+
+            }
+
+        </div>
+    </div>
+</div>
+
