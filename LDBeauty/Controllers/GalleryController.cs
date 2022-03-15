@@ -16,14 +16,30 @@ namespace LDBeauty.Controllers
 
         public IActionResult Category()
         {
-            Task<IEnumerable<GalleryCategoryViewModel>> model = galleryService.GetMCategories();
+            IEnumerable<GalleryCategoryViewModel> model = galleryService.GetMCategories();
 
             return View(model);
         }
 
-        public IActionResult GalleryTemp()
+        public IActionResult Images(int? categoryId)
         {
-            return View();
+            if (categoryId == null)
+            {
+                IEnumerable<ImageViewModel> images = galleryService.AllImages();
+
+                return View(images);
+            }
+
+            IEnumerable<ImageViewModel> currImages = galleryService.GetImages(categoryId);
+
+            return View(currImages);
+        }
+
+        public IActionResult Details(int imageId)
+        {
+            ImageDetailsViewModel imageDetails = galleryService.DetImgDetails(imageId);
+
+            return View(imageDetails);
         }
 
         public IActionResult AddImage()
@@ -34,9 +50,8 @@ namespace LDBeauty.Controllers
         [HttpPost]
         public IActionResult AddImage(AddImageViewModel model)
         {
-            var errors = new ErrorViewModel();
 
-            errors = galleryService.AddImage(model);
+            ErrorViewModel errors = galleryService.AddImage(model);
 
             if (errors.ErrorMessages.Count == 0)
             {
@@ -45,5 +60,6 @@ namespace LDBeauty.Controllers
 
             return View("Error", errors);
         }
+
     }
 }

@@ -4,7 +4,7 @@ namespace LDBeauty.Controllers
 {
     public class ProductController : Controller
     {
-        public IActionResult All()
+        public IActionResult AllProducts()
         {
             return View();
         }
@@ -14,14 +14,10 @@ namespace LDBeauty.Controllers
             return View();
         }
 
-        public IActionResult Add()
+        public IActionResult AddProduct()
         {
             return View();
         }
 
-        public IActionResult Filter()
-        {
-            return View();
-        }
     }
 }
