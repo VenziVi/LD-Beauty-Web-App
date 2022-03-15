@@ -1,15 +1,37 @@
-﻿<header>
-    <div class="container px-lg-5">
-        <div class="p-4 p-lg-5  rounded-3 text-center">
-            <div class="m-4 m-lg-5">
-                <div>
-                    <img src="../assets/logo.png" alt="logo">
-                    <h2 class="display-5 fw-bold">Online Shop</h2>
-                </div>
-            </div>
-        </div>
+﻿<partial name="Logo" />
+
+
+<div class="d-grid gap-2 d-md-flex justify-content-md-center">
+    <a class="btn btn-outline-dark mt-auto " role="button" href="#" aria-disabled="true">NEW Products</a>
+    <div class="dropdown">
+        <button class="btn btn-outline-dark mt-auto dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Choose Make
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li><a class="dropdown-item" href="/Product/AllProducts?makeId=#">Action</a></li>
+        </ul>
     </div>
-</header>
+    <div class="dropdown">
+        <button class="btn btn-outline-dark mt-auto dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Choose Category
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li><a class="dropdown-item" href="/Product/AllProducts?categoryId=#">Action</a></li>
+        </ul>
+    </div>
+    <div class="dropdown">
+        <button class="btn btn-outline-dark mt-auto dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Choose Choose Hair Type
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li><a class="dropdown-item" href="/Product/AllProducts?tagId=#">Action</a></li>
+        </ul>
+    </div>
+    <a class="btn btn-outline-dark mt-auto " role="button" href="/Product/AddProduct" aria-disabled="true">Add Product</a>
+</div>
+
+
+
 
 <!-- Section-->
 <section class="py-5">
