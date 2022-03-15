@@ -87,9 +87,44 @@ namespace LDBeauty.Core.Services
             return errors;
         }
 
-        public async Task<IEnumerable<GalleryCategoryViewModel>> GetMCategories()
+        public IEnumerable<ImageViewModel> AllImages()
         {
-            IEnumerable<GalleryCategoryViewModel> model = await context
+            return context.Set<Image>()
+                .Select(i => new ImageViewModel()
+                {
+                    Id = i.Id,
+                    ImgUrl = i.ImageUrl
+                }).ToList();
+        }
+
+        public ImageDetailsViewModel DetImgDetails(int imageId)
+        {
+            return context.Set<Image>()
+                .Where(i => i.Id == imageId)
+                .Select(i => new ImageDetailsViewModel()
+                {
+                    ImgUrl = i.ImageUrl,
+                    Description = i.Description,
+                    CategoryName = i.Category.CategoryName,
+                    Id = imageId
+                }).FirstOrDefault();
+        }
+
+        public IEnumerable<ImageViewModel> GetImages(int? categoryId)
+        {
+            return context.Set<Image>()
+                .Where(i => i.CategoruId == categoryId)
+                .Select(i => new ImageViewModel()
+                {
+                    Id = i.Id,
+                    ImgUrl = i.ImageUrl
+                }).ToList();
+        }
+
+        public IEnumerable<GalleryCategoryViewModel> GetMCategories()
+        {
+
+            var models = context
                 .Set<ImgCategory>()
                 .Select(c => new GalleryCategoryViewModel()
                 {
@@ -97,9 +132,9 @@ namespace LDBeauty.Core.Services
                     Name = c.CategoryName,
                     ImgUrl = c.ImgUrl
                 })
-                .ToListAsync();
+                .ToList();
 
-            return model;
+            return models;
         }
     }
 }

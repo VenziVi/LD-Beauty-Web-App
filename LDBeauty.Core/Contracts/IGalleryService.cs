@@ -11,6 +11,9 @@ namespace LDBeauty.Core.Contracts
     public interface IGalleryService
     {
         ErrorViewModel AddImage(AddImageViewModel model);
-        Task<IEnumerable<GalleryCategoryViewModel>> GetMCategories();
+        IEnumerable<GalleryCategoryViewModel> GetMCategories();
+        IEnumerable<ImageViewModel> AllImages();
+        IEnumerable<ImageViewModel> GetImages(int? categoryId);
+        ImageDetailsViewModel DetImgDetails(int imageId);
     }
 }
