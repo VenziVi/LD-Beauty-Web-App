@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using LDBeauty.Infrastructure.Data.Identity;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LDBeauty.Infrastructure.Data
@@ -19,6 +20,6 @@ namespace LDBeauty.Infrastructure.Data
         [ForeignKey(nameof(CategoruId))]
         public ImgCategory Category { get; set; }
 
-        public IList<Client> UsersFaovurite { get; set; } = new List<Client>();
+        public IList<ApplicationUser> UsersFaovurite { get; set; } = new List<ApplicationUser>();
     }
 }

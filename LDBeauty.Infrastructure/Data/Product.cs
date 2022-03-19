@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using LDBeauty.Infrastructure.Data.Identity;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LDBeauty.Infrastructure.Data
@@ -36,6 +37,6 @@ namespace LDBeauty.Infrastructure.Data
 
         public IList<Tag> Tags { get; set; } = new List<Tag>();
 
-        public IList<Client> UsersFavourite { get; set; } = new List<Client>();
+        public IList<ApplicationUser> UsersFavourite { get; set; } = new List<ApplicationUser>();
     }
 }

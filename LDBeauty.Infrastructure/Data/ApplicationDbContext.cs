@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using LDBeauty.Infrastructure.Data.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace LDBeauty.Infrastructure.Data
@@ -15,15 +16,15 @@ namespace LDBeauty.Infrastructure.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<Client>()
+            builder.Entity<ApplicationUser>()
                 .HasIndex(u => u.Email)
                 .IsUnique();
 
-            builder.Entity<ClientImage>()
-                .HasKey(x => new { x.ImageId, x.ClientId });
+            builder.Entity<UserImage>()
+                .HasKey(x => new { x.ImageId, x.ApplicationUserId });
 
-            builder.Entity<ClientProduct>()
-                .HasKey(x => new { x.ProductId, x.ClientId });
+            builder.Entity<UserProduct>()
+                .HasKey(x => new { x.ProductId, x.ApplicationUserId });
         }
 
         public DbSet<AddedProduct> AddedProducts { get; set; }
@@ -46,10 +47,8 @@ namespace LDBeauty.Infrastructure.Data
 
         public DbSet<Tag> Tags { get; set; }
 
-        public DbSet<Client> Clients { get; set; }
+        public DbSet<UserImage> UsersImages { get; set; }
 
-        public DbSet<ClientImage> ClientsImages { get; set; }
-
-        public DbSet<ClientProduct> ClientsProducts { get; set; }
+        public DbSet<UserProduct> UsersProducts { get; set; }
     }
 }

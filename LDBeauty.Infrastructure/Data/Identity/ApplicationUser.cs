@@ -1,15 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
-namespace LDBeauty.Infrastructure.Data
+namespace LDBeauty.Infrastructure.Data.Identity
 {
-    public class Client
-    {
-        [Key]
-        public Guid Id { get; set; } = Guid.NewGuid();  
-
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
+    public class ApplicationUser : IdentityUser
+    { 
 
         [Required]
         [StringLength(50)]

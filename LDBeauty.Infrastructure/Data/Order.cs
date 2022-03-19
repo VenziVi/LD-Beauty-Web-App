@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using LDBeauty.Infrastructure.Data.Identity;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LDBeauty.Infrastructure.Data
@@ -29,10 +30,13 @@ namespace LDBeauty.Infrastructure.Data
         [EmailAddress]
         public string Email { get; set; }
 
-        public Guid? ClientId { get; set; }
+        [Required]
+        public DateTime OrderDate { get; set; }
 
-        [ForeignKey(nameof(ClientId))]
-        public Client? Client { get; set; }
+        public string? ApplicationUserId { get; set; }
+
+        [ForeignKey(nameof(ApplicationUserId))]
+        public ApplicationUser? ApplicationUser { get; set; }
 
         public Guid CartId { get; set; }
 
