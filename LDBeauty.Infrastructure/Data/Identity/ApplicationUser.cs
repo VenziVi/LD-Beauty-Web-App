@@ -14,15 +14,6 @@ namespace LDBeauty.Infrastructure.Data.Identity
         [StringLength(50)]
         public string LastName { get; set; }
 
-        [Required]
-        [StringLength(200)]
-        public string Address { get; set; }
-
-        [Required]
-        [StringLength(17)]
-        [Phone]
-        public string Phone { get; set; }
-
         public IList<Product> FavouriteProducts { get; set; } = new List<Product>();
 
         public IList<Image> FavouriteImages { get; set; } = new List<Image>();
