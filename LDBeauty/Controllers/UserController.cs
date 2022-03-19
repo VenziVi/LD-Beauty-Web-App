@@ -1,12 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LDBeauty.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
-        public IActionResult Index()
+        private readonly RoleManager<IdentityRole> roleManager;
+
+        public UserController(RoleManager<IdentityRole> _roleManager)
         {
-            return View();
+            roleManager = _roleManager;
+        }
+
+        public async Task<IActionResult> CreateRole()
+        {
+            //await roleManager.CreateAsync(new IdentityRole()
+            //{
+            //    Name = "Administrator"
+            //});
+
+            return Ok();
         }
     }
 }
