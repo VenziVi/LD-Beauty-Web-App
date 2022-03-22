@@ -35,8 +35,6 @@ namespace LDBeauty.Infrastructure.Data
         [ForeignKey(nameof(MakeId))]
         public Make Make { get; set; }
 
-        public IList<Tag> Tags { get; set; } = new List<Tag>();
-
         public IList<ApplicationUser> UsersFavourite { get; set; } = new List<ApplicationUser>();
     }
 }
