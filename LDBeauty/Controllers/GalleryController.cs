@@ -42,24 +42,5 @@ namespace LDBeauty.Controllers
             return View(imageDetails);
         }
 
-        public IActionResult AddImage()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult AddImage(AddImageViewModel model)
-        {
-
-            ErrorViewModel errors = galleryService.AddImage(model);
-
-            if (errors.ErrorMessages.Count == 0)
-            {
-                return RedirectToAction("AddImage");
-            }
-
-            return View("Error", errors);
-        }
-
     }
 }

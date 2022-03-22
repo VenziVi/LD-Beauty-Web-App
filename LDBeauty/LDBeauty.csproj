@@ -36,4 +36,13 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Views\User\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\plugins\toastr\toastr.js.map" />
+    <None Include="wwwroot\plugins\toastr\toastr.min.js" />
+  </ItemGroup>
+
 </Project>
