@@ -20,33 +20,11 @@ namespace LDBeauty.Core.Services
             context = _context;
         }
 
-        public ErrorViewModel AddImage(AddImageViewModel model)
+        public async Task AddImage(AddImageViewModel model)
         {
-            bool isCreated = false;
-            var errors = new ErrorViewModel();
 
-            if (string.IsNullOrWhiteSpace(model.PictureUrl))
-            {
-                errors.ErrorMessages.Add("Picture url is required!");
-            }
-
-            if (string.IsNullOrWhiteSpace(model.Category))
-            {
-                errors.ErrorMessages.Add("Picture category is required!");
-            }
-
-            if (string.IsNullOrWhiteSpace(model.Description))
-            {
-                errors.ErrorMessages.Add("Picture Description is required!");
-            }
-
-            if (errors.ErrorMessages.Count != 0)
-            {
-                return errors;
-            }
-
-            ImgCategory category = context.Set<ImgCategory>()
-                .FirstOrDefault(c => c.CategoryName == model.Category);
+            ImgCategory category = await context.Set<ImgCategory>()
+                .FirstOrDefaultAsync(c => c.CategoryName == model.Category);
 
             if (category == null)
             {
@@ -72,19 +50,13 @@ namespace LDBeauty.Core.Services
             try
             {
                 context.Add(image);
-                context.SaveChanges();
-                isCreated = true;
+                await context.SaveChangesAsync();
+
             }
             catch (Exception)
             {
             }
 
-            if (!isCreated)
-            {
-                errors.ErrorMessages.Add("Somethin went wrong, try again!");
-            }
-
-            return errors;
         }
 
         public IEnumerable<ImageViewModel> AllImages()

@@ -10,7 +10,7 @@ namespace LDBeauty.Core.Contracts
 {
     public interface IGalleryService
     {
-        ErrorViewModel AddImage(AddImageViewModel model);
+        Task AddImage(AddImageViewModel model);
         IEnumerable<GalleryCategoryViewModel> GetMCategories();
         IEnumerable<ImageViewModel> AllImages();
         IEnumerable<ImageViewModel> GetImages(int? categoryId);
