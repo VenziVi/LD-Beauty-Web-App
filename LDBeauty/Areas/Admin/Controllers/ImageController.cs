@@ -41,8 +41,7 @@ namespace LDBeauty.Areas.Admin.Controllers
             }
 
            
-            ViewData[MessageConstant.SuccessMessage] = "Data have been saved!";
-            return View();
+            return RedirectToAction("AddImage");
         }
     }
 }
