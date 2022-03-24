@@ -1,8 +1,10 @@
+using LDBeauty.Core.Constants;
 using LDBeauty.Core.Contracts;
 using LDBeauty.Core.Services;
 using LDBeauty.Infrastructure.Data;
 using LDBeauty.Infrastructure.Data.Identity;
 using LDBeauty.Infrastructure.Data.Repositories;
+using LDBeauty.ModelBinders;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,6 +24,14 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddControllersWithViews()
+    .AddMvcOptions(options =>
+    {
+        options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
+        options.ModelBinderProviders.Insert(1, new DateTimeModelBinderProvider(FormatingConstant.NormalDateFormat));
+        options.ModelBinderProviders.Insert(2, new DoubleModelBinderProvider());
+    });
 
 builder.Services.AddScoped<IApplicationDbRepository, ApplicationDbRepository>();
 builder.Services.AddScoped<IGalleryService, GalleryService>();
