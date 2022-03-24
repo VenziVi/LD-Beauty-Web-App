@@ -37,7 +37,7 @@ namespace LDBeauty.Core.Services
                 context.Add(category);
             }
 
-            Image image = new Image() 
+            Image image = new Image()
             {
                 ImageUrl = model.PictureUrl,
                 Description = model.Description,
@@ -47,15 +47,8 @@ namespace LDBeauty.Core.Services
 
             category.Images.Add(image);
 
-            try
-            {
-                context.Add(image);
-                await context.SaveChangesAsync();
-
-            }
-            catch (Exception)
-            {
-            }
+            context.Add(image);
+            await context.SaveChangesAsync();
 
         }
 

@@ -5,7 +5,7 @@ namespace LDBeauty.Core.Models.Product
     public class AddProductViewModel
     {
         [Required]
-        [StringLength(30, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 5)]
+        [StringLength(30, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 3)]
         public string ProductName { get; set; }
 
         [Required]
@@ -21,11 +21,11 @@ namespace LDBeauty.Core.Models.Product
         public int Quantity { get; set; }
 
         [Required]
-        [StringLength(20, ErrorMessage ="The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 5)]
+        [StringLength(20, ErrorMessage ="The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 3)]
         public string Category { get; set; }
 
         [Required]
-        [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 5)]
+        [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 3)]
         public string Make { get; set; }
     }
 }
