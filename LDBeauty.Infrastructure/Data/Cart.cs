@@ -9,5 +9,7 @@ namespace LDBeauty.Infrastructure.Data
         public Guid Id { get; set; }
 
         public IList<AddedProduct> AddedProducts { get; set; } = new List<AddedProduct>();
+
+        public decimal TotalPrice { get; set; }
     }
 }

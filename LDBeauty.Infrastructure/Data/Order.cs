@@ -33,14 +33,14 @@ namespace LDBeauty.Infrastructure.Data
         [Required]
         public DateTime OrderDate { get; set; }
 
+        public IList<AddedProduct> Products { get; set; } = new List<AddedProduct>();
+
+        public decimal TotalPrice { get; set; }
+
         public string? ApplicationUserId { get; set; }
 
         [ForeignKey(nameof(ApplicationUserId))]
         public ApplicationUser? ApplicationUser { get; set; }
 
-        public Guid CartId { get; set; }
-
-        [ForeignKey(nameof(CartId))]
-        public Cart Cart { get; set; }
     }
 }
