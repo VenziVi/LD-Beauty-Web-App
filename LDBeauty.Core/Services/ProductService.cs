@@ -66,5 +66,36 @@ namespace LDBeauty.Core.Services
             context.Add(product);
             await context.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<GetProductViewModel>> GetAllProducts()
+        {
+            return await context.Set<Product>()
+                .Select(p => new GetProductViewModel()
+                {
+                    Id = p.Id,
+                    ProductName = p.ProductName,
+                    ProductUrl = p.ProductUrl,
+                    Price = p.Price,
+                    Quantity = p.Quantity,
+                    Make = p.Make.MakeName,
+                }).ToListAsync();
+        }
+
+        public async Task<ProductDetailsViewModel> GetProduct(string id)
+        {
+            return await context.Set<Product>()
+                .Where(p => p.Id.ToString() == id)
+                .Select(p => new ProductDetailsViewModel()
+                {
+                    Id = p.Id,
+                    ProductName = p.ProductName,
+                    Description = p.Description,
+                    ProductUrl = p.ProductUrl,
+                    Price = p.Price,
+                    Quantity = p.Quantity,
+                    Make = p.Make.MakeName,
+                    Category = p.Category.CategoryName
+                }).FirstOrDefaultAsync();
+        }
     }
 }
