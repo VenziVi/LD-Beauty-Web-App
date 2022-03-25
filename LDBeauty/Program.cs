@@ -36,6 +36,7 @@ builder.Services.AddControllersWithViews()
 builder.Services.AddScoped<IApplicationDbRepository, ApplicationDbRepository>();
 builder.Services.AddScoped<IGalleryService, GalleryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICartService, CartService>();
 
 var app = builder.Build();
 

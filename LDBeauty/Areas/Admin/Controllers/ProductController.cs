@@ -1,5 +1,6 @@
 ﻿using LDBeauty.Core.Constants;
 using LDBeauty.Core.Contracts;
+using LDBeauty.Core.Models.Cart;
 using LDBeauty.Core.Models.Product;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,7 +10,8 @@ namespace LDBeauty.Areas.Admin.Controllers
     {
         private readonly IProductService productService;
 
-        public ProductController(IProductService _productService)
+        public ProductController(
+            IProductService _productService)
         {
             productService = _productService;
         }
@@ -39,7 +41,9 @@ namespace LDBeauty.Areas.Admin.Controllers
                 return View();
             }
 
-            return RedirectToAction("AddProduct");
+            ViewData[MessageConstant.SuccessMessage] = "Product was added successfuly";
+            return View("/Admin/Product/AddProduct");
         }
+
     }
 }
