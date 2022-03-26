@@ -37,10 +37,11 @@ namespace LDBeauty.Infrastructure.Data
 
         public decimal TotalPrice { get; set; }
 
-        public string? ApplicationUserId { get; set; }
+        [Required]
+        public string ApplicationUserId { get; set; }
 
         [ForeignKey(nameof(ApplicationUserId))]
-        public ApplicationUser? ApplicationUser { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
 
     }
 }

@@ -11,5 +11,7 @@ namespace LDBeauty.Infrastructure.Data
         public IList<AddedProduct> AddedProducts { get; set; } = new List<AddedProduct>();
 
         public decimal TotalPrice { get; set; }
+
+        public bool IsDeleted { get; set; } = false;
     }
 }
