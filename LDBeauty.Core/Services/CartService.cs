@@ -1,6 +1,9 @@
 ﻿using LDBeauty.Core.Contracts;
 using LDBeauty.Core.Models.Cart;
 using LDBeauty.Infrastructure.Data;
+using LDBeauty.Infrastructure.Data.Identity;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -19,10 +22,13 @@ namespace LDBeauty.Core.Services
             context = _context;
         }
 
-        public async Task AddToCart(AddToCartViewModel model)
+        public async Task AddToCart(AddToCartViewModel model, string userName)
         {
+            var user = await context.Set<ApplicationUser>()
+                .SingleOrDefaultAsync(u => u.UserName == userName);
+
             Cart cart = await context.Set<Cart>()
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(c => c.IsDeleted == false);
 
             if (cart == null)
             {
@@ -46,8 +52,6 @@ namespace LDBeauty.Core.Services
                 CartId = cart.Id
             };
 
-            context.Add(addedProduct);
-
             cart.AddedProducts.Add(addedProduct);
 
             decimal price = 0.0M;
@@ -57,10 +61,45 @@ namespace LDBeauty.Core.Services
                 price += item.Quantity * item.Product.Price;
             }
 
-            cart.TotalPrice = price;
+            cart.TotalPrice += price;
+
+            context.Add(addedProduct);
+
 
             await context.SaveChangesAsync();
 
+        }
+
+        public async Task<CartDetailsViewModel> GetCart()
+        {
+            var cart = context.Set<Cart>()
+                .FirstOrDefault(c => c.IsDeleted == false);
+
+            if (cart == null)
+            {
+                return null;
+            }
+
+            var productsList = context.Set<AddedProduct>()
+                .Where(a => a.CartId == cart.Id).ToList();
+
+            var currOrder = new CartDetailsViewModel()
+            {
+                CartId = cart.Id,
+                TotalPrice = cart.TotalPrice,
+            };
+
+            currOrder.Products = context.Set<AddedProduct>()
+                .Where(a => a.CartId == cart.Id)
+                .Select(p => new CartProductsViewModel()
+                {
+                    ProductName = p.Product.ProductName,
+                    ProductMake = p.Product.Make.MakeName,
+                    Quantity = p.Quantity,
+                    Price = (p.Product.Price * p.Quantity).ToString("f2")
+                }).ToList();
+
+            return currOrder;
         }
     }
 }
