@@ -1,4 +1,5 @@
 ﻿using LDBeauty.Core.Models.Cart;
+using LDBeauty.Infrastructure.Data.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace LDBeauty.Core.Contracts
 {
     public interface ICartService
     {
-        Task AddToCart(AddToCartViewModel model);
+        Task AddToCart(AddToCartViewModel model, string userName);
+        Task<CartDetailsViewModel> GetCart();
     }
 }
