@@ -2,6 +2,7 @@
 using LDBeauty.Core.Contracts;
 using LDBeauty.Core.Models.Cart;
 using LDBeauty.Core.Models.Product;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LDBeauty.Controllers
@@ -29,23 +30,5 @@ namespace LDBeauty.Controllers
             ProductDetailsViewModel product = await productService.GetProduct(id);
             return View(product);
         }
-
-        [HttpPost]
-        public async Task<IActionResult> Add(AddToCartViewModel model)
-        {
-
-            try
-            {
-                await cartService.AddToCart(model);
-            }
-            catch (Exception)
-            {
-                ViewData[MessageConstant.ErrorMessage] = "Something went wrong!";
-            }
-
-            ViewData[MessageConstant.SuccessMessage] = "Product was added to cart!";
-            return View("/Product/AllProduct");
-        }
-
     }
 }

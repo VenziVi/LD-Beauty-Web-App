@@ -37,6 +37,7 @@ builder.Services.AddScoped<IApplicationDbRepository, ApplicationDbRepository>();
 builder.Services.AddScoped<IGalleryService, GalleryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
