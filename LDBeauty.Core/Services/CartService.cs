@@ -70,6 +70,76 @@ namespace LDBeauty.Core.Services
 
         }
 
+        public async Task DeleteProduct(string id)
+        {
+            var ids = id.Split(":");
+            var productId = ids[0];
+            var cartId = ids[1];
+
+            Cart cart = await context.Set<Cart>()
+                .FirstOrDefaultAsync(c => c.Id.ToString() == cartId);
+
+            AddedProduct product = await context.Set<AddedProduct>()
+                .Where(p => p.ProductId.ToString() == productId && p.CartId.ToString() == cartId)
+                .FirstOrDefaultAsync();
+
+            Product currProduct = await context.Set<Product>()
+                .FirstOrDefaultAsync(p => p.Id == product.ProductId);
+
+            cart.AddedProducts.Remove(product);
+
+            var qty = product.Quantity;
+            var price = currProduct.Price;
+
+            cart.TotalPrice -= qty * price;
+
+            context.Remove(product);
+
+            if (cart.TotalPrice == 0)
+            {
+                context.Remove(cart);
+            }
+
+            context.SaveChangesAsync();
+        }
+
+        public async Task FinishOrder(FinishOrderViewModel model)
+        {
+            Cart cart = context.Set<Cart>()
+                .FirstOrDefault(c => c.Id.ToString() == model.CartId);
+
+            var productsList = context.Set<AddedProduct>()
+                .Where(a => a.CartId == cart.Id).ToList();
+
+            Order order = new Order()
+            {
+                ClientFirstName = model.FirstName,
+                ClientLastName = model.LastName,
+                Address = model.Address,
+                Phone = model.Phone,
+                Email = model.Email,
+                OrderDate = DateTime.Now,
+                TotalPrice = cart.TotalPrice,
+                Products = productsList,
+                ApplicationUserId = model.UserId
+            };
+
+            cart.IsDeleted = true;
+
+            foreach (var product in productsList)
+            {
+                var quantity = product.Quantity;
+
+                var currProduct = context.Set<Product>()
+                    .FirstOrDefault(p => p.Id == product.ProductId);
+
+                currProduct.Quantity -= quantity;
+            }
+
+            context.Add(order);
+            await context.SaveChangesAsync();
+        }
+
         public async Task<CartDetailsViewModel> GetCart()
         {
             var cart = context.Set<Cart>()
@@ -85,7 +155,7 @@ namespace LDBeauty.Core.Services
 
             var currOrder = new CartDetailsViewModel()
             {
-                CartId = cart.Id,
+                Id = cart.Id,
                 TotalPrice = cart.TotalPrice,
             };
 
@@ -93,6 +163,7 @@ namespace LDBeauty.Core.Services
                 .Where(a => a.CartId == cart.Id)
                 .Select(p => new CartProductsViewModel()
                 {
+                    Id = p.ProductId.ToString(),
                     ProductName = p.Product.ProductName,
                     ProductMake = p.Product.Make.MakeName,
                     Quantity = p.Quantity,

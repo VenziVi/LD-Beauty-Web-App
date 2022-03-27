@@ -12,5 +12,7 @@ namespace LDBeauty.Core.Contracts
     {
         Task AddToCart(AddToCartViewModel model, string userName);
         Task<CartDetailsViewModel> GetCart();
+        Task FinishOrder(FinishOrderViewModel model);
+        Task DeleteProduct(string id);
     }
 }
