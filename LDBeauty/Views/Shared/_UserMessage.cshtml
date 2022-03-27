@@ -1,0 +1,20 @@
+﻿@using LDBeauty.Core.Constants
+
+@if (ViewData[MessageConstant.ErrorMessage] != null)
+{
+    <script>
+        $(function() {
+            toastr.error('@ViewData[MessageConstant.ErrorMessage]?.ToString()');
+        });
+    </script>
+}
+
+
+@if (ViewData[MessageConstant.SuccessMessage] != null)
+{
+    <script>
+        $(function() {
+            toastr.success('@ViewData[MessageConstant.SuccessMessage]?.ToString()');
+        });
+    </script>
+}

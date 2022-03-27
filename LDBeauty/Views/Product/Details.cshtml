@@ -9,18 +9,21 @@
                 <div class="fs-5">@Model.Category</div>
                 <h1 class="display-7 fw-bolder">@Model.Make @Model.ProductName</h1>
                 <div class="fs-5 mb-5">
-                    <span>@Model.Price lv.</span>
+                    <span>Price: @Model.Price lv.</span>
                 </div>
                 <p class="lead">@Model.Description</p>
-                <form method="post" >
+                <form method="post">
                     <div class="fs-5 mb-5">Qty: @Model.Quantity</div>
                     <div class="d-flex form-group">
-                        <input class="text-center me-3" id="inputQuantity" type="number" name="Quantity" min="1" value="1" max="@Model.Quantity" style="max-width: 3rem" />
-                        <input type="hidden" name="productId" value="@Model.Id" />
-                        <button class="btn btn-outline-dark flex-shrink-0" value="@Model.Id" type="submit" asp-action="add" asp-controller="cart" asp-route-id="@Model.Id" >
-                            <i class="bi-cart-fill me-1"></i>
-                            Add to cart
-                        </button>
+                        @if (Model.Quantity > 0)
+                        {
+                            <input class="text-center me-3" id="inputQuantity" type="number" name="Quantity" min="1" value="1" max="@Model.Quantity" style="max-width: 3rem" />
+                            <input type="hidden" name="productId" value="@Model.Id" />
+                            <button class="btn btn-outline-dark flex-shrink-0" value="@Model.Id" type="submit" asp-action="add" asp-controller="product" asp-route-id="@Model.Id">
+                                <i class="bi-cart-fill me-1"></i>
+                                Add to cart
+                            </button>
+                        }
                     </div>
                 </form>
             </div>
