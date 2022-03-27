@@ -30,5 +30,25 @@ namespace LDBeauty.Controllers
             ProductDetailsViewModel product = await productService.GetProduct(id);
             return View(product);
         }
+
+        [Authorize]
+        public async Task<IActionResult> Add(AddToCartViewModel model)
+        {
+            var userName = HttpContext.User.Identity.Name;
+
+            try
+            {
+                await cartService.AddToCart(model, userName);
+            }
+            catch (Exception)
+            {
+                ProductDetailsViewModel product = await productService.GetProduct(model.ProductId.ToString());
+                ViewData[MessageConstant.ErrorMessage] = "Something went wrong, please try again later!";
+                return View("Details", product);
+            }
+
+            ViewData[MessageConstant.SuccessMessage] = "Product was added to cart!";
+            return Redirect("/Product/AllProducts");
+        }
     }
 }

@@ -22,23 +22,7 @@ namespace LDBeauty.Controllers
             userService = _userService;
         }
 
-        [Authorize]
-        public async Task<IActionResult> Add(AddToCartViewModel model)
-        {
-            var userName = HttpContext.User.Identity.Name;
 
-            try
-            {
-                await cartService.AddToCart(model, userName);
-            }
-            catch (Exception)
-            {
-                ViewData[MessageConstant.ErrorMessage] = "Something went wrong!";
-            }
-
-            //ViewData[MessageConstant.SuccessMessage] = "Product was added to cart!";
-            return Redirect("/Product/AllProducts");
-        }
 
         [Authorize]
         public async Task<IActionResult> Detail()
@@ -58,13 +42,51 @@ namespace LDBeauty.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> Order(string cartId)
+        public async Task<IActionResult> Order(string id)
         {
             var userName = User.Identity.Name;
 
-            UserOrderViewModel user = await userService.GetUSerByName(userName, cartId);
+            UserOrderViewModel user = await userService.GetUSerByName(userName, id);
 
             return View(user);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> FinishOrder(FinishOrderViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewData[MessageConstant.ErrorMessage] = "Shipping data is not corect!";
+            }
+
+            try
+            {
+                await cartService.FinishOrder(model);
+            }
+            catch (Exception)
+            {
+                ViewData[MessageConstant.ErrorMessage] = "Something went wrong, please try again later!";
+            }
+
+            //REPAIR
+            return View("Detail", ViewData[MessageConstant.SuccessMessage] = "Order confirmed.");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Delete(string id)
+        {
+
+            try
+            {
+                await cartService.DeleteProduct(id);
+            }
+            catch (Exception)
+            {
+                ViewData[MessageConstant.ErrorMessage] = "Something went wrong, please try again later!";
+            }
+
+            return Redirect("/Cart/Detail");
         }
     }
 }
