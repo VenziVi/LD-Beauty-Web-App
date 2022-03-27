@@ -23,7 +23,6 @@ namespace LDBeauty.Infrastructure.Data
 
         [Required]
         [StringLength(17)]
-        [Phone]
         public string Phone { get; set; }
 
         [Required]
