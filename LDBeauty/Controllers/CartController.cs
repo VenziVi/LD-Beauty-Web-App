@@ -12,16 +12,13 @@ namespace LDBeauty.Controllers
     public class CartController : Controller
     {
         private readonly ICartService cartService;
-        private readonly IUserService userService;
+        
 
         public CartController(
-            ICartService _cartService,
-            IUserService _userService)
+            ICartService _cartService)
         {
             cartService = _cartService;
-            userService = _userService;
         }
-
 
 
         [Authorize]
@@ -41,37 +38,6 @@ namespace LDBeauty.Controllers
             return View(cart);
         }
 
-        [Authorize]
-        public async Task<IActionResult> Order(string id)
-        {
-            var userName = User.Identity.Name;
-
-            UserOrderViewModel user = await userService.GetUSerByName(userName, id);
-
-            return View(user);
-        }
-
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> FinishOrder(FinishOrderViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                ViewData[MessageConstant.ErrorMessage] = "Shipping data is not corect!";
-            }
-
-            try
-            {
-                await cartService.FinishOrder(model);
-            }
-            catch (Exception)
-            {
-                ViewData[MessageConstant.ErrorMessage] = "Something went wrong, please try again later!";
-            }
-
-            //REPAIR
-            return View("Detail", ViewData[MessageConstant.SuccessMessage] = "Order confirmed.");
-        }
 
         [Authorize]
         public async Task<IActionResult> Delete(string id)
