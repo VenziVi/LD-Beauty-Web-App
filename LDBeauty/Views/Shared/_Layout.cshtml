@@ -30,7 +30,6 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="/Home/About">About</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Gallery
@@ -40,13 +39,16 @@
                                 <li><a class="dropdown-item" href="/Gallery/Category">View Categories</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="/Service/All">Services</a></li>
                         <li class="nav-item"><a class="nav-link" href="/Product/AllProducts">Products</a></li>
                         <li class="nav-item"><a class="nav-link" href="/MyLd/Info">My LD</a></li>
                         <li class="nav-item"><a class="nav-link" href="/Cart/Detail">Cart</a></li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-area="Identity" asp-page="/Account/Logout">Log out</a></li>
+                        }
                         @if (User.IsInRole("Administrator"))
                         {
-                            <li class="nav-item"><a class="nav-link" href="/Admin/Home">Admin panel</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/Admin/Home">Admin</a></li>
                         }
                     </ul>
                 </div>
@@ -59,7 +61,7 @@
         </div>
     </main>
     <!-- Footer-->
-    <footer class="py-5 bg-dark">
+    <footer class="py-3 bg-dark">
         <div class="container"><p class="m-0 text-center text-white">Copyright &copy; LD Beauty @DateTime.Now.Year</p></div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

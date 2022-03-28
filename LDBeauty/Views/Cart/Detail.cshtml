@@ -11,10 +11,13 @@
             <div class="row g-5 justify-content-center">
                 <div class="col-md-5 col-lg-5 order-md-last">
                     @if (@Model == null || @Model.Products.Count == 0 )
-                            {
-                        <h2 class="d-flex justify-content-between align-items-center mb-3">
-                            <span class="text-primary">Your cart is empty!</span>
+                    {
+                        <h2 class="d-flex justify-content-center mb-3">
+                            <span class="">Your cart is empty!</span>
                         </h2>
+                        <div class="d-flex justify-content-center">
+                        <a class="btn btn-outline-dark mt-auto" asp-action="allProducts" asp-controller="product" asp-route-id="">Shop now</a>
+                        </div>
                     }
                     else
                     {
@@ -43,7 +46,7 @@
                         </ul>
                     
                     <div class="text-center">
-                        <a class="btn btn-outline-dark mt-auto" asp-action="order" asp-controller="cart" asp-route-id="@Model.Id">Order</a>
+                        <a class="btn btn-outline-dark mt-auto" asp-action="order" asp-controller="order" asp-route-id="@Model.Id">Order</a>
                         </div>
                     }
                 </div>

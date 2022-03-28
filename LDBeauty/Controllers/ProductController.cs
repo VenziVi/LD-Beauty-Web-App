@@ -12,6 +12,7 @@ namespace LDBeauty.Controllers
         private readonly IProductService productService;
         private readonly ICartService cartService;
 
+
         public ProductController(IProductService _productService,
             ICartService _cartService)
         {
@@ -47,8 +48,7 @@ namespace LDBeauty.Controllers
                 return View("Details", product);
             }
 
-            ViewData[MessageConstant.SuccessMessage] = "Product was added to cart!";
-            return Redirect("/Product/AllProducts");
+            return RedirectToAction("AllProducts");
         }
     }
 }

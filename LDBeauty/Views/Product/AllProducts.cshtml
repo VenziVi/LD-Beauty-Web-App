@@ -56,9 +56,18 @@
                                 <!-- Product price-->
                             @product.Price lv.
                             </div>
-                            <div class="text-center">
-                                Qty: @product.Quantity
-                            </div>
+                            @if (product.Quantity <= 0)
+                            {
+                                <div class="text-center">
+                                    Qty: 0
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="text-center">
+                                    Qty: @product.Quantity
+                                </div>
+                            }
                         </div>
                         <!-- Product actions-->
                     <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
