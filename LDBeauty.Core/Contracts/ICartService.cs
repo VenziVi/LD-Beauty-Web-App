@@ -11,8 +11,7 @@ namespace LDBeauty.Core.Contracts
     public interface ICartService
     {
         Task AddToCart(AddToCartViewModel model, string userName);
-        Task<CartDetailsViewModel> GetCart();
-        Task FinishOrder(FinishOrderViewModel model);
+        Task<CartDetailsViewModel> GetCart();       
         Task DeleteProduct(string id);
     }
 }

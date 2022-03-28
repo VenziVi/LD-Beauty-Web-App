@@ -24,11 +24,11 @@ namespace LDBeauty.Core.Services
 
         public async Task AddToCart(AddToCartViewModel model, string userName)
         {
-            var user = await context.Set<ApplicationUser>()
-                .SingleOrDefaultAsync(u => u.UserName == userName);
+            var user = context.Set<ApplicationUser>()
+                .SingleOrDefault(u => u.UserName == userName);
 
-            Cart cart = await context.Set<Cart>()
-                .FirstOrDefaultAsync(c => c.IsDeleted == false);
+            Cart cart = context.Set<Cart>()
+                .FirstOrDefault(c => c.IsDeleted == false);
 
             if (cart == null)
             {
@@ -40,8 +40,8 @@ namespace LDBeauty.Core.Services
                 context.Add(cart);
             }
 
-            Product product = await context.Set<Product>()
-                .FirstOrDefaultAsync(p => p.Id == model.ProductId);
+            Product product = context.Set<Product>()
+                .FirstOrDefault(p => p.Id == model.ProductId);
 
             AddedProduct addedProduct = new AddedProduct()
             {
@@ -76,15 +76,15 @@ namespace LDBeauty.Core.Services
             var productId = ids[0];
             var cartId = ids[1];
 
-            Cart cart = await context.Set<Cart>()
-                .FirstOrDefaultAsync(c => c.Id.ToString() == cartId);
+            Cart cart = context.Set<Cart>()
+                .FirstOrDefault(c => c.Id.ToString() == cartId);
 
-            AddedProduct product = await context.Set<AddedProduct>()
+            AddedProduct product = context.Set<AddedProduct>()
                 .Where(p => p.ProductId.ToString() == productId && p.CartId.ToString() == cartId)
-                .FirstOrDefaultAsync();
+                .FirstOrDefault();
 
-            Product currProduct = await context.Set<Product>()
-                .FirstOrDefaultAsync(p => p.Id == product.ProductId);
+            Product currProduct = context.Set<Product>()
+                .FirstOrDefault(p => p.Id == product.ProductId);
 
             cart.AddedProducts.Remove(product);
 
@@ -100,45 +100,10 @@ namespace LDBeauty.Core.Services
                 context.Remove(cart);
             }
 
-            context.SaveChangesAsync();
-        }
-
-        public async Task FinishOrder(FinishOrderViewModel model)
-        {
-            Cart cart = context.Set<Cart>()
-                .FirstOrDefault(c => c.Id.ToString() == model.CartId);
-
-            var productsList = context.Set<AddedProduct>()
-                .Where(a => a.CartId == cart.Id).ToList();
-
-            Order order = new Order()
-            {
-                ClientFirstName = model.FirstName,
-                ClientLastName = model.LastName,
-                Address = model.Address,
-                Phone = model.Phone,
-                Email = model.Email,
-                OrderDate = DateTime.Now,
-                TotalPrice = cart.TotalPrice,
-                Products = productsList,
-                ApplicationUserId = model.UserId
-            };
-
-            cart.IsDeleted = true;
-
-            foreach (var product in productsList)
-            {
-                var quantity = product.Quantity;
-
-                var currProduct = context.Set<Product>()
-                    .FirstOrDefault(p => p.Id == product.ProductId);
-
-                currProduct.Quantity -= quantity;
-            }
-
-            context.Add(order);
             await context.SaveChangesAsync();
         }
+
+       
 
         public async Task<CartDetailsViewModel> GetCart()
         {
