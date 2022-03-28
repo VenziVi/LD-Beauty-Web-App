@@ -20,6 +20,13 @@ namespace LDBeauty.Core.Services
             context = _context;
         }
 
+        public async Task<ApplicationUser> GetUser(string user)
+        {
+            return await context.Set<ApplicationUser>()
+                .SingleOrDefaultAsync(u => u.UserName == user);
+
+        }
+
         public async Task<UserOrderViewModel> GetUSerByName(string userName, string cartId)
         {
             return await context.Set<ApplicationUser>()

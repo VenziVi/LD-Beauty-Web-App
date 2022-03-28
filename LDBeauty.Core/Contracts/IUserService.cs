@@ -1,4 +1,5 @@
 ﻿using LDBeauty.Core.Models.User;
+using LDBeauty.Infrastructure.Data.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace LDBeauty.Core.Contracts
     public interface IUserService
     {
         Task<UserOrderViewModel> GetUSerByName(string userName, string cartId);
+        Task<ApplicationUser> GetUser(string user);
     }
 }
