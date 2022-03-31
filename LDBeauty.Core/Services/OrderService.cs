@@ -75,13 +75,13 @@ namespace LDBeauty.Core.Services
 
             var userProducts = new List<UserProductsViewModel>();
 
-            foreach (var order in orders)
+            foreach (var order in orders.OrderByDescending(i => i.OrderDate))
             {
-                var addedProducts = context.Set<AddedProduct>()
+                var addedProducts = await context.Set<AddedProduct>()
                     .Where(p => p.OrderId == order.Id)
                     .Include(p => p.Product)
                     .ThenInclude(m => m.Make)
-                    .ToList();
+                    .ToListAsync();
 
                 foreach (var item in addedProducts)
                 {
@@ -93,6 +93,7 @@ namespace LDBeauty.Core.Services
                         Quantity = item.Quantity,
                         Price = item.Product.Price * item.Quantity
                     });
+                    
                 }
             }
 
