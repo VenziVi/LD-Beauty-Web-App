@@ -1,0 +1,35 @@
+﻿@using LDBeauty.Core.Models.User
+@model List<AllUsersViewModel>
+
+<h1 class="text-center mt-5"> Registered users:</h1>
+
+
+<div class="container justify-content-center">
+
+    <table class="table table-striped mt-5">
+        <thead>
+            <tr>
+                <th scope="col">FirstName</th>
+                <th scope="col">LastName</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Orders</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in @Model)
+            {
+                <tr>
+                    <th>@item.FirstName</th>
+                    <td>@item.LastName</td>
+                    <td>@item.Email</td>
+                    <td>@item.Phone</td>
+                    <td><a class="btn btn-outline-dark flex-shrink-0" asp-area="admin" asp-action="userOrders" asp-controller="admin" asp-route-id="@item.Id">
+                        Orders
+                    </a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
