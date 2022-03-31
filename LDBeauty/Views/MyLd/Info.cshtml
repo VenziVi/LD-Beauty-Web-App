@@ -1,11 +1,12 @@
-﻿
+﻿@using LDBeauty.Core.Models.User
+@model  List<UserProductsViewModel>
 
-<h1 class="text-center"> Hello, @ViewData["userName"]!</h1>
-<h3 class="text-center md-3">Your orders: </h3>
+<h1 class="text-center "> Hello, @ViewData["userName"]!</h1>
+<h3 class="text-center mt-5">Your orders: </h3>
 
 <div class="container justify-content-center">
 
-    <table class="table table-striped">
+    <table class="table table-striped mt-5">
         <thead>
             <tr>
                 <th scope="col">Make</th>
@@ -16,13 +17,16 @@
             </tr>
         </thead>
         <tbody>
+            @foreach (var item in @Model)
+           {      
             <tr>
-                <th >Kerastase</th>
-                <td>Genesis</td>
-                <td>2</td>
-                <td>22.03.2022</td>
-                <td>90 lv.</td>
+                <th>@item.Make</th>
+                <td>@item.Name</td>
+                <td>@item.Quantity</td>
+                <td>@item.Date</td>
+                <td>@item.Price lv.</td>
             </tr>
+           }
         </tbody>
     </table>
 </div>

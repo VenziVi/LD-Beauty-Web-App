@@ -29,7 +29,7 @@ namespace LDBeauty.Controllers
             ViewData["UserName"] = user.FirstName;
 
             List<UserProductsViewModel> products = await orderService.GetUserProducts(user.Id);
-            return View(ViewData);
+            return View(products);
         }
     }
 }

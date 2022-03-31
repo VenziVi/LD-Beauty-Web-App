@@ -24,11 +24,12 @@ namespace LDBeauty.Controllers
         [Authorize]
         public async Task<IActionResult> Detail()
         {
+            var userName = User.Identity.Name;
             CartDetailsViewModel cart = null;
 
             try
             {
-                cart = await cartService.GetCart();
+                cart = await cartService.GetCart(userName);
             }
             catch (Exception)
             {
