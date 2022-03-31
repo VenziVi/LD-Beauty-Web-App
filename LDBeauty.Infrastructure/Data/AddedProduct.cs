@@ -20,6 +20,11 @@ namespace LDBeauty.Infrastructure.Data
 
         [ForeignKey(nameof(CartId))]
         public Cart Cart { get; set; }
- 
+
+        [ForeignKey(nameof(Order))]
+        public Guid? OrderId { get; set; }
+
+        public Order? Order { get; set; }
+
     }
 }

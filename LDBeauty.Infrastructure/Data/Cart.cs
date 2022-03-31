@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using LDBeauty.Infrastructure.Data.Identity;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LDBeauty.Infrastructure.Data
@@ -13,5 +14,10 @@ namespace LDBeauty.Infrastructure.Data
         public decimal TotalPrice { get; set; }
 
         public bool IsDeleted { get; set; } = false;
+
+        [ForeignKey(nameof(User))]
+        public string UserId { get; set; }
+
+        public ApplicationUser User { get; set; }
     }
 }
