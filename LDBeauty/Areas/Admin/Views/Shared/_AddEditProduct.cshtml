@@ -1,0 +1,53 @@
+﻿@using LDBeauty.Core.Models.Product
+@model AddProductViewModel
+
+<section class="page-section" id="services">
+    <div class="container">
+        <section class="py-5">
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-2 justify-content-center">
+                <form method="post">
+                    <div class="form-floating mb-3">
+                        <input asp-for="ProductName" class="form-control" name="ProductName" autocomplete="Product Name" aria-required="true" />
+                        <label asp-for="ProductName" class="form-label"></label>
+                        <span asp-validation-for="ProductName" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="ProductUrl" class="form-control" name="ProductUrl" autocomplete="Product Url" aria-required="true" />
+                        <label asp-for="ProductUrl" class="form-label"></label>
+                        <span asp-validation-for="ProductUrl" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Description"  class="form-control" name="Description" autocomplete="Decription" aria-required="true" />
+                        <label asp-for="Description" class="form-label" ></label>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Price"  class="form-control" name="Price" autocomplete="Price" aria-required="true" />
+                        <label asp-for="Price" class="form-label" ></label>
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Quantity"  class="form-control" name="Quantity" autocomplete="Quantity" aria-required="true" />
+                        <label asp-for="Quantity" class="form-label" ></label>
+                        <span asp-validation-for="Quantity" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Category"  class="form-control" name="Category" autocomplete="Category" aria-required="true" />
+                        <label asp-for="Category" class="form-label" ></label>
+                        <span asp-validation-for="Category" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Make"  class="form-control" name="Make" autocomplete="Make" aria-required="true" />
+                        <label asp-for="Make" class="form-label" ></label>
+                        <span asp-validation-for="Make" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-secondary">Submit</button>
+                </form>
+            </div>
+        </section>
+    </div>
+</section>
+
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+}
