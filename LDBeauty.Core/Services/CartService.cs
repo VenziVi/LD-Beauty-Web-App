@@ -24,17 +24,18 @@ namespace LDBeauty.Core.Services
 
         public async Task AddToCart(AddToCartViewModel model, string userName)
         {
-            var user = context.Set<ApplicationUser>()
-                .SingleOrDefault(u => u.UserName == userName);
+            var user = GetUserByUserName(userName);
 
             Cart cart = context.Set<Cart>()
-                .FirstOrDefault(c => c.IsDeleted == false);
+                .FirstOrDefault(c => c.IsDeleted == false && c.UserId == user.Id);
 
             if (cart == null)
             {
                 cart = new Cart()
                 {
-                    TotalPrice = 0.0M
+                    TotalPrice = 0.0M,
+                    User = user,
+                    UserId = user.Id
                 };
 
                 context.Add(cart);
@@ -105,10 +106,12 @@ namespace LDBeauty.Core.Services
 
        
 
-        public async Task<CartDetailsViewModel> GetCart()
+        public async Task<CartDetailsViewModel> GetCart(string userName)
         {
+            var user = GetUserByUserName(userName);
+
             var cart = context.Set<Cart>()
-                .FirstOrDefault(c => c.IsDeleted == false);
+                .FirstOrDefault(c => c.IsDeleted == false && c.UserId == user.Id);
 
             if (cart == null)
             {
@@ -136,6 +139,12 @@ namespace LDBeauty.Core.Services
                 }).ToList();
 
             return currOrder;
+        }
+
+        private ApplicationUser GetUserByUserName(string userName)
+        {
+            return context.Set<ApplicationUser>()
+                .SingleOrDefault(u => u.UserName == userName);
         }
     }
 }

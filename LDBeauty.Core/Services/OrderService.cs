@@ -58,6 +58,12 @@ namespace LDBeauty.Core.Services
                 }
             }
 
+            foreach (var item in productsList)
+            {
+                item.Order = order;
+                item.OrderId = order.Id;
+            }
+
             context.Add(order);
             await context.SaveChangesAsync();
         }
@@ -71,17 +77,19 @@ namespace LDBeauty.Core.Services
 
             foreach (var order in orders)
             {
-                var date = order.OrderDate;
+                var addedProducts = context.Set<AddedProduct>()
+                    .Where(p => p.OrderId == order.Id)
+                    .Include(p => p.Product)
+                    .ThenInclude(m => m.Make)
+                    .ToList();
 
-                //NOT WORKING
-
-                foreach (var item in order.Products)
+                foreach (var item in addedProducts)
                 {
                     userProducts.Add(new UserProductsViewModel()
                     {
                         Make = item.Product.Make.MakeName,
                         Name = item.Product.ProductName,
-                        Date = date.ToString("dd.MM.yyyy"),
+                        Date = item.Order.OrderDate.ToString("dd.MM.yyyy"),
                         Quantity = item.Quantity,
                         Price = item.Product.Price * item.Quantity
                     });
