@@ -20,11 +20,35 @@ namespace LDBeauty.Core.Services
             context = _context;
         }
 
+        public async Task<List<AllUsersViewModel>> GetAllUsers()
+        {
+            return await context.Set<ApplicationUser>()
+                .Select(x => new AllUsersViewModel()
+                {
+                    Id = x.Id,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    Email = x.Email,
+                    Phone = context.Set<Order>()
+                    .FirstOrDefault(o => o.ApplicationUserId == x.Id)
+                    .Phone
+                })
+                .OrderBy(u => u.FirstName)
+                .ThenBy(u => u.LastName)
+                .ToListAsync();
+        }
+
         public async Task<ApplicationUser> GetUser(string user)
         {
             return await context.Set<ApplicationUser>()
                 .SingleOrDefaultAsync(u => u.UserName == user);
 
+        }
+
+        public async Task<ApplicationUser> GetUserById(string id)
+        {
+            return await context.Set<ApplicationUser>()
+                .SingleOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task<UserOrderViewModel> GetUSerByName(string userName, string cartId)
