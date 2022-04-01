@@ -1,4 +1,5 @@
-﻿using LDBeauty.Core.Contracts;
+﻿using LDBeauty.Core.Constants;
+using LDBeauty.Core.Contracts;
 using LDBeauty.Core.Models.User;
 using LDBeauty.Infrastructure.Data.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -29,8 +30,8 @@ namespace LDBeauty.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-
-                throw;
+                ViewData[MessageConstant.ErrorMessage] = "Something went wrong!";
+                return View();
             }
 
             return View(users);
@@ -39,8 +40,7 @@ namespace LDBeauty.Areas.Admin.Controllers
         public async Task<IActionResult> UserOrders(string id)
         {
             List<UserProductsViewModel> products = null;
-
-            
+          
             ApplicationUser user = await userService.GetUserById(id);
 
             ViewData["Name"] = $"{user.FirstName} {user.LastName}";
@@ -51,8 +51,8 @@ namespace LDBeauty.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-
-                throw;
+                ViewData[MessageConstant.ErrorMessage] = "Something went wrong!";
+                return View();
             }
 
             return View(products);
