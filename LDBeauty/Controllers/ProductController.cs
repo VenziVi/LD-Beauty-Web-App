@@ -2,6 +2,7 @@
 using LDBeauty.Core.Contracts;
 using LDBeauty.Core.Models.Cart;
 using LDBeauty.Core.Models.Product;
+using LDBeauty.Infrastructure.Data.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,13 +12,17 @@ namespace LDBeauty.Controllers
     {
         private readonly IProductService productService;
         private readonly ICartService cartService;
+        private readonly IUserService userService;
 
 
-        public ProductController(IProductService _productService,
-            ICartService _cartService)
+        public ProductController(
+            IProductService _productService,
+            ICartService _cartService,
+            IUserService _userService)
         {
             productService = _productService;
             cartService = _cartService;
+            userService = _userService;
         }
 
         public async Task<IActionResult> AllProducts()
@@ -49,6 +54,48 @@ namespace LDBeauty.Controllers
             }
 
             return RedirectToAction("AllProducts");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> addProductToFavourites(string id)
+        {
+            var userName = User.Identity.Name;
+            ApplicationUser user = null;
+            ProductDetailsViewModel product = await productService.GetProduct(id);
+
+            try
+            {
+                user = await userService.GetUser(userName);
+                await productService.AddToFavourites(id, user);
+            }
+            catch (Exception)
+            {
+                ViewData[MessageConstant.ErrorMessage] = "Product already exists in favourites!";
+                return View("Details", product);
+            }
+
+            ViewData[MessageConstant.SuccessMessage] = "Product was added successfuly";
+            return View("Details", product);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> RemoveProduct(string id)
+        {
+            var userName = User.Identity.Name;
+            ApplicationUser user = null;
+         
+            try
+            {
+                user = await userService.GetUser(userName);
+                await productService.RemoveFromFavourite(id, user);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            return Redirect("/MyLd/FavouriteProducts");
         }
     }
 }

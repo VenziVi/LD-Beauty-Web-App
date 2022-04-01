@@ -14,11 +14,11 @@ namespace LDBeauty.Controllers
             roleManager = _roleManager;
         }
 
-        public async Task<IActionResult> CreateRole()
+        public IActionResult CreateRole()
         {
             //await roleManager.CreateAsync(new IdentityRole()
             //{
-            //    Name = "Administrator"
+            //    Name = "Customer"
             //});
 
             return Ok();
