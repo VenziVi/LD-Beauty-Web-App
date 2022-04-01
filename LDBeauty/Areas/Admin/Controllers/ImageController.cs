@@ -41,7 +41,7 @@ namespace LDBeauty.Areas.Admin.Controllers
             }
 
             ViewData[MessageConstant.SuccessMessage] = "Image was added successfuly";
-            return View("/Admin/Image/AddImage");
+            return View();
         }
     }
 }
