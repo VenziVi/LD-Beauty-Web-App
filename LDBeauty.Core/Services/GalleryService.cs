@@ -2,6 +2,7 @@
 using LDBeauty.Core.Models;
 using LDBeauty.Core.Models.Gallery;
 using LDBeauty.Infrastructure.Data;
+using LDBeauty.Infrastructure.Data.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -62,7 +63,7 @@ namespace LDBeauty.Core.Services
                 }).ToList();
         }
 
-        public ImageDetailsViewModel DetImgDetails(int imageId)
+        public ImageDetailsViewModel GetImgDetails(int imageId)
         {
             return context.Set<Image>()
                 .Where(i => i.Id == imageId)
@@ -73,6 +74,25 @@ namespace LDBeauty.Core.Services
                     CategoryName = i.Category.CategoryName,
                     Id = imageId
                 }).FirstOrDefault();
+        }
+
+        public async Task AddToFavourites(string id, ApplicationUser user)
+        {
+             Image image = await context.Set<Image>()
+                .FirstOrDefaultAsync(i => i.Id.ToString() == id);
+
+            UserImage userImage = new UserImage()
+            {
+                ImageId = image.Id,
+                Image = image,
+                ApplicationUserId = user.Id,
+                ApplicationUser = user
+            };
+
+            user.FavouriteImages.Add(image);
+
+            await context.AddAsync(userImage);
+            await context.SaveChangesAsync();
         }
 
         public IEnumerable<ImageViewModel> GetImages(int? categoryId)
@@ -100,6 +120,32 @@ namespace LDBeauty.Core.Services
                 .ToList();
 
             return models;
+        }
+
+        public async Task<IEnumerable<ImageViewModel>> GetFavouriteImages(ApplicationUser user)
+        {
+            return await context.Set<UserImage>()
+                .Where(u => u.ApplicationUserId == user.Id)
+                .Select(u => new ImageViewModel()
+                {
+                    ImgUrl = u.Image.ImageUrl,
+                    Id = u.ImageId
+                }).ToListAsync();
+        }
+
+        public async Task RemoveFromFavourite(int id, ApplicationUser user)
+        {
+            Image image = await context.Set<Image>()
+                .FirstOrDefaultAsync(i => i.Id == id);
+
+            UserImage userImage = await context.Set<UserImage>()
+                .FirstOrDefaultAsync(i => i.ImageId == id &&
+                i.ApplicationUserId == user.Id);
+
+            user.FavouriteImages.Remove(image);
+            context.Remove(userImage);
+
+            await context.SaveChangesAsync();
         }
     }
 }

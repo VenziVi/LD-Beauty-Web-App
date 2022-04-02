@@ -1,5 +1,6 @@
 ﻿using LDBeauty.Core.Models;
 using LDBeauty.Core.Models.Gallery;
+using LDBeauty.Infrastructure.Data.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,9 @@ namespace LDBeauty.Core.Contracts
         IEnumerable<GalleryCategoryViewModel> GetMCategories();
         IEnumerable<ImageViewModel> AllImages();
         IEnumerable<ImageViewModel> GetImages(int? categoryId);
-        ImageDetailsViewModel DetImgDetails(int imageId);
+        ImageDetailsViewModel GetImgDetails(int imageId);
+        Task AddToFavourites(string id, ApplicationUser user);
+        Task<IEnumerable<ImageViewModel>> GetFavouriteImages(ApplicationUser user);
+        Task RemoveFromFavourite(int id, ApplicationUser user);
     }
 }
