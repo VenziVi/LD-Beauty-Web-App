@@ -40,9 +40,12 @@
     </header>
 
     <div class="container px-lg-5">
-            @RenderBody()
-        </div>
+        @RenderBody()
+    </div>
 
+    <footer class="py-3 bg-dark">
+        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; LD Beauty @DateTime.Now.Year</p></div>
+    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
