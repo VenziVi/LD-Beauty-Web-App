@@ -12,5 +12,7 @@ namespace LDBeauty.Core.Contracts
     {
         Task<UserOrderViewModel> GetUSerByName(string userName, string cartId);
         Task<ApplicationUser> GetUser(string user);
+        Task<List<AllUsersViewModel>> GetAllUsers();
+        Task<ApplicationUser> GetUserById(string id);
     }
 }

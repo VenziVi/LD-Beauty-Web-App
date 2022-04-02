@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LDBeauty.Controllers
 {
+    [Authorize]
     public class CartController : Controller
     {
         private readonly ICartService cartService;
@@ -21,7 +22,6 @@ namespace LDBeauty.Controllers
         }
 
 
-        [Authorize]
         public async Task<IActionResult> Detail()
         {
             var userName = User.Identity.Name;
@@ -40,7 +40,6 @@ namespace LDBeauty.Controllers
         }
 
 
-        [Authorize]
         public async Task<IActionResult> Delete(string id)
         {
 

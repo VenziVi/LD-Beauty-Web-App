@@ -110,16 +110,16 @@ namespace LDBeauty.Core.Services
         {
             var user = GetUserByUserName(userName);
 
-            var cart = context.Set<Cart>()
-                .FirstOrDefault(c => c.IsDeleted == false && c.UserId == user.Id);
+            var cart = await context.Set<Cart>()
+                .FirstOrDefaultAsync(c => c.IsDeleted == false && c.UserId == user.Id);
 
             if (cart == null)
             {
                 return null;
             }
 
-            var productsList = context.Set<AddedProduct>()
-                .Where(a => a.CartId == cart.Id).ToList();
+            var productsList = await context.Set<AddedProduct>()
+                .Where(a => a.CartId == cart.Id).ToListAsync();
 
             var currOrder = new CartDetailsViewModel()
             {
@@ -127,7 +127,7 @@ namespace LDBeauty.Core.Services
                 TotalPrice = cart.TotalPrice,
             };
 
-            currOrder.Products = context.Set<AddedProduct>()
+            currOrder.Products = await context.Set<AddedProduct>()
                 .Where(a => a.CartId == cart.Id)
                 .Select(p => new CartProductsViewModel()
                 {
@@ -136,7 +136,7 @@ namespace LDBeauty.Core.Services
                     ProductMake = p.Product.Make.MakeName,
                     Quantity = p.Quantity,
                     Price = (p.Product.Price * p.Quantity).ToString("f2")
-                }).ToList();
+                }).ToListAsync();
 
             return currOrder;
         }
