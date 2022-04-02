@@ -24,21 +24,6 @@ namespace LDBeauty.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("ApplicationUserImage", b =>
-                {
-                    b.Property<int>("FavouriteImagesId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UsersFaovuriteId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("FavouriteImagesId", "UsersFaovuriteId");
-
-                    b.HasIndex("UsersFaovuriteId");
-
-                    b.ToTable("ApplicationUserImage");
-                });
-
             modelBuilder.Entity("ApplicationUserProduct", b =>
                 {
                     b.Property<Guid>("FavouriteProductsId")
