@@ -1,28 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using LDBeauty.Core.Constraints;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LDBeauty.Core.Models.Cart
 {
     public class FinishOrderViewModel
     {
         [Required]
-        [StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 3)]
+        [StringLength(50, ErrorMessage = ViewModelConstraints.MinMaxLengthError, MinimumLength = 3)]
         public string FirstName { get; set; }
 
         [Required]
-        [StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 3)]
+        [StringLength(50, ErrorMessage = ViewModelConstraints.MinMaxLengthError, MinimumLength = 3)]
         public string LastName { get; set; }
 
         [Required]
-        [StringLength(200, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 10)]
+        [StringLength(200, ErrorMessage = ViewModelConstraints.MinMaxLengthError, MinimumLength = 10)]
         public string Address { get; set; }
 
         [Required]
-
+        [RegularExpression(@"^\d{10}$", ErrorMessage = ViewModelConstraints.PhoneError)]
         public string Phone { get; set; }
 
         [Required]
