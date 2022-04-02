@@ -43,8 +43,6 @@ namespace LDBeauty.Infrastructure.Data
 
         public DbSet<Product> Products { get; set; }
 
-        public DbSet<Service> Services { get; set; }
-
         public DbSet<UserImage> UsersImages { get; set; }
 
         public DbSet<UserProduct> UsersProducts { get; set; }

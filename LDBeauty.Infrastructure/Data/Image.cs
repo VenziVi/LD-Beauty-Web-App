@@ -19,7 +19,5 @@ namespace LDBeauty.Infrastructure.Data
 
         [ForeignKey(nameof(CategoruId))]
         public ImgCategory Category { get; set; }
-
-        public IList<ApplicationUser> UsersFaovurite { get; set; } = new List<ApplicationUser>();
     }
 }

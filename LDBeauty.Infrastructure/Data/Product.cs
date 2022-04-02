@@ -34,7 +34,5 @@ namespace LDBeauty.Infrastructure.Data
 
         [ForeignKey(nameof(MakeId))]
         public Make Make { get; set; }
-
-        public IList<ApplicationUser> UsersFavourite { get; set; } = new List<ApplicationUser>();
     }
 }
