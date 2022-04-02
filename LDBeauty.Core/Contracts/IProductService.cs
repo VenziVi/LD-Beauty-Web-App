@@ -1,4 +1,5 @@
 ﻿using LDBeauty.Core.Models.Product;
+using LDBeauty.Infrastructure.Data.Identity;
 
 namespace LDBeauty.Core.Contracts
 {
@@ -7,5 +8,9 @@ namespace LDBeauty.Core.Contracts
         Task AddProduct(AddProductViewModel model);
         Task<IEnumerable<GetProductViewModel>> GetAllProducts();
         Task<ProductDetailsViewModel> GetProduct(string id);
+        Task EditProduct(AddProductViewModel model, string id);
+        Task AddToFavourites(string productId, ApplicationUser user);
+        Task<List<GetProductViewModel>> GetFavouriteProducts(ApplicationUser user);
+        Task RemoveFromFavourite(string id, ApplicationUser user);
     }
 }

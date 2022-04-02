@@ -77,25 +77,5 @@ namespace LDBeauty.Controllers
             ViewData[MessageConstant.SuccessMessage] = "Product was added successfuly";
             return View("Details", product);
         }
-
-        [Authorize]
-        public async Task<IActionResult> RemoveProduct(string id)
-        {
-            var userName = User.Identity.Name;
-            ApplicationUser user = null;
-         
-            try
-            {
-                user = await userService.GetUser(userName);
-                await productService.RemoveFromFavourite(id, user);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-            return Redirect("/MyLd/FavouriteProducts");
-        }
     }
 }
