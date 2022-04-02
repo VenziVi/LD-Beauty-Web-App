@@ -13,31 +13,31 @@
     <div class="container">
         <div class="row text-center">
             <div class="col-md-4">
-                <a href="/Gallery/Images" class=" btn" >
-                <span class="fa-stack fa-3x">
-                    <i class="fas fa-photo-video"></i>
-                </span>
+                <a asp-action="images" asp-controller="gallery" class="btn btn-outline-dark">
+                    <span class="fa-stack fa-3x">
+                        <i class="fas fa-photo-video"></i>
+                    </span>
                 </a>
                 <h4 class="my-3">GALLERY</h4>
                 <p class="text-muted">Looking for insparation?</p>
             </div>
             <div class="col-md-4">
-                <a href="/Service/All" class=" btn" >
-                <span class="fa-stack fa-3x">
-                    <i class="fas fa-cut"></i>
-                </span>
-                </a>
-                <h4 class="my-3">SERVICES</h4>
-                <p class="text-muted">See what we can ofer.</p>
-            </div>
-            <div class="col-md-4">
-                <a href="/Product/AllProducts" class=" btn" >
-                <span class="fa-stack fa-3x">
-                    <i class="fas fa-cart-arrow-down"></i>
-                </span>
+                <a asp-action="allProducts" asp-controller="product" class="btn btn-outline-dark">
+                    <span class="fa-stack fa-3x">
+                        <i class="fas fa-cart-arrow-down"></i>
+                    </span>
                 </a>
                 <h4 class="my-3">PRODUCTS</h4>
                 <p class="text-muted">Find the best for your hair.</p>
+            </div>
+            <div class="col-md-4">
+                <a asp-action="info" asp-controller="myLd" class="btn btn-outline-dark">
+                    <span class="fa-stack fa-3x">
+                        <i class="fas fa-house-user"></i>
+                    </span>
+                </a>
+                <h4 class="my-3">MyLD</h4>
+                <p class="text-muted">Orders, favourites and many more...</p>
             </div>
         </div>
     </div>

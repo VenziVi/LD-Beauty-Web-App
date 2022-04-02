@@ -1,8 +1,6 @@
 ﻿@using LDBeauty.Core.Models.Gallery
 @model ImageDetailsViewModel
 
-<partial name="Logo" />
-
 <section class="py-5">
     <div class="container px-4 px-lg-5 my-5">
         <div class="row gx-4 gx-lg-5 align-items-center">
@@ -11,7 +9,7 @@
                 <h1 class="display-5 fw-bolder">@Model.CategoryName</h1>
                 <p class="lead">@Model.Description</p>
                 <div class="d-flex">
-                    <a href="/Gallery/Images/AddFauvorite?imageId=@Model.Id" class="btn btn-outline-dark flex-shrink-0">Add to Favourites</a>
+                    <a asp-controller="gallery"  asp-action="addImageToFavourites" asp-route-id="@Model.Id" class="btn btn-outline-dark flex-shrink-0"><i class="fas fa-heart"></i> Add to Favourites</a>
                 </div>
             </div>
         </div>

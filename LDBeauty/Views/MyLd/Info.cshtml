@@ -2,6 +2,13 @@
 @model  List<UserProductsViewModel>
 
 <h1 class="text-center "> Hello, @ViewData["userName"]!</h1>
+
+<div class="d-grid gap-2 d-md-flex justify-content-md-center mt-5">
+    <a class="btn btn-outline-dark mt-auto " asp-action="favouriteProducts" asp-controller="MyLd" aria-disabled="true">Favourite Products</a>
+    <a class="btn btn-outline-dark mt-auto " asp-action="favouriteImages" asp-controller="MyLd" aria-disabled="true">Favourite Images</a>
+</div>
+
+
 <h3 class="text-center mt-5">Your orders: </h3>
 
 <div class="container justify-content-center">

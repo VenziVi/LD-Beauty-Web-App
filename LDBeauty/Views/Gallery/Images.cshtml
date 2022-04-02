@@ -1,23 +1,20 @@
 ﻿@using LDBeauty.Core.Models.Gallery
 @model IEnumerable<ImageViewModel>
 
-<partial name="Logo" />
+<partial name="_Logo"/>
 
-<div class="album py-5">
+<section class="album py-5">
     <div class="container">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-
-            @foreach (var img in @Model)
+            @foreach (var item in @Model)
             {
                 <div class="col">
-                    <a href="/Gallery/Details?imageId=@img.Id">
-                    <img src="@img.ImgUrl" width="300" height="300" class="img-thumbnail" alt="...">
+                    <a asp-action="details" asp-controller="gallery" asp-route-id="@item.Id">
+                    <img src="@item.ImgUrl" width="350" height="400" @*class="img-thumbnail"*@ alt="...">
                     </a>
                 </div>
-
             }
-
         </div>
     </div>
-</div>
+</section>
 
