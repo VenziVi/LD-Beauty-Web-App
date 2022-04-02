@@ -12,10 +12,10 @@ namespace LDBeauty.Core.Contracts
     public interface IGalleryService
     {
         Task AddImage(AddImageViewModel model);
-        IEnumerable<GalleryCategoryViewModel> GetMCategories();
-        IEnumerable<ImageViewModel> AllImages();
-        IEnumerable<ImageViewModel> GetImages(int? categoryId);
-        ImageDetailsViewModel GetImgDetails(int imageId);
+        Task<IEnumerable<GalleryCategoryViewModel>> GetCategories();
+        Task<IEnumerable<ImageViewModel>> AllImages();
+        Task<IEnumerable<ImageViewModel>> GetImages(int? categoryId);
+        Task<ImageDetailsViewModel> GetImgDetails(int imageId);
         Task AddToFavourites(string id, ApplicationUser user);
         Task<IEnumerable<ImageViewModel>> GetFavouriteImages(ApplicationUser user);
         Task RemoveFromFavourite(int id, ApplicationUser user);

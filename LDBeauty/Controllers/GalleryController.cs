@@ -21,30 +21,30 @@ namespace LDBeauty.Controllers
             userService = _userService;
         }
 
-        public IActionResult Category()
+        public async Task<IActionResult> Category()
         {
-            IEnumerable<GalleryCategoryViewModel> model = galleryService.GetMCategories();
+            IEnumerable<GalleryCategoryViewModel> model = await galleryService.GetCategories();
 
             return View(model);
         }
 
-        public IActionResult Images(int? id)
+        public async Task<IActionResult> Images(int? id)
         {
             if (id == null)
             {
-                IEnumerable<ImageViewModel> images = galleryService.AllImages();
+                IEnumerable<ImageViewModel> images = await galleryService.AllImages();
 
                 return View(images);
             }
 
-            IEnumerable<ImageViewModel> currImages = galleryService.GetImages(id);
+            IEnumerable<ImageViewModel> currImages = await galleryService.GetImages(id);
 
             return View(currImages);
         }
 
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            ImageDetailsViewModel imageDetails = galleryService.GetImgDetails(id);
+            ImageDetailsViewModel imageDetails = await galleryService.GetImgDetails(id);
 
             return View(imageDetails);
         }
@@ -54,7 +54,7 @@ namespace LDBeauty.Controllers
         {
             var userName = User.Identity.Name;
             ApplicationUser user = null;
-            ImageDetailsViewModel imageDetails = galleryService.GetImgDetails(int.Parse(id));
+            ImageDetailsViewModel imageDetails = await galleryService.GetImgDetails(int.Parse(id));
 
             try
             {

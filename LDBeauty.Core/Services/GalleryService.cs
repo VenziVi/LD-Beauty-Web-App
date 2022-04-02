@@ -53,19 +53,19 @@ namespace LDBeauty.Core.Services
 
         }
 
-        public IEnumerable<ImageViewModel> AllImages()
+        public async Task<IEnumerable<ImageViewModel>> AllImages()
         {
-            return context.Set<Image>()
+            return await context.Set<Image>()
                 .Select(i => new ImageViewModel()
                 {
                     Id = i.Id,
                     ImgUrl = i.ImageUrl
-                }).ToList();
+                }).ToListAsync();
         }
 
-        public ImageDetailsViewModel GetImgDetails(int imageId)
+        public async Task<ImageDetailsViewModel> GetImgDetails(int imageId)
         {
-            return context.Set<Image>()
+            return await context.Set<Image>()
                 .Where(i => i.Id == imageId)
                 .Select(i => new ImageDetailsViewModel()
                 {
@@ -73,7 +73,7 @@ namespace LDBeauty.Core.Services
                     Description = i.Description,
                     CategoryName = i.Category.CategoryName,
                     Id = imageId
-                }).FirstOrDefault();
+                }).FirstOrDefaultAsync();
         }
 
         public async Task AddToFavourites(string id, ApplicationUser user)
@@ -95,21 +95,21 @@ namespace LDBeauty.Core.Services
             await context.SaveChangesAsync();
         }
 
-        public IEnumerable<ImageViewModel> GetImages(int? categoryId)
+        public async Task<IEnumerable<ImageViewModel>> GetImages(int? categoryId)
         {
-            return context.Set<Image>()
+            return await context.Set<Image>()
                 .Where(i => i.CategoruId == categoryId)
                 .Select(i => new ImageViewModel()
                 {
                     Id = i.Id,
                     ImgUrl = i.ImageUrl
-                }).ToList();
+                }).ToListAsync();
         }
 
-        public IEnumerable<GalleryCategoryViewModel> GetMCategories()
+        public async Task<IEnumerable<GalleryCategoryViewModel>> GetCategories()
         {
 
-            var models = context
+            var models = await context
                 .Set<ImgCategory>()
                 .Select(c => new GalleryCategoryViewModel()
                 {
@@ -117,7 +117,7 @@ namespace LDBeauty.Core.Services
                     Name = c.CategoryName,
                     ImgUrl = c.ImgUrl
                 })
-                .ToList();
+                .ToListAsync();
 
             return models;
         }
