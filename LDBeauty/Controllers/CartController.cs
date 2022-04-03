@@ -1,5 +1,7 @@
-﻿using LDBeauty.Core.Constraints;
+﻿using LDBeauty.Core.Constants;
+using LDBeauty.Core.Constraints;
 using LDBeauty.Core.Contracts;
+using LDBeauty.Core.Helpers;
 using LDBeauty.Core.Models;
 using LDBeauty.Core.Models.Cart;
 using Microsoft.AspNetCore.Authorization;
@@ -22,6 +24,12 @@ namespace LDBeauty.Controllers
 
         public async Task<IActionResult> Detail()
         {
+            if (OrderConfirmed.IsConfirmed)
+            {
+                ViewData[MessageConstant.SuccessMessage] = "Order confirmed.";
+                OrderConfirmed.IsConfirmed = false;
+            }
+
             var userName = User.Identity.Name;
             CartDetailsViewModel cart = null;
 
