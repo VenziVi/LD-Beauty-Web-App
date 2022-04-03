@@ -1,4 +1,5 @@
 ﻿using LDBeauty.Core.Constants;
+using LDBeauty.Core.Constraints;
 using LDBeauty.Core.Contracts;
 using LDBeauty.Core.Models;
 using LDBeauty.Core.Models.Gallery;
@@ -23,28 +24,62 @@ namespace LDBeauty.Controllers
 
         public async Task<IActionResult> Category()
         {
-            IEnumerable<GalleryCategoryViewModel> model = await galleryService.GetCategories();
+            IEnumerable<GalleryCategoryViewModel> model = null;
+
+            try
+            {
+                model = await galleryService.GetCategories();
+            }
+            catch (Exception)
+            {
+                return DatabaseError();
+            }
 
             return View(model);
         }
 
         public async Task<IActionResult> Images(int? id)
         {
+            IEnumerable<ImageViewModel> images = null;
+
             if (id == null)
             {
-                IEnumerable<ImageViewModel> images = await galleryService.AllImages();
-
-                return View(images);
+                try
+                {
+                    images = await galleryService.AllImages();
+                }
+                catch (Exception)
+                {
+                    return DatabaseError();
+                }
+            }
+            else
+            {
+                try
+                {
+                    images = await galleryService.GetImages(id);
+                }
+                catch (Exception)
+                {
+                    return DatabaseError();
+                }
             }
 
-            IEnumerable<ImageViewModel> currImages = await galleryService.GetImages(id);
-
-            return View(currImages);
+            return View(images);
         }
 
         public async Task<IActionResult> Details(int id)
         {
-            ImageDetailsViewModel imageDetails = await galleryService.GetImgDetails(id);
+            ImageDetailsViewModel imageDetails = null;
+
+            try
+            {
+                imageDetails = await galleryService.GetImgDetails(id);
+            }
+            catch (Exception)
+            {
+                return DatabaseError();
+            }
 
             return View(imageDetails);
         }
@@ -54,7 +89,16 @@ namespace LDBeauty.Controllers
         {
             var userName = User.Identity.Name;
             ApplicationUser user = null;
-            ImageDetailsViewModel imageDetails = await galleryService.GetImgDetails(int.Parse(id));
+            ImageDetailsViewModel imageDetails = null;
+
+            try
+            {
+                imageDetails = await galleryService.GetImgDetails(int.Parse(id));
+            }
+            catch (Exception)
+            {
+                return DatabaseError();
+            }
 
             try
             {
@@ -69,6 +113,12 @@ namespace LDBeauty.Controllers
 
             ViewData[MessageConstant.SuccessMessage] = "Image was added successfuly";
             return View("Details", imageDetails);
+        }
+
+        private IActionResult DatabaseError()
+        {
+            ErrorViewModel error = new ErrorViewModel() { ErrorMessage = ErrorMessages.DatabaseConnectionError };
+            return View("_Error", error);
         }
     }
 }
