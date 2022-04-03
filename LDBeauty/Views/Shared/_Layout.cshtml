@@ -34,20 +34,20 @@
                                 Gallery
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="/Gallery/Images">View All</a></li>
-                                <li><a class="dropdown-item" href="/Gallery/Category">View Categories</a></li>
+                                <li><a class="dropdown-item" asp-action="images" asp-controller="gallery">View All</a></li>
+                                <li><a class="dropdown-item" asp-action="category" asp-controller="gallery">View Categories</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="/Product/AllProducts">Products</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/MyLd/Info">My LD</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/Cart/Detail">Cart</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-action="allProducts" asp-controller="product">Products</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-action="info" asp-controller="myLd">My LD</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-action="Detail" asp-controller="cart">Cart</a></li>
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item"><a class="nav-link" asp-area="Identity" asp-page="/Account/Logout">Log out</a></li>
                         }
                         @if (User.IsInRole("Administrator"))
                         {
-                            <li class="nav-item"><a class="nav-link" href="/Admin/Home">Admin</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-area="admin" asp-action="index" asp-controller="home">Admin</a></li>
                         }
                     </ul>
                 </div>
