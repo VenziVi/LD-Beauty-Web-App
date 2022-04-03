@@ -4,11 +4,6 @@ using LDBeauty.Core.Models.Gallery;
 using LDBeauty.Infrastructure.Data;
 using LDBeauty.Infrastructure.Data.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LDBeauty.Core.Services
 {
@@ -48,7 +43,7 @@ namespace LDBeauty.Core.Services
 
             category.Images.Add(image);
 
-            context.Add(image);
+            await context.AddAsync(image);
             await context.SaveChangesAsync();
 
         }

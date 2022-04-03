@@ -1,5 +1,7 @@
 ﻿using LDBeauty.Core.Constants;
+using LDBeauty.Core.Constraints;
 using LDBeauty.Core.Contracts;
+using LDBeauty.Core.Helpers;
 using LDBeauty.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,7 +9,6 @@ namespace LDBeauty.Areas.Admin.Controllers
 {
     public class ImageController : BaseController
     {
-
         private readonly IGalleryService galleryService;
 
         public ImageController(IGalleryService _galleryService)
@@ -17,6 +18,11 @@ namespace LDBeauty.Areas.Admin.Controllers
 
         public IActionResult AddImage()
         {
+            if (ImageAdding.IsAdded)
+            {
+                ViewData[MessageConstant.SuccessMessage] = "Image was added successfuly";
+                ImageAdding.IsAdded = false;
+            }
             return View();
         }
 
@@ -35,13 +41,12 @@ namespace LDBeauty.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-
-                ViewData[MessageConstant.ErrorMessage] = "Something went wrong!";
-                return View();
+                ErrorViewModel error = new ErrorViewModel() { ErrorMessage = ErrorMessages.DatabaseConnectionError };
+                return View("_Error", error);
             }
 
-            ViewData[MessageConstant.SuccessMessage] = "Image was added successfuly";
-            return View();
+            ImageAdding.IsAdded = true;
+            return Redirect("AddImage");
         }
     }
 }
