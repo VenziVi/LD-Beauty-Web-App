@@ -1,10 +1,8 @@
-﻿using LDBeauty.Core.Constants;
+﻿using LDBeauty.Core.Constraints;
 using LDBeauty.Core.Contracts;
+using LDBeauty.Core.Models;
 using LDBeauty.Core.Models.Cart;
-using LDBeauty.Core.Models.User;
-using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LDBeauty.Controllers
@@ -33,7 +31,7 @@ namespace LDBeauty.Controllers
             }
             catch (Exception)
             {
-                ViewData[MessageConstant.ErrorMessage] = "Something went wrong!";
+                return DatabaseError();
             }
 
             return View(cart);
@@ -49,10 +47,16 @@ namespace LDBeauty.Controllers
             }
             catch (Exception)
             {
-                ViewData[MessageConstant.ErrorMessage] = "Something went wrong, please try again later!";
+                return DatabaseError();
             }
 
             return Redirect("/Cart/Detail");
+        }
+
+        private IActionResult DatabaseError()
+        {
+            ErrorViewModel error = new ErrorViewModel() { ErrorMessage = ErrorMessages.DatabaseConnectionError };
+            return View("_Error", error);
         }
     }
 }

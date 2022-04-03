@@ -2,14 +2,7 @@
 using LDBeauty.Core.Models.Cart;
 using LDBeauty.Infrastructure.Data;
 using LDBeauty.Infrastructure.Data.Identity;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LDBeauty.Core.Services
 {
@@ -26,8 +19,8 @@ namespace LDBeauty.Core.Services
         {
             var user = GetUserByUserName(userName);
 
-            Cart cart = context.Set<Cart>()
-                .FirstOrDefault(c => c.IsDeleted == false && c.UserId == user.Id);
+            Cart cart = await context.Set<Cart>()
+                .FirstOrDefaultAsync(c => c.IsDeleted == false && c.UserId == user.Id);
 
             if (cart == null)
             {
@@ -41,8 +34,8 @@ namespace LDBeauty.Core.Services
                 context.Add(cart);
             }
 
-            Product product = context.Set<Product>()
-                .FirstOrDefault(p => p.Id == model.ProductId);
+            Product product = await context.Set<Product>()
+                .FirstOrDefaultAsync(p => p.Id == model.ProductId);
 
             AddedProduct addedProduct = new AddedProduct()
             {
@@ -64,8 +57,7 @@ namespace LDBeauty.Core.Services
 
             cart.TotalPrice += price;
 
-            context.Add(addedProduct);
-
+            await context.AddAsync(addedProduct);
 
             await context.SaveChangesAsync();
 
@@ -103,8 +95,6 @@ namespace LDBeauty.Core.Services
 
             await context.SaveChangesAsync();
         }
-
-       
 
         public async Task<CartDetailsViewModel> GetCart(string userName)
         {
