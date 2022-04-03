@@ -7,12 +7,10 @@
 <h1 class="text-danger">Error.</h1>
 <h2 class="text-danger">An error occurred while processing your request.</h2>
 
-@foreach (var err in @Model.ErrorMessages)
-{
     <p>
-        <strong>Error message: @err</strong>
+        <strong>Error message: @Model.ErrorMessage</strong>
     </p>
-}
+
 
 <h3>Development Mode</h3>
 <p>

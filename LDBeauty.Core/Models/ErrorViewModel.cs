@@ -2,6 +2,6 @@
 {
     public class ErrorViewModel
     {
-        public List<string> ErrorMessages { get; set; } = new List<string>();
+        public string ErrorMessage { get; set; }
     }
 }

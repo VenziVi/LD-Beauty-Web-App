@@ -6,6 +6,12 @@
 
 <div class="container justify-content-center">
 
+    @if(@Model == null)
+    {
+        <h3 class="text-center mt-5">Тhere are no registered users!</h3>
+    }
+    else
+    {
     <table class="table table-striped mt-5">
         <thead>
             <tr>
@@ -32,4 +38,5 @@
             }
         </tbody>
     </table>
+    }
 </div>
