@@ -1,4 +1,6 @@
-﻿using LDBeauty.Core.Contracts;
+﻿using LDBeauty.Core.Constraints;
+using LDBeauty.Core.Contracts;
+using LDBeauty.Core.Models;
 using LDBeauty.Core.Models.Gallery;
 using LDBeauty.Core.Models.Product;
 using LDBeauty.Core.Models.User;
@@ -33,19 +35,37 @@ namespace LDBeauty.Controllers
         public async Task<IActionResult> Info()
         {
             var userName = User.Identity.Name;
-            ApplicationUser user = await userService.GetUser(userName);
-            ViewData["UserName"] = user.FirstName;
+            ApplicationUser user = null;
+            List <UserProductsViewModel> products = null;
 
-            List<UserProductsViewModel> products = await orderService.GetUserProducts(user.Id);
+            try
+            {
+                user = await userService.GetUser(userName);
+                products = await orderService.GetUserProducts(user.Id);
+            }
+            catch (Exception)
+            {
+                return DatabaseError();
+            }
+
+            ViewData["UserName"] = user.FirstName;
             return View(products);
         }
 
         public async Task<IActionResult> FavouriteProducts()
         {
             var userName = User.Identity.Name;
-            ApplicationUser user = await userService.GetUser(userName);
+            List<GetProductViewModel> products = null;
 
-            List<GetProductViewModel> products = await productService.GetFavouriteProducts(user);
+            try
+            {
+                ApplicationUser user = await userService.GetUser(userName);
+                products = await productService.GetFavouriteProducts(user);
+            }
+            catch (Exception)
+            {
+                return DatabaseError();
+            }
 
             return View(products);
         }
@@ -62,8 +82,7 @@ namespace LDBeauty.Controllers
             }
             catch (Exception)
             {
-
-                throw;
+                return DatabaseError();
             }
 
             return Redirect("/MyLd/FavouriteProducts");
@@ -72,9 +91,17 @@ namespace LDBeauty.Controllers
         public async Task<IActionResult> FavouriteImages()
         {
             var userName = User.Identity.Name;
-            ApplicationUser user = await userService.GetUser(userName);
+            IEnumerable<ImageViewModel> images = null;
 
-            IEnumerable<ImageViewModel> images = await galleryService.GetFavouriteImages(user);
+            try
+            {
+                ApplicationUser user = await userService.GetUser(userName);
+                images = await galleryService.GetFavouriteImages(user);
+            }
+            catch (Exception)
+            {
+                return DatabaseError();
+            }
 
             return View(images);
         }
@@ -91,11 +118,16 @@ namespace LDBeauty.Controllers
             }
             catch (Exception)
             {
-
-                throw;
+                return DatabaseError();
             }
 
             return Redirect("/MyLd/FavouriteImages");
+        }
+
+        private IActionResult DatabaseError()
+        {
+            ErrorViewModel error = new ErrorViewModel() { ErrorMessage = ErrorMessages.DatabaseConnectionError };
+            return View("_Error", error);
         }
     }
 }
