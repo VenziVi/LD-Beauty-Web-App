@@ -1,5 +1,7 @@
 ﻿using LDBeauty.Core.Constants;
+using LDBeauty.Core.Constraints;
 using LDBeauty.Core.Contracts;
+using LDBeauty.Core.Models;
 using LDBeauty.Core.Models.User;
 using LDBeauty.Infrastructure.Data.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -30,8 +32,8 @@ namespace LDBeauty.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-                ViewData[MessageConstant.ErrorMessage] = "Something went wrong!";
-                return View();
+                ErrorViewModel error = new ErrorViewModel() { ErrorMessage = ErrorMessages.DatabaseConnectionError };
+                return View("_Error", error);
             }
 
             return View(users);
@@ -39,22 +41,21 @@ namespace LDBeauty.Areas.Admin.Controllers
 
         public async Task<IActionResult> UserOrders(string id)
         {
-            List<UserProductsViewModel> products = null;
-          
-            ApplicationUser user = await userService.GetUserById(id);
-
-            ViewData["Name"] = $"{user.FirstName} {user.LastName}";
+            List<UserProductsViewModel> products = null;          
+            ApplicationUser user = null;
 
             try
             {
+                user = await userService.GetUserById(id);
                 products = await orderService.GetUserProducts(id);
             }
             catch (Exception)
             {
-                ViewData[MessageConstant.ErrorMessage] = "Something went wrong!";
-                return View();
+                ErrorViewModel error = new ErrorViewModel() { ErrorMessage = ErrorMessages.DatabaseConnectionError };
+                return View("_Error", error);
             }
 
+            ViewData["Name"] = $"{user.FirstName} {user.LastName}";
             return View(products);
         }
     }
