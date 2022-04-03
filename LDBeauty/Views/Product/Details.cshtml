@@ -20,7 +20,7 @@
                         <div class="d-flex form-group">
                             <input class="text-center me-3" id="inputQuantity" type="number" name="Quantity" min="1" value="1" max="@Model.Quantity" style="max-width: 3rem" />
                             <input type="hidden" name="productId" value="@Model.Id" />
-                            <button class="btn btn-outline-dark flex-shrink-0 me-3" value="@Model.Id" type="submit" asp-action="add" asp-controller="product" asp-route-id="@Model.Id">
+                            <button class="btn btn-outline-dark flex-shrink-0 me-3" value="@Model.Id" type="submit" asp-action="addToCart" asp-controller="product" asp-route-id="@Model.Id">
                                 <i class="bi-cart-fill me-1"></i>
                                 Add to cart
                             </button>

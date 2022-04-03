@@ -2,13 +2,7 @@
 using LDBeauty.Core.Models.Product;
 using LDBeauty.Infrastructure.Data;
 using LDBeauty.Infrastructure.Data.Identity;
-using Microsoft.AspNet.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LDBeauty.Core.Services
 {

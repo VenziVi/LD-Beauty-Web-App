@@ -1,5 +1,7 @@
 ﻿using LDBeauty.Core.Constants;
+using LDBeauty.Core.Constraints;
 using LDBeauty.Core.Contracts;
+using LDBeauty.Core.Models;
 using LDBeauty.Core.Models.Cart;
 using LDBeauty.Core.Models.Product;
 using LDBeauty.Infrastructure.Data.Identity;
@@ -27,18 +29,38 @@ namespace LDBeauty.Controllers
 
         public async Task<IActionResult> AllProducts()
         {
-            IEnumerable<GetProductViewModel> products = await productService.GetAllProducts();
+            IEnumerable<GetProductViewModel> products = null;
+
+            try
+            {
+                products = await productService.GetAllProducts();
+            }
+            catch (Exception)
+            {
+                return DatabaseError();
+            }
+
             return View(products);
         }
 
         public async Task<IActionResult> Details(string id)
         {
-            ProductDetailsViewModel product = await productService.GetProduct(id);
+            ProductDetailsViewModel product = null;
+
+            try
+            {
+                product = await productService.GetProduct(id);
+            }
+            catch (Exception)
+            {
+                return DatabaseError();
+            }
+
             return View(product);
         }
 
         [Authorize]
-        public async Task<IActionResult> Add(AddToCartViewModel model)
+        public async Task<IActionResult> AddToCart(AddToCartViewModel model)
         {
             var userName = HttpContext.User.Identity.Name;
 
@@ -48,20 +70,27 @@ namespace LDBeauty.Controllers
             }
             catch (Exception)
             {
-                ProductDetailsViewModel product = await productService.GetProduct(model.ProductId.ToString());
-                ViewData[MessageConstant.ErrorMessage] = "Something went wrong, please try again later!";
-                return View("Details", product);
+                return DatabaseError();
             }
 
             return RedirectToAction("AllProducts");
         }
 
         [Authorize]
-        public async Task<IActionResult> addProductToFavourites(string id)
+        public async Task<IActionResult> AddProductToFavourites(string id)
         {
             var userName = User.Identity.Name;
             ApplicationUser user = null;
-            ProductDetailsViewModel product = await productService.GetProduct(id);
+            ProductDetailsViewModel product = null;
+
+            try
+            {
+                product = await productService.GetProduct(id);
+            }
+            catch (Exception)
+            {
+                return DatabaseError();
+            }
 
             try
             {
@@ -76,6 +105,12 @@ namespace LDBeauty.Controllers
 
             ViewData[MessageConstant.SuccessMessage] = "Product was added successfuly";
             return View("Details", product);
+        }
+
+        private IActionResult DatabaseError()
+        {
+            ErrorViewModel error = new ErrorViewModel() { ErrorMessage = ErrorMessages.DatabaseConnectionError };
+            return View("_Error", error);
         }
     }
 }
