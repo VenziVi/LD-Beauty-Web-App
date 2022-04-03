@@ -1,13 +1,9 @@
-﻿using LDBeauty.Core.Contracts;
+﻿using LDBeauty.Core.Constraints;
+using LDBeauty.Core.Contracts;
 using LDBeauty.Core.Models.Cart;
 using LDBeauty.Core.Models.User;
 using LDBeauty.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LDBeauty.Core.Services
 {
@@ -54,7 +50,7 @@ namespace LDBeauty.Core.Services
 
                 if (currProduct.Quantity < 0)
                 {
-                    throw new ArgumentException("You can't make an order becouse one or more products are out of stock!");
+                    throw new ArgumentException(ErrorMessages.OutOfStockError);
                 }
             }
 
@@ -64,7 +60,7 @@ namespace LDBeauty.Core.Services
                 item.OrderId = order.Id;
             }
 
-            context.Add(order);
+            await context.AddAsync(order);
             await context.SaveChangesAsync();
         }
 

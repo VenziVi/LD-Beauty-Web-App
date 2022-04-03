@@ -1,6 +1,7 @@
 ﻿using LDBeauty.Core.Constants;
 using LDBeauty.Core.Constraints;
 using LDBeauty.Core.Contracts;
+using LDBeauty.Core.Helpers;
 using LDBeauty.Core.Models;
 using LDBeauty.Core.Models.Cart;
 using LDBeauty.Core.Models.User;
@@ -46,21 +47,24 @@ namespace LDBeauty.Controllers
         [Authorize]
         public async Task<IActionResult> FinishOrder(FinishOrderViewModel model)
         {
-
             try
             {
-                await orderService.FinishOrder(model);
+                try
+                {
+                    await orderService.FinishOrder(model);
+                }
+                catch (ArgumentException ex)
+                {
+                    ErrorViewModel error = new ErrorViewModel() { ErrorMessage = ex.Message };
+                    View("_Error", error);
+                }
             }
-            catch (ArgumentException ex)
+            catch (Exception)
             {
-                //NotWorking
-
-                ViewData[MessageConstant.ErrorMessage] = ex.Message;
-                View("Order");
+                return DatabaseError();
             }
-
-            ViewData[MessageConstant.SuccessMessage] = "Order confirmed.";
-            //REPAIR
+            
+            OrderConfirmed.IsConfirmed = true;
             return Redirect("/Cart/Detail");
         }
 
