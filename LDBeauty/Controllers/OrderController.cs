@@ -1,5 +1,7 @@
 ﻿using LDBeauty.Core.Constants;
+using LDBeauty.Core.Constraints;
 using LDBeauty.Core.Contracts;
+using LDBeauty.Core.Models;
 using LDBeauty.Core.Models.Cart;
 using LDBeauty.Core.Models.User;
 using Microsoft.AspNetCore.Authorization;
@@ -25,7 +27,16 @@ namespace LDBeauty.Controllers
         {
             var userName = User.Identity.Name;
 
-            UserOrderViewModel user = await userService.GetUSerByName(userName, id);
+            UserOrderViewModel user = null;
+
+            try
+            {
+                user = await userService.GetUSerByName(userName, id);
+            }
+            catch (Exception)
+            {
+                return DatabaseError();
+            }
 
             return View(user);
         }
@@ -53,5 +64,10 @@ namespace LDBeauty.Controllers
             return Redirect("/Cart/Detail");
         }
 
+        private IActionResult DatabaseError()
+        {
+            ErrorViewModel error = new ErrorViewModel() { ErrorMessage = ErrorMessages.DatabaseConnectionError };
+            return View("_Error", error);
+        }
     }
 }
