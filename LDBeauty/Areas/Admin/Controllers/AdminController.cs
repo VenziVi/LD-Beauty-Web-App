@@ -1,5 +1,4 @@
-﻿using LDBeauty.Core.Constants;
-using LDBeauty.Core.Constraints;
+﻿using LDBeauty.Core.Constraints;
 using LDBeauty.Core.Contracts;
 using LDBeauty.Core.Models;
 using LDBeauty.Core.Models.User;
@@ -32,12 +31,11 @@ namespace LDBeauty.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-                ErrorViewModel error = new ErrorViewModel() { ErrorMessage = ErrorMessages.DatabaseConnectionError };
-                return View("_Error", error);
+                return DatabaseError();
             }
 
             return View(users);
-        }
+        }       
 
         public async Task<IActionResult> UserOrders(string id)
         {
@@ -51,12 +49,17 @@ namespace LDBeauty.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-                ErrorViewModel error = new ErrorViewModel() { ErrorMessage = ErrorMessages.DatabaseConnectionError };
-                return View("_Error", error);
+                return DatabaseError();
             }
 
             ViewData["Name"] = $"{user.FirstName} {user.LastName}";
             return View(products);
+        }
+
+        private IActionResult DatabaseError()
+        {
+            ErrorViewModel error = new ErrorViewModel() { ErrorMessage = ErrorMessages.DatabaseConnectionError };
+            return View("_Error", error);
         }
     }
 }

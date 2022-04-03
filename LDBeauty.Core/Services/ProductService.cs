@@ -43,7 +43,7 @@ namespace LDBeauty.Core.Services
             make.Products.Add(product);
             category.Products.Add(product);
 
-            context.Add(product);
+            await context.AddAsync(product);
             await context.SaveChangesAsync();
         }
 

@@ -1,8 +1,9 @@
 ﻿using LDBeauty.Core.Constants;
+using LDBeauty.Core.Constraints;
 using LDBeauty.Core.Contracts;
-using LDBeauty.Core.Models.Cart;
+using LDBeauty.Core.Helpers;
+using LDBeauty.Core.Models;
 using LDBeauty.Core.Models.Product;
-using LDBeauty.Infrastructure.Data.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LDBeauty.Areas.Admin.Controllers
@@ -18,13 +19,18 @@ namespace LDBeauty.Areas.Admin.Controllers
 
         public IActionResult AddProduct()
         {
+            if (ProductAdding.isAdded)
+            {
+                ViewData[MessageConstant.SuccessMessage] = "Product was added successfuly";
+                ProductAdding.isAdded = false;
+            }
+
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> AddProduct(AddProductViewModel model)
         {
-            ViewData[MessageConstant.SuccessMessage] = "Product was added successfuly";
 
             if (!ModelState.IsValid)
             {
@@ -38,13 +44,11 @@ namespace LDBeauty.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-
-                ViewData[MessageConstant.ErrorMessage] = "Something went wrong!";
-                return View();
+                return DatabaseError();
             }
 
-            ViewData[MessageConstant.SuccessMessage] = "Product was added successfuly";
-            return View("/Admin/Product/AddProduct");
+            ProductAdding.isAdded = true;
+            return Redirect("AddProduct");
         }
 
         public async Task<IActionResult> EditProduct(string id)
@@ -58,8 +62,7 @@ namespace LDBeauty.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-
-                throw;
+                return DatabaseError();
             }
 
             return View(product);
@@ -81,13 +84,17 @@ namespace LDBeauty.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-
-                TempData[MessageConstant.ErrorMessage] = "Something went wrong!";
-                return View();
+                return DatabaseError();
             }
 
             ViewData[MessageConstant.SuccessMessage] = "Product was added successfuly";
-            return RedirectToAction();
+            return View();
+        }
+
+        private IActionResult DatabaseError()
+        {
+            ErrorViewModel error = new ErrorViewModel() { ErrorMessage = ErrorMessages.DatabaseConnectionError };
+            return View("_Error", error);
         }
     }
 }
