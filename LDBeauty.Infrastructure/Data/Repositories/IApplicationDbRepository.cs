@@ -4,6 +4,5 @@ namespace LDBeauty.Infrastructure.Data.Repositories
 {
     public interface IApplicationDbRepository : IRepository
     {
-
     }
 }
