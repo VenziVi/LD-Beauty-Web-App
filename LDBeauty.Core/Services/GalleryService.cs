@@ -138,7 +138,7 @@ namespace LDBeauty.Core.Services
                 i.ApplicationUserId == user.Id);
 
             user.FavouriteImages.Remove(image);
-            await repo.DeleteAsync<UserImage>(userImage);
+            repo.Delete<UserImage>(userImage);
 
             await repo.SaveChangesAsync();
         }

@@ -141,7 +141,7 @@ namespace LDBeauty.Core.Services
                 p.ApplicationUserId == user.Id);
 
             user.FavouriteProducts.Remove(product);
-            await repo.DeleteAsync<UserProduct>(userProduct);
+            repo.Delete<UserProduct>(userProduct);
             
             await repo.SaveChangesAsync();
         }

@@ -87,11 +87,11 @@ namespace LDBeauty.Core.Services
 
             cart.TotalPrice -= qty * price;
 
-            await repo.DeleteAsync<AddedProduct>(product);
+            repo.Delete<AddedProduct>(product);
 
             if (cart.TotalPrice == 0)
             {
-                await repo.DeleteAsync<Cart>(cart);
+                repo.Delete<Cart>(cart);
             }
 
             await repo.SaveChangesAsync();
