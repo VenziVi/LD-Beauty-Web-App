@@ -1,6 +1,7 @@
 ﻿using LDBeauty.Core.Constants;
 using LDBeauty.Core.Constraints;
 using LDBeauty.Core.Contracts;
+using LDBeauty.Core.Helpers;
 using LDBeauty.Core.Models;
 using LDBeauty.Core.Models.Cart;
 using LDBeauty.Core.Models.Product;
@@ -29,6 +30,12 @@ namespace LDBeauty.Controllers
 
         public async Task<IActionResult> AllProducts()
         {
+            if (AddProductToCart.IsAddedToCart)
+            {
+                ViewData[MessageConstant.SuccessMessage] = "Product was added successfuly to cart.";
+                AddProductToCart.IsAddedToCart = false;
+            }
+
             IEnumerable<GetProductViewModel> products = null;
 
             try
@@ -73,6 +80,7 @@ namespace LDBeauty.Controllers
                 return DatabaseError();
             }
 
+            AddProductToCart.IsAddedToCart = true;
             return RedirectToAction("AllProducts");
         }
 
