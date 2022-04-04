@@ -34,13 +34,13 @@
                                 Gallery
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" asp-action="images" asp-controller="gallery">View All</a></li>
-                                <li><a class="dropdown-item" asp-action="category" asp-controller="gallery">View Categories</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-action="images" asp-controller="gallery">View All</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-action="category" asp-controller="gallery">View Categories</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item"><a class="nav-link" asp-action="allProducts" asp-controller="product">Products</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-action="info" asp-controller="myLd">My LD</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-action="Detail" asp-controller="cart">Cart</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-action="allProducts" asp-controller="product">Products</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-action="info" asp-controller="myLd">My LD</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-action="Detail" asp-controller="cart">Cart</a></li>
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item"><a class="nav-link" asp-area="Identity" asp-page="/Account/Logout">Log out</a></li>
