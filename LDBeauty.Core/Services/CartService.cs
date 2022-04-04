@@ -2,24 +2,25 @@
 using LDBeauty.Core.Models.Cart;
 using LDBeauty.Infrastructure.Data;
 using LDBeauty.Infrastructure.Data.Identity;
+using LDBeauty.Infrastructure.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace LDBeauty.Core.Services
 {
     public class CartService : ICartService
     {
-        private readonly ApplicationDbContext context;
+        private readonly IApplicationDbRepository repo;
 
-        public CartService(ApplicationDbContext _context)
+        public CartService(IApplicationDbRepository _repo)
         {
-            context = _context;
+            repo = _repo;
         }
 
         public async Task AddToCart(AddToCartViewModel model, string userName)
         {
             var user = GetUserByUserName(userName);
 
-            Cart cart = await context.Set<Cart>()
+            Cart cart = await repo.All<Cart>()
                 .FirstOrDefaultAsync(c => c.IsDeleted == false && c.UserId == user.Id);
 
             if (cart == null)
@@ -31,10 +32,10 @@ namespace LDBeauty.Core.Services
                     UserId = user.Id
                 };
 
-                context.Add(cart);
+                await repo.AddAsync(cart);
             }
 
-            Product product = await context.Set<Product>()
+            Product product = await repo.All<Product>()
                 .FirstOrDefaultAsync(p => p.Id == model.ProductId);
 
             AddedProduct addedProduct = new AddedProduct()
@@ -57,9 +58,9 @@ namespace LDBeauty.Core.Services
 
             cart.TotalPrice += price;
 
-            await context.AddAsync(addedProduct);
+            await repo.AddAsync(addedProduct);
 
-            await context.SaveChangesAsync();
+            await repo.SaveChangesAsync();
 
         }
 
@@ -69,14 +70,14 @@ namespace LDBeauty.Core.Services
             var productId = ids[0];
             var cartId = ids[1];
 
-            Cart cart = context.Set<Cart>()
+            Cart cart = repo.All<Cart>()
                 .FirstOrDefault(c => c.Id.ToString() == cartId);
 
-            AddedProduct product = context.Set<AddedProduct>()
+            AddedProduct product = repo.All<AddedProduct>()
                 .Where(p => p.ProductId.ToString() == productId && p.CartId.ToString() == cartId)
                 .FirstOrDefault();
 
-            Product currProduct = context.Set<Product>()
+            Product currProduct = repo.All<Product>()
                 .FirstOrDefault(p => p.Id == product.ProductId);
 
             cart.AddedProducts.Remove(product);
@@ -86,21 +87,21 @@ namespace LDBeauty.Core.Services
 
             cart.TotalPrice -= qty * price;
 
-            context.Remove(product);
+            await repo.DeleteAsync<AddedProduct>(product);
 
             if (cart.TotalPrice == 0)
             {
-                context.Remove(cart);
+                await repo.DeleteAsync<Cart>(cart);
             }
 
-            await context.SaveChangesAsync();
+            await repo.SaveChangesAsync();
         }
 
         public async Task<CartDetailsViewModel> GetCart(string userName)
         {
             var user = GetUserByUserName(userName);
 
-            var cart = await context.Set<Cart>()
+            var cart = await repo.All<Cart>()
                 .FirstOrDefaultAsync(c => c.IsDeleted == false && c.UserId == user.Id);
 
             if (cart == null)
@@ -108,7 +109,7 @@ namespace LDBeauty.Core.Services
                 return null;
             }
 
-            var productsList = await context.Set<AddedProduct>()
+            var productsList = await repo.All<AddedProduct>()
                 .Where(a => a.CartId == cart.Id).ToListAsync();
 
             var currOrder = new CartDetailsViewModel()
@@ -117,7 +118,7 @@ namespace LDBeauty.Core.Services
                 TotalPrice = cart.TotalPrice,
             };
 
-            currOrder.Products = await context.Set<AddedProduct>()
+            currOrder.Products = await repo.All<AddedProduct>()
                 .Where(a => a.CartId == cart.Id)
                 .Select(p => new CartProductsViewModel()
                 {
@@ -133,7 +134,7 @@ namespace LDBeauty.Core.Services
 
         private ApplicationUser GetUserByUserName(string userName)
         {
-            return context.Set<ApplicationUser>()
+            return repo.All<ApplicationUser>()
                 .SingleOrDefault(u => u.UserName == userName);
         }
     }

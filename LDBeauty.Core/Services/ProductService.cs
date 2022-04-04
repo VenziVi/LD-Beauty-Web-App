@@ -2,17 +2,18 @@
 using LDBeauty.Core.Models.Product;
 using LDBeauty.Infrastructure.Data;
 using LDBeauty.Infrastructure.Data.Identity;
+using LDBeauty.Infrastructure.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace LDBeauty.Core.Services
 {
     public class ProductService : IProductService
     {
-        private readonly ApplicationDbContext context;
+        private readonly IApplicationDbRepository repo;
 
-        public ProductService(ApplicationDbContext _context)
+        public ProductService(IApplicationDbRepository _repo)
         {
-            context = _context;
+            repo = _repo;
         }
 
         public async Task AddProduct(AddProductViewModel model)
@@ -37,13 +38,13 @@ namespace LDBeauty.Core.Services
             make.Products.Add(product);
             category.Products.Add(product);
 
-            await context.AddAsync(product);
-            await context.SaveChangesAsync();
+            await repo.AddAsync(product);
+            await repo.SaveChangesAsync();
         }
 
         public async Task AddToFavourites(string productId, ApplicationUser user)
         {
-            Product product = await context.Set<Product>()
+            Product product = await repo.All<Product>()
                 .FirstOrDefaultAsync(p => p.Id.ToString() == productId);
 
             UserProduct userProduct = new UserProduct()
@@ -56,13 +57,13 @@ namespace LDBeauty.Core.Services
 
             user.FavouriteProducts.Add(product);
 
-            await context.AddAsync(userProduct);
-            await context.SaveChangesAsync();
+            await repo.AddAsync(userProduct);
+            await repo.SaveChangesAsync();
         }
 
         public async Task EditProduct(AddProductViewModel model, string id)
         {
-            Product product = await context.Set<Product>()
+            Product product = await repo.All<Product>()
                 .FirstOrDefaultAsync(p => p.Id.ToString() == id);
 
             Category category = await CreateCategory(model.Category);
@@ -79,12 +80,12 @@ namespace LDBeauty.Core.Services
             product.Make = make;
             product.MakeId = make.Id;
 
-            await context.SaveChangesAsync();
+            await repo.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<GetProductViewModel>> GetAllProducts()
         {
-            return await context.Set<Product>()
+            return await repo.All<Product>()
                 .Select(p => new GetProductViewModel()
                 {
                     Id = p.Id,
@@ -98,7 +99,7 @@ namespace LDBeauty.Core.Services
 
         public async Task<List<GetProductViewModel>> GetFavouriteProducts(ApplicationUser user)
         {
-            List<GetProductViewModel> products = await context.Set<UserProduct>()
+            List<GetProductViewModel> products = await repo.All<UserProduct>()
                 .Where(p => p.ApplicationUser.Id == user.Id)
                 .Select(p => new GetProductViewModel() 
                 {
@@ -115,7 +116,7 @@ namespace LDBeauty.Core.Services
 
         public async Task<ProductDetailsViewModel> GetProduct(string id)
         {
-            return await context.Set<Product>()
+            return await repo.All<Product>()
                 .Where(p => p.Id.ToString() == id)
                 .Select(p => new ProductDetailsViewModel()
                 {
@@ -132,22 +133,22 @@ namespace LDBeauty.Core.Services
 
         public async Task RemoveFromFavourite(string id, ApplicationUser user)
         {
-            Product product = await context.Set<Product>()
+            Product product = await repo.All<Product>()
                 .FirstOrDefaultAsync(p => p.Id.ToString() == id);
 
-            UserProduct userProduct = await context.Set<UserProduct>()
+            UserProduct userProduct = await repo.All<UserProduct>()
                 .FirstOrDefaultAsync(p => p.ProductId.ToString() == id &&
                 p.ApplicationUserId == user.Id);
 
             user.FavouriteProducts.Remove(product);
-            context.Remove(userProduct);
+            await repo.DeleteAsync<UserProduct>(userProduct);
             
-            await context.SaveChangesAsync();
+            await repo.SaveChangesAsync();
         }
 
         private async Task<Category> CreateCategory(string name)
         {
-            Category category = await context.Set<Category>()
+            Category category = await repo.All<Category>()
                 .FirstOrDefaultAsync(c => c.CategoryName == name);
 
             if (category == null)
@@ -157,7 +158,7 @@ namespace LDBeauty.Core.Services
                     CategoryName = name
                 };
 
-                context.Add(category);
+                await repo.AddAsync(category);
             }
 
             return category;
@@ -165,7 +166,7 @@ namespace LDBeauty.Core.Services
 
         private async Task<Make> CreateMake(string name)
         {
-            Make make = await context.Set<Make>()
+            Make make = await repo.All<Make>()
                 .FirstOrDefaultAsync(c => c.MakeName == name);
 
             if (make == null)
@@ -175,7 +176,7 @@ namespace LDBeauty.Core.Services
                     MakeName = name
                 };
 
-                context.Add(make);
+                await repo.AddAsync(make);
             }
 
             return make;

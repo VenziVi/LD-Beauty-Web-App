@@ -3,23 +3,24 @@ using LDBeauty.Core.Models;
 using LDBeauty.Core.Models.Gallery;
 using LDBeauty.Infrastructure.Data;
 using LDBeauty.Infrastructure.Data.Identity;
+using LDBeauty.Infrastructure.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace LDBeauty.Core.Services
 {
     public class GalleryService : IGalleryService
     {
-        private readonly ApplicationDbContext context;
+        private readonly IApplicationDbRepository repo;
 
-        public GalleryService(ApplicationDbContext _context)
+        public GalleryService(IApplicationDbRepository _repo)
         {
-            context = _context;
+            repo = _repo;
         }
 
         public async Task AddImage(AddImageViewModel model)
         {
 
-            ImgCategory category = await context.Set<ImgCategory>()
+            ImgCategory category = await repo.All<ImgCategory>()
                 .FirstOrDefaultAsync(c => c.CategoryName == model.Category);
 
             if (category == null)
@@ -30,7 +31,7 @@ namespace LDBeauty.Core.Services
                     ImgUrl = model.PictureUrl
                 };
 
-                context.Add(category);
+                await repo.AddAsync(category);
             }
 
             Image image = new Image()
@@ -43,14 +44,14 @@ namespace LDBeauty.Core.Services
 
             category.Images.Add(image);
 
-            await context.AddAsync(image);
-            await context.SaveChangesAsync();
+            await repo.AddAsync(image);
+            await repo.SaveChangesAsync();
 
         }
 
         public async Task<IEnumerable<ImageViewModel>> AllImages()
         {
-            return await context.Set<Image>()
+            return await repo.All<Image>()
                 .Select(i => new ImageViewModel()
                 {
                     Id = i.Id,
@@ -60,7 +61,7 @@ namespace LDBeauty.Core.Services
 
         public async Task<ImageDetailsViewModel> GetImgDetails(int imageId)
         {
-            return await context.Set<Image>()
+            return await repo.All<Image>()
                 .Where(i => i.Id == imageId)
                 .Select(i => new ImageDetailsViewModel()
                 {
@@ -73,7 +74,7 @@ namespace LDBeauty.Core.Services
 
         public async Task AddToFavourites(string id, ApplicationUser user)
         {
-             Image image = await context.Set<Image>()
+             Image image = await repo.All<Image>()
                 .FirstOrDefaultAsync(i => i.Id.ToString() == id);
 
             UserImage userImage = new UserImage()
@@ -86,13 +87,13 @@ namespace LDBeauty.Core.Services
 
             user.FavouriteImages.Add(image);
 
-            await context.AddAsync(userImage);
-            await context.SaveChangesAsync();
+            await repo.AddAsync(userImage);
+            await repo.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<ImageViewModel>> GetImages(int? categoryId)
         {
-            return await context.Set<Image>()
+            return await repo.All<Image>()
                 .Where(i => i.CategoruId == categoryId)
                 .Select(i => new ImageViewModel()
                 {
@@ -104,8 +105,7 @@ namespace LDBeauty.Core.Services
         public async Task<IEnumerable<GalleryCategoryViewModel>> GetCategories()
         {
 
-            var models = await context
-                .Set<ImgCategory>()
+            var models = await repo.All<ImgCategory>()
                 .Select(c => new GalleryCategoryViewModel()
                 {
                     Id = c.Id,
@@ -119,7 +119,7 @@ namespace LDBeauty.Core.Services
 
         public async Task<IEnumerable<ImageViewModel>> GetFavouriteImages(ApplicationUser user)
         {
-            return await context.Set<UserImage>()
+            return await repo.All<UserImage>()
                 .Where(u => u.ApplicationUserId == user.Id)
                 .Select(u => new ImageViewModel()
                 {
@@ -130,17 +130,17 @@ namespace LDBeauty.Core.Services
 
         public async Task RemoveFromFavourite(int id, ApplicationUser user)
         {
-            Image image = await context.Set<Image>()
+            Image image = await repo.All<Image>()
                 .FirstOrDefaultAsync(i => i.Id == id);
 
-            UserImage userImage = await context.Set<UserImage>()
+            UserImage userImage = await repo.All<UserImage>()
                 .FirstOrDefaultAsync(i => i.ImageId == id &&
                 i.ApplicationUserId == user.Id);
 
             user.FavouriteImages.Remove(image);
-            context.Remove(userImage);
+            await repo.DeleteAsync<UserImage>(userImage);
 
-            await context.SaveChangesAsync();
+            await repo.SaveChangesAsync();
         }
     }
 }

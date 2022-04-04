@@ -3,25 +3,26 @@ using LDBeauty.Core.Contracts;
 using LDBeauty.Core.Models.Cart;
 using LDBeauty.Core.Models.User;
 using LDBeauty.Infrastructure.Data;
+using LDBeauty.Infrastructure.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace LDBeauty.Core.Services
 {
     public class OrderService : IOrderService
     {
-        private readonly ApplicationDbContext context;
+        private readonly IApplicationDbRepository repo;
 
-        public OrderService(ApplicationDbContext _context)
+        public OrderService(IApplicationDbRepository _repo)
         {
-            context = _context;
+            repo = _repo;
         }
 
         public async Task FinishOrder(FinishOrderViewModel model)
         {
-            Cart cart = await context.Set<Cart>()
+            Cart cart = await repo.All<Cart>()
                 .FirstOrDefaultAsync(c => c.Id.ToString() == model.CartId);
 
-            var productsList = await context.Set<AddedProduct>()
+            var productsList = await repo.All<AddedProduct>()
                 .Where(a => a.CartId == cart.Id).ToListAsync();
 
             Order order = new Order()
@@ -43,7 +44,7 @@ namespace LDBeauty.Core.Services
             {
                 var quantity = product.Quantity;
 
-                var currProduct = context.Set<Product>()
+                var currProduct = repo.All<Product>()
                     .FirstOrDefault(p => p.Id == product.ProductId);
 
                 currProduct.Quantity -= quantity;
@@ -60,20 +61,20 @@ namespace LDBeauty.Core.Services
                 item.OrderId = order.Id;
             }
 
-            await context.AddAsync(order);
-            await context.SaveChangesAsync();
+            await repo.AddAsync(order);
+            await repo.SaveChangesAsync();
         }
 
         public async Task<List<UserProductsViewModel>> GetUserProducts(string userId)
         {
-            var orders = await context.Set<Order>()
+            var orders = await repo.All<Order>()
                 .Where(o => o.ApplicationUserId == userId).ToListAsync();
 
             var userProducts = new List<UserProductsViewModel>();
 
             foreach (var order in orders.OrderByDescending(i => i.OrderDate))
             {
-                var addedProducts = await context.Set<AddedProduct>()
+                var addedProducts = await repo.All<AddedProduct>()
                     .Where(p => p.OrderId == order.Id)
                     .Include(p => p.Product)
                     .ThenInclude(m => m.Make)
