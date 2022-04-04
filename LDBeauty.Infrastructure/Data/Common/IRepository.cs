@@ -2,8 +2,7 @@
 
 namespace LDBeauty.Infrastructure.Data.Common
 {
-    public interface IRepository
-    {
+
         /// <summary>
         /// Abstraction of repository access methods
         /// </summary>
@@ -96,5 +95,5 @@ namespace LDBeauty.Infrastructure.Data.Common
             int SaveChanges();
             Task<int> SaveChangesAsync();
         }
-    }
+    
 }
