@@ -24,7 +24,7 @@ namespace LDBeauty.Controllers
 
         public async Task<IActionResult> Category()
         {
-            IEnumerable<GalleryCategoryViewModel> model = null;
+            List<GalleryCategoryViewModel> model = null;
 
             try
             {
@@ -40,7 +40,7 @@ namespace LDBeauty.Controllers
 
         public async Task<IActionResult> Images(int? id)
         {
-            IEnumerable<ImageViewModel> images = null;
+            List<ImageViewModel> images = null;
 
             if (id == null)
             {

@@ -91,7 +91,7 @@ namespace LDBeauty.Controllers
         public async Task<IActionResult> FavouriteImages()
         {
             var userName = User.Identity.Name;
-            IEnumerable<ImageViewModel> images = null;
+            List<ImageViewModel> images = null;
 
             try
             {
