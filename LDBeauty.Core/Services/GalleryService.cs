@@ -49,7 +49,7 @@ namespace LDBeauty.Core.Services
 
         }
 
-        public async Task<IEnumerable<ImageViewModel>> AllImages()
+        public async Task<List<ImageViewModel>> AllImages()
         {
             return await repo.All<Image>()
                 .Select(i => new ImageViewModel()
@@ -91,7 +91,7 @@ namespace LDBeauty.Core.Services
             await repo.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<ImageViewModel>> GetImages(int? categoryId)
+        public async Task<List<ImageViewModel>> GetImages(int? categoryId)
         {
             return await repo.All<Image>()
                 .Where(i => i.CategoruId == categoryId)
@@ -102,7 +102,7 @@ namespace LDBeauty.Core.Services
                 }).ToListAsync();
         }
 
-        public async Task<IEnumerable<GalleryCategoryViewModel>> GetCategories()
+        public async Task<List<GalleryCategoryViewModel>> GetCategories()
         {
 
             var models = await repo.All<ImgCategory>()
@@ -117,7 +117,7 @@ namespace LDBeauty.Core.Services
             return models;
         }
 
-        public async Task<IEnumerable<ImageViewModel>> GetFavouriteImages(ApplicationUser user)
+        public async Task<List<ImageViewModel>> GetFavouriteImages(ApplicationUser user)
         {
             return await repo.All<UserImage>()
                 .Where(u => u.ApplicationUserId == user.Id)
