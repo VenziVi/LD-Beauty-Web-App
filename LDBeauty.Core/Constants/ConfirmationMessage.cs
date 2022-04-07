@@ -1,0 +1,11 @@
+﻿namespace LDBeauty.Core.Constants
+{
+    public static  class ConfirmationMessage
+    {
+        public const string ProductDeleted = "Product deleted successful.";
+
+        public const string OrderConfirmed = "Order confirmed.";
+
+        public const string ImageAdded = "Image was added successfuly";
+    }
+}
