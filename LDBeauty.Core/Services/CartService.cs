@@ -1,4 +1,5 @@
-﻿using LDBeauty.Core.Contracts;
+﻿using LDBeauty.Core.Constants;
+using LDBeauty.Core.Contracts;
 using LDBeauty.Core.Models.Cart;
 using LDBeauty.Infrastructure.Data;
 using LDBeauty.Infrastructure.Data.Identity;
@@ -18,7 +19,7 @@ namespace LDBeauty.Core.Services
 
         public async Task AddToCart(AddToCartViewModel model, string userName)
         {
-            var user = GetUserByUserName(userName);
+            var user = await GetUserByUserName(userName);
 
             Cart cart = await repo.All<Cart>()
                 .FirstOrDefaultAsync(c => c.IsDeleted == false && c.UserId == user.Id);
@@ -37,6 +38,11 @@ namespace LDBeauty.Core.Services
 
             Product product = await repo.All<Product>()
                 .FirstOrDefaultAsync(p => p.Id == model.ProductId);
+
+            if (product == null)
+            {
+                throw new ArgumentException(ErrorMessages.ProductNotFound);
+            }
 
             AddedProduct addedProduct = new AddedProduct()
             {
@@ -64,21 +70,23 @@ namespace LDBeauty.Core.Services
 
         }
 
-        public async Task DeleteProduct(string id)
+        public async Task DeleteProduct(string id, string userName)
         {
-            var ids = id.Split(":");
-            var productId = ids[0];
-            var cartId = ids[1];
+            var user = await GetUserByUserName(userName);
 
-            Cart cart = repo.All<Cart>()
-                .FirstOrDefault(c => c.Id.ToString() == cartId);
+            var userId = user.Id;
 
-            AddedProduct product = repo.All<AddedProduct>()
-                .Where(p => p.ProductId.ToString() == productId && p.CartId.ToString() == cartId)
-                .FirstOrDefault();
+            var cart = await repo.All<Cart>()
+                .FirstOrDefaultAsync(c => c.UserId == userId && c.IsDeleted == false);
+                
+            var cartId = cart.Id;
 
-            Product currProduct = repo.All<Product>()
-                .FirstOrDefault(p => p.Id == product.ProductId);
+            AddedProduct product = await repo.All<AddedProduct>()
+                .Where(p => p.ProductId.ToString() == id && p.CartId == cartId)
+                .FirstOrDefaultAsync();
+
+            Product currProduct = await repo.All<Product>()
+                .FirstOrDefaultAsync(p => p.Id == product.ProductId);
 
             cart.AddedProducts.Remove(product);
 
@@ -99,7 +107,7 @@ namespace LDBeauty.Core.Services
 
         public async Task<CartDetailsViewModel> GetCart(string userName)
         {
-            var user = GetUserByUserName(userName);
+            var user = await GetUserByUserName(userName);
 
             var cart = await repo.All<Cart>()
                 .FirstOrDefaultAsync(c => c.IsDeleted == false && c.UserId == user.Id);
@@ -132,10 +140,10 @@ namespace LDBeauty.Core.Services
             return currOrder;
         }
 
-        private ApplicationUser GetUserByUserName(string userName)
+        private async Task<ApplicationUser> GetUserByUserName(string userName)
         {
-            return repo.All<ApplicationUser>()
-                .SingleOrDefault(u => u.UserName == userName);
+            return await repo.All<ApplicationUser>()
+                .SingleOrDefaultAsync(u => u.UserName == userName);
         }
     }
 }

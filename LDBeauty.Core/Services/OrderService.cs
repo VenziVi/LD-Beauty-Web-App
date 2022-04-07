@@ -51,7 +51,7 @@ namespace LDBeauty.Core.Services
 
                 if (currProduct.Quantity < 0)
                 {
-                    throw new ArgumentException(ErrorMessages.OutOfStockError);
+                    throw new ArgumentException($"There is no enought quantity from \"{currProduct.ProductName}\".");
                 }
             }
 

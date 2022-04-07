@@ -25,14 +25,20 @@ namespace LDBeauty.Controllers
         {
             if (OrderConfirmed.IsConfirmed)
             {
-                ViewData[MessageConstant.SuccessMessage] = "Order confirmed.";
+                ViewData[MessageConstant.SuccessMessage] = ConfirmationMessage.OrderConfirmed;
                 OrderConfirmed.IsConfirmed = false;
             }
 
             if (CartProductDelete.IsDeleted)
             {
-                ViewData[MessageConstant.SuccessMessage] = "Product deleted successful.";
+                ViewData[MessageConstant.SuccessMessage] = ConfirmationMessage.ProductDeleted;
                 CartProductDelete.IsDeleted = false;
+            }
+
+            if (OrderOutOfStock.IsOutOfStock)
+            {
+                ViewData[MessageConstant.ErrorMessage] = OrderOutOfStock.ErrorMsg;
+                OrderOutOfStock.IsOutOfStock = false;
             }
 
             var userName = User.Identity.Name;
@@ -54,9 +60,11 @@ namespace LDBeauty.Controllers
         public async Task<IActionResult> Delete(string id)
         {
 
+            var userName = User.Identity.Name;
+
             try
             {
-                await cartService.DeleteProduct(id);
+                await cartService.DeleteProduct(id, userName);
             }
             catch (Exception)
             {

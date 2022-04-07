@@ -54,8 +54,9 @@ namespace LDBeauty.Controllers
                 }
                 catch (ArgumentException ex)
                 {
-                    ErrorViewModel error = new ErrorViewModel() { ErrorMessage = ex.Message };
-                    View("_Error", error);
+                    OrderOutOfStock.IsOutOfStock = true;
+                    OrderOutOfStock.ErrorMsg = ex.Message;
+                    return Redirect("/Cart/Detail");
                 }
             }
             catch (Exception)
