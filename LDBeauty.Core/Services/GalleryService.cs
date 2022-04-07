@@ -1,4 +1,5 @@
-﻿using LDBeauty.Core.Contracts;
+﻿using LDBeauty.Core.Constants;
+using LDBeauty.Core.Contracts;
 using LDBeauty.Core.Models;
 using LDBeauty.Core.Models.Gallery;
 using LDBeauty.Infrastructure.Data;
@@ -77,6 +78,11 @@ namespace LDBeauty.Core.Services
              Image image = await repo.All<Image>()
                 .FirstOrDefaultAsync(i => i.Id.ToString() == id);
 
+            if (image == null)
+            {
+                throw new ArgumentException(ErrorMessages.ImageNotFound);
+            }
+
             UserImage userImage = new UserImage()
             {
                 ImageId = image.Id,
@@ -133,9 +139,19 @@ namespace LDBeauty.Core.Services
             Image image = await repo.All<Image>()
                 .FirstOrDefaultAsync(i => i.Id == id);
 
+            if (image == null)
+            {
+                throw new ArgumentException(ErrorMessages.ImageNotFound);
+            }
+
             UserImage userImage = await repo.All<UserImage>()
                 .FirstOrDefaultAsync(i => i.ImageId == id &&
                 i.ApplicationUserId == user.Id);
+
+            if (userImage == null)
+            {
+                throw new ArgumentException(ErrorMessages.UserImafeNotFound);
+            }
 
             user.FavouriteImages.Remove(image);
             repo.Delete<UserImage>(userImage);

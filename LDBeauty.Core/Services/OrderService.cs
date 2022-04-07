@@ -1,4 +1,4 @@
-﻿using LDBeauty.Core.Constraints;
+﻿using LDBeauty.Core.Constants;
 using LDBeauty.Core.Contracts;
 using LDBeauty.Core.Models.Cart;
 using LDBeauty.Core.Models.User;
