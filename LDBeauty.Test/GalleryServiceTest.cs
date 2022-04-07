@@ -155,6 +155,22 @@ namespace LDBeauty.Test
         }
 
         [Test]
+        public void ShouldThrowExceptionWhenImageIsNull()
+        {
+            var user = new ApplicationUser()
+            {
+                Id = "1",
+                Email = "vdl86@abv.bg",
+                FirstName = "Venci",
+                LastName = "Lazarov",
+            };
+
+            var service = serviceProvider.GetService<IGalleryService>();
+
+            Assert.CatchAsync<ArgumentException>(async () => await service.AddToFavourites("22", user), "Image not found, please try again later.");
+        }
+
+        [Test]
         public void ShouldRemoveFavouriteImages()
         {
             var user = new ApplicationUser()
@@ -167,15 +183,13 @@ namespace LDBeauty.Test
 
             var service = serviceProvider.GetService<IGalleryService>();
 
-            service.AddToFavourites("1", user);
-
             service.RemoveFromFavourite(1, user);
 
             Assert.AreEqual(0, user.FavouriteImages.Count);
         }
 
         [Test]
-        public void ShouldincreaseImagesAndCategoryCountOnAdd()
+        public void ShouldIncreaseImagesAndCategoryCountOnAdd()
         {
             var service = serviceProvider.GetService<IGalleryService>();
 
@@ -192,6 +206,39 @@ namespace LDBeauty.Test
             Assert.AreEqual(3, img.Result.Count);
             Assert.AreEqual(3, cat.Result.Count);
         }
+
+        [Test]
+        public void ShouldThrowExceptionWhenImageIsNullOnRemoveImage()
+        {
+            var user = new ApplicationUser()
+            {
+                Id = "1",
+                Email = "vdl86@abv.bg",
+                FirstName = "Venci",
+                LastName = "Lazarov",
+            };
+
+            var service = serviceProvider.GetService<IGalleryService>();
+
+            Assert.CatchAsync<ArgumentException>(async () => await service.RemoveFromFavourite(222, user), "Image not found, please try again later.");
+        }
+
+        [Test]
+        public void ShouldThrowExceptionWhenUserImageIsNull()
+        {
+            var user = new ApplicationUser()
+            {
+                Id = "1",
+                Email = "vdl86@abv.bg",
+                FirstName = "Venci",
+                LastName = "Lazarov",
+            };
+
+            var service = serviceProvider.GetService<IGalleryService>();
+
+            Assert.CatchAsync<ArgumentException>(async () => await service.RemoveFromFavourite(22, user), "Something went wrong, please try again later.");
+        }
+
 
 
         [TearDown]
