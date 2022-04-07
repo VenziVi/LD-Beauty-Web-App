@@ -1,43 +1,50 @@
 ﻿@using LDBeauty.Core.Models.Product
 @model ProductDetailsViewModel
 
-<section class="py-5">
-    <div class="container px-4 px-lg-5 my-5">
-        <div class="row gx-4 gx-lg-5 align-items-center">
-            <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="@Model.ProductUrl" alt="..." /></div>
-            <div class="col-md-6">
-                <h4 >@Model.Category</h4>
-                <h1 class="display-7 fw-bolder">@Model.Make @Model.ProductName</h1>
-                <div class="fs-5 mb-5">
-                    <span>Price: @Model.Price lv.</span>
-                </div>
-                <p class="lead">@Model.Description</p>
-                <form method="post">
+@if (@Model == null)
+{
+     <h2 class="text-danger text-center">Product not found, please try again later.</h2>
+}
+else
+{
+    <section class="py-5">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="row gx-4 gx-lg-5 align-items-center">
+                <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="@Model.ProductUrl" alt="..." /></div>
+                <div class="col-md-6">
+                    <h4>@Model.Category</h4>
+                    <h1 class="display-7 fw-bolder">@Model.Make @Model.ProductName</h1>
+                    <div class="fs-5 mb-5">
+                        <span>Price: @Model.Price lv.</span>
+                    </div>
+                    <p class="lead">@Model.Description</p>
+                    <form method="post">
 
-                    @if (Model.Quantity > 0)
-                    {
-                        <div class="fs-5 mb-5">Qty: @Model.Quantity</div>
-                        <div class="d-flex form-group">
-                            <input class="text-center me-3" id="inputQuantity" type="number" name="Quantity" min="1" value="1" max="@Model.Quantity" style="max-width: 3rem" />
-                            <input type="hidden" name="productId" value="@Model.Id" />
-                            <button class="btn btn-outline-dark flex-shrink-0 me-3" value="@Model.Id" type="submit" asp-action="addToCart" asp-controller="product" asp-route-id="@Model.Id">
-                                <i class="bi-cart-fill me-1"></i>
-                                Add to cart
-                            </button>
-                            <button class="btn btn-outline-dark flex-shrink-0" value="@Model.Id" type="submit" asp-action="addProductToFavourites" asp-controller="product" asp-route-id="@Model.Id">
-                                <i class="fas fa-heart"></i>
-                                Add to favourites
-                            </button>
-                        </div>
-                    }
-                    @if (User.IsInRole("Administrator"))
-                    {
-                        <a class="btn btn-outline-dark flex-shrink-0 m-4" asp-area="admin" asp-action="editProduct" asp-controller="product" asp-route-id="@Model.Id">
-                            Edit product
-                        </a>
-                    }
-                </form>
+                        @if (Model.Quantity > 0)
+                        {
+                            <div class="fs-5 mb-5">Qty: @Model.Quantity</div>
+                            <div class="d-flex form-group">
+                                <input class="text-center me-3" id="inputQuantity" type="number" name="Quantity" min="1" value="1" max="@Model.Quantity" style="max-width: 3rem" />
+                                <input type="hidden" name="productId" value="@Model.Id" />
+                                <button class="btn btn-outline-dark flex-shrink-0 me-3" value="@Model.Id" type="submit" asp-action="addToCart" asp-controller="product" asp-route-id="@Model.Id">
+                                    <i class="bi-cart-fill me-1"></i>
+                                    Add to cart
+                                </button>
+                                <button class="btn btn-outline-dark flex-shrink-0" value="@Model.Id" type="submit" asp-action="addProductToFavourites" asp-controller="product" asp-route-id="@Model.Id">
+                                    <i class="fas fa-heart"></i>
+                                    Add to favourites
+                                </button>
+                            </div>
+                        }
+                        @if (User.IsInRole("Administrator"))
+                        {
+                            <a class="btn btn-outline-dark flex-shrink-0 m-4" asp-area="admin" asp-action="editProduct" asp-controller="product" asp-route-id="@Model.Id">
+                                Edit product
+                            </a>
+                        }
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+}

@@ -72,7 +72,14 @@ namespace LDBeauty.Controllers
 
             try
             {
-                await cartService.AddToCart(model, userName);
+                try
+                {
+                    await cartService.AddToCart(model, userName);
+                }
+                catch (ArgumentException aex)
+                {
+                    RedirectToAction("details", model.ProductId);
+                }
             }
             catch (Exception)
             {

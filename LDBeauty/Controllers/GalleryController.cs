@@ -114,11 +114,11 @@ namespace LDBeauty.Controllers
             }
             catch (Exception)
             {
-                ViewData[MessageConstant.ErrorMessage] = "Image already exists in favourites!";
+                ViewData[MessageConstant.ErrorMessage] = ErrorMessages.ImageExists;
                 return View("Details", imageDetails);
             }
 
-            ViewData[MessageConstant.SuccessMessage] = "Image was added successfuly";
+            ViewData[MessageConstant.SuccessMessage] = ConfirmationMessage.ImageAdded;
             return View("Details", imageDetails);
         }
 
