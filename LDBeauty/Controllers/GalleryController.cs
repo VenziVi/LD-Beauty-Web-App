@@ -1,5 +1,4 @@
 ﻿using LDBeauty.Core.Constants;
-using LDBeauty.Core.Constraints;
 using LDBeauty.Core.Contracts;
 using LDBeauty.Core.Models;
 using LDBeauty.Core.Models.Gallery;
@@ -102,8 +101,16 @@ namespace LDBeauty.Controllers
 
             try
             {
-                user = await userService.GetUser(userName);
-                await galleryService.AddToFavourites(id, user);
+                try
+                {
+                    user = await userService.GetUser(userName);
+                    await galleryService.AddToFavourites(id, user);
+                }
+                catch (ArgumentException aex)
+                {
+                    ViewData[MessageConstant.ErrorMessage] = aex.Message;
+                    return View("Details", imageDetails);
+                }
             }
             catch (Exception)
             {

@@ -1,4 +1,4 @@
-﻿using LDBeauty.Core.Constraints;
+﻿using LDBeauty.Core.Constants;
 using System.ComponentModel.DataAnnotations;
 
 namespace LDBeauty.Core.Models

@@ -20,7 +20,12 @@
       "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
       "DisplayName": "Miscellaneous Files",
       "ColorIndex": -1
+    },
+    "6043906e-ff25-4926-84e1-00a4acb50525": {
+      "ProjectGuid": "6043906e-ff25-4926-84e1-00a4acb50525",
+      "DisplayName": "LDBeauty.Test",
+      "ColorIndex": 3
     }
   },
-  "NextColorIndex": 3
+  "NextColorIndex": 4
 }

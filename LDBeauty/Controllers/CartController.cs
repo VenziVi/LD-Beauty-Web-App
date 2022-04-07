@@ -1,5 +1,4 @@
 ﻿using LDBeauty.Core.Constants;
-using LDBeauty.Core.Constraints;
 using LDBeauty.Core.Contracts;
 using LDBeauty.Core.Helpers;
 using LDBeauty.Core.Models;
@@ -30,6 +29,12 @@ namespace LDBeauty.Controllers
                 OrderConfirmed.IsConfirmed = false;
             }
 
+            if (CartProductDelete.IsDeleted)
+            {
+                ViewData[MessageConstant.SuccessMessage] = "Product deleted successful.";
+                CartProductDelete.IsDeleted = false;
+            }
+
             var userName = User.Identity.Name;
             CartDetailsViewModel cart = null;
 
@@ -58,6 +63,7 @@ namespace LDBeauty.Controllers
                 return DatabaseError();
             }
 
+            CartProductDelete.IsDeleted = true;
             return Redirect("/Cart/Detail");
         }
 

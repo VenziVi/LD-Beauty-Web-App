@@ -1,10 +1,10 @@
-﻿using LDBeauty.Core.Constraints;
+﻿using LDBeauty.Core.Constants;
 using LDBeauty.Core.Contracts;
+using LDBeauty.Core.Helpers;
 using LDBeauty.Core.Models;
 using LDBeauty.Core.Models.Gallery;
 using LDBeauty.Core.Models.Product;
 using LDBeauty.Core.Models.User;
-using LDBeauty.Core.Services;
 using LDBeauty.Infrastructure.Data.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -90,6 +90,12 @@ namespace LDBeauty.Controllers
 
         public async Task<IActionResult> FavouriteImages()
         {
+            if (ImageRemovedFromFavourites.IsRemoved)
+            {
+                ViewData[MessageConstant.ErrorMessage] = ImageRemovedFromFavourites.Message;
+                ImageRemovedFromFavourites.IsRemoved = false;
+            }
+
             var userName = User.Identity.Name;
             List<ImageViewModel> images = null;
 
@@ -113,8 +119,17 @@ namespace LDBeauty.Controllers
 
             try
             {
-                user = await userService.GetUser(userName);
-                await galleryService.RemoveFromFavourite(id, user);
+                try
+                {
+                    user = await userService.GetUser(userName);
+                    await galleryService.RemoveFromFavourite(id, user);
+                }
+                catch (ArgumentException aex)
+                {
+                    ImageRemovedFromFavourites.Message = aex.Message;
+                    ImageRemovedFromFavourites.IsRemoved = true;
+                    return Redirect("/MyLd/FavouriteImages");
+                }
             }
             catch (Exception)
             {
