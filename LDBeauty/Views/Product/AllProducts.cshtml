@@ -11,7 +11,35 @@
 else
 {
     <section class="py-5">
-        <div class="container px-4 px-lg-5 mt-5">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-5 justify-content-center">
+                <div class="dropdown">
+                    <button class="btn btn-outline-dark mt-auto dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                        Choose category
+                    </button>
+                    <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton2">
+                        @foreach (var item in @Model.DistinctBy(c => c.Category))
+                        {
+                            <li><a class="dropdown-item" asp-action="productByCategory" asp-controller="product" asp-route-id="@item.CategoryId">@item.Category</a></li>
+                        }
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <button class="btn btn-outline-dark mt-auto dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                        Choose brand
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                        @foreach (var item in @Model.DistinctBy(m => m.Make))
+                        {
+                            <li><a class="dropdown-item" asp-action="productByMake" asp-controller="product" asp-route-id="@item.MakeId">@item.Make</a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="py-5">
+        <div class="container px-4 px-lg-5 ">
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                 @foreach (var product in @Model)
                 {
