@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LDBeauty.Core.Models.Product
+﻿namespace LDBeauty.Core.Models.Product
 {
     public class GetProductViewModel
     {
@@ -19,5 +13,11 @@ namespace LDBeauty.Core.Models.Product
         public int Quantity { get; set; }
 
         public string Make { get; set; }
+
+        public int MakeId { get; set; }
+
+        public string Category { get; set; }
+
+        public int CategoryId { get; set; }
     }
 }
