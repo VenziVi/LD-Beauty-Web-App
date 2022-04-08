@@ -49,6 +49,41 @@ namespace LDBeauty.Controllers
             return View(products);
         }
 
+
+        public async Task<IActionResult> ProductByCategory(int id)
+        {
+            IEnumerable<GetProductViewModel> products = null;
+
+            try
+            {
+                products = await productService.GetProductsByCategory(id);
+            }
+            catch (Exception)
+            {
+                return DatabaseError();
+            }
+
+            return View("AllProducts", products);
+        }
+
+        public async Task<IActionResult> ProductByMake(int id)
+        {
+            IEnumerable<GetProductViewModel> products = null;
+
+            try
+            {
+                products = await productService.GetProductsByMake(id);
+            }
+            catch (Exception)
+            {
+                return DatabaseError();
+            }
+
+            return View("AllProducts", products);
+        }
+
+
+
         public async Task<IActionResult> Details(string id)
         {
             ProductDetailsViewModel product = null;
