@@ -94,6 +94,9 @@ namespace LDBeauty.Core.Services
                     Price = p.Price,
                     Quantity = p.Quantity,
                     Make = p.Make.MakeName,
+                    MakeId = p.MakeId,
+                    Category = p.Category.CategoryName,
+                    CategoryId = p.CategoryId
                 }).ToListAsync();
         }
 
@@ -129,6 +132,42 @@ namespace LDBeauty.Core.Services
                     Make = p.Make.MakeName,
                     Category = p.Category.CategoryName
                 }).FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<GetProductViewModel>> GetProductsByCategory(int id)
+        {
+            return await repo.All<Product>()
+                .Where(p => p.CategoryId == id)
+                .Select(p => new GetProductViewModel()
+                {
+                    Id = p.Id,
+                    ProductName = p.ProductName,
+                    ProductUrl = p.ProductUrl,
+                    Price = p.Price,
+                    Quantity = p.Quantity,
+                    Make = p.Make.MakeName,
+                    MakeId = p.MakeId,
+                    Category = p.Category.CategoryName,
+                    CategoryId = p.CategoryId
+                }).ToListAsync();
+        }
+
+        public async Task<IEnumerable<GetProductViewModel>> GetProductsByMake(int id)
+        {
+            return await repo.All<Product>()
+                .Where(p => p.MakeId == id)
+                .Select(p => new GetProductViewModel()
+                {
+                    Id = p.Id,
+                    ProductName = p.ProductName,
+                    ProductUrl = p.ProductUrl,
+                    Price = p.Price,
+                    Quantity = p.Quantity,
+                    Make = p.Make.MakeName,
+                    MakeId = p.MakeId,
+                    Category = p.Category.CategoryName,
+                    CategoryId = p.CategoryId
+                }).ToListAsync();
         }
 
         public async Task RemoveFromFavourite(string id, ApplicationUser user)
