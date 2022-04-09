@@ -46,7 +46,7 @@
                         {
                             <li class="nav-item"><a class="nav-link" asp-area="Identity" asp-page="/Account/Logout">Log out</a></li>
                         }
-                        @if (User.IsInRole("Administrator"))
+                        @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item"><a class="nav-link" asp-area="admin" asp-action="index" asp-controller="home">Admin</a></li>
                         }
