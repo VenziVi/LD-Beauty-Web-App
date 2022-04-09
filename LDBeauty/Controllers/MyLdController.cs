@@ -54,6 +54,12 @@ namespace LDBeauty.Controllers
 
         public async Task<IActionResult> FavouriteProducts()
         {
+            if (ProductRemovedFromFavourites.IsRemoved)
+            {
+                ViewData[MessageConstant.ErrorMessage] = ProductRemovedFromFavourites.Message;
+                ProductRemovedFromFavourites.IsRemoved = false;
+            }
+
             var userName = User.Identity.Name;
             List<GetProductViewModel> products = null;
 
@@ -70,15 +76,24 @@ namespace LDBeauty.Controllers
             return View(products);
         }
 
-        public async Task<IActionResult> RemoveProduct(string id)
+        public async Task<IActionResult> RemoveProduct(int id)
         {
             var userName = User.Identity.Name;
             ApplicationUser user = null;
 
             try
             {
-                user = await userService.GetUser(userName);
-                await productService.RemoveFromFavourite(id, user);
+                try
+                {
+                    user = await userService.GetUser(userName);
+                    await productService.RemoveFromFavourite(id, user);
+                }
+                catch (ArgumentException aex)
+                {
+                    ProductRemovedFromFavourites.Message = aex.Message;
+                    ProductRemovedFromFavourites.IsRemoved = true;
+                    return Redirect("/MyLd/FavouriteProducts");
+                }
             }
             catch (Exception)
             {

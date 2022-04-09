@@ -57,7 +57,7 @@ namespace LDBeauty.Controllers
         }
 
 
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(int id)
         {
 
             var userName = User.Identity.Name;

@@ -23,7 +23,7 @@ namespace LDBeauty.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> Order(string id)
+        public async Task<IActionResult> Order(int id)
         {
             var userName = User.Identity.Name;
 

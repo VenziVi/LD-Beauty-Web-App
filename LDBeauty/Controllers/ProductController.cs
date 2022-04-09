@@ -84,7 +84,7 @@ namespace LDBeauty.Controllers
 
 
 
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(int id)
         {
             ProductDetailsViewModel product = null;
 
@@ -126,7 +126,7 @@ namespace LDBeauty.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> AddProductToFavourites(string id)
+        public async Task<IActionResult> AddProductToFavourites(int id)
         {
             var userName = User.Identity.Name;
             ApplicationUser user = null;
@@ -143,8 +143,16 @@ namespace LDBeauty.Controllers
 
             try
             {
-                user = await userService.GetUser(userName);
-                await productService.AddToFavourites(id, user);
+                try
+                {
+                    user = await userService.GetUser(userName);
+                    await productService.AddToFavourites(id, user);
+                }
+                catch (ArgumentException aex)
+                {
+                    ErrorViewModel error = new ErrorViewModel() { ErrorMessage = aex.Message };
+                    return View("_Error", error);
+                }
             }
             catch (Exception)
             {

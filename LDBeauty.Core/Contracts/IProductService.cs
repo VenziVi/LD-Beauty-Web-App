@@ -7,11 +7,11 @@ namespace LDBeauty.Core.Contracts
     {
         Task AddProduct(AddProductViewModel model);
         Task<IEnumerable<GetProductViewModel>> GetAllProducts();
-        Task<ProductDetailsViewModel> GetProduct(string id);
-        Task EditProduct(AddProductViewModel model, string id);
-        Task AddToFavourites(string productId, ApplicationUser user);
+        Task<ProductDetailsViewModel> GetProduct(int id);
+        Task EditProduct(AddProductViewModel model, int id);
+        Task AddToFavourites(int productId, ApplicationUser user);
         Task<List<GetProductViewModel>> GetFavouriteProducts(ApplicationUser user);
-        Task RemoveFromFavourite(string id, ApplicationUser user);
+        Task RemoveFromFavourite(int id, ApplicationUser user);
         Task<IEnumerable<GetProductViewModel>> GetProductsByCategory(int id);
         Task<IEnumerable<GetProductViewModel>> GetProductsByMake(int id);
     }
