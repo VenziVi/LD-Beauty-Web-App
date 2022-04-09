@@ -150,7 +150,7 @@ namespace LDBeauty.Core.Services
 
             if (userImage == null)
             {
-                throw new ArgumentException(ErrorMessages.UserImafeNotFound);
+                throw new ArgumentException(ErrorMessages.SomethingWrong);
             }
 
             user.FavouriteImages.Remove(image);

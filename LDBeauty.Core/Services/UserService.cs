@@ -47,7 +47,7 @@ namespace LDBeauty.Core.Services
                 .SingleOrDefaultAsync(u => u.Id == id);
         }
 
-        public async Task<UserOrderViewModel> GetUSerByName(string userName, string cartId)
+        public async Task<UserOrderViewModel> GetUSerByName(string userName, int cartId)
         {
             return await repo.All<ApplicationUser>()
                 .Where(u => u.UserName == userName)

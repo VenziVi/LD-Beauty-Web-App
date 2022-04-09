@@ -22,8 +22,18 @@ namespace LDBeauty.Core.Services
             Cart cart = await repo.All<Cart>()
                 .FirstOrDefaultAsync(c => c.Id.ToString() == model.CartId);
 
+            if (cart == null)
+            {
+                throw new ArgumentException(ErrorMessages.SomethingWrong);
+            }
+
             var productsList = await repo.All<AddedProduct>()
                 .Where(a => a.CartId == cart.Id).ToListAsync();
+
+            if (productsList == null)
+            {
+                throw new ArgumentException(ErrorMessages.SomethingWrong);
+            }
 
             Order order = new Order()
             {

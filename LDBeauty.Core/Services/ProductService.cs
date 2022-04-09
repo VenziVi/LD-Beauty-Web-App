@@ -1,4 +1,5 @@
-﻿using LDBeauty.Core.Contracts;
+﻿using LDBeauty.Core.Constants;
+using LDBeauty.Core.Contracts;
 using LDBeauty.Core.Models.Product;
 using LDBeauty.Infrastructure.Data;
 using LDBeauty.Infrastructure.Data.Identity;
@@ -42,10 +43,15 @@ namespace LDBeauty.Core.Services
             await repo.SaveChangesAsync();
         }
 
-        public async Task AddToFavourites(string productId, ApplicationUser user)
+        public async Task AddToFavourites(int productId, ApplicationUser user)
         {
             Product product = await repo.All<Product>()
-                .FirstOrDefaultAsync(p => p.Id.ToString() == productId);
+                .FirstOrDefaultAsync(p => p.Id == productId);
+
+            if (product == null)
+            {
+                throw new ArgumentException(ErrorMessages.ProductNotFound);
+            }
 
             UserProduct userProduct = new UserProduct()
             {
@@ -61,10 +67,10 @@ namespace LDBeauty.Core.Services
             await repo.SaveChangesAsync();
         }
 
-        public async Task EditProduct(AddProductViewModel model, string id)
+        public async Task EditProduct(AddProductViewModel model, int id)
         {
             Product product = await repo.All<Product>()
-                .FirstOrDefaultAsync(p => p.Id.ToString() == id);
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             Category category = await CreateCategory(model.Category);
 
@@ -117,10 +123,10 @@ namespace LDBeauty.Core.Services
             return products;
         }
 
-        public async Task<ProductDetailsViewModel> GetProduct(string id)
+        public async Task<ProductDetailsViewModel> GetProduct(int id)
         {
             return await repo.All<Product>()
-                .Where(p => p.Id.ToString() == id)
+                .Where(p => p.Id == id)
                 .Select(p => new ProductDetailsViewModel()
                 {
                     Id = p.Id,
@@ -170,13 +176,18 @@ namespace LDBeauty.Core.Services
                 }).ToListAsync();
         }
 
-        public async Task RemoveFromFavourite(string id, ApplicationUser user)
+        public async Task RemoveFromFavourite(int id, ApplicationUser user)
         {
             Product product = await repo.All<Product>()
-                .FirstOrDefaultAsync(p => p.Id.ToString() == id);
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (product == null)
+            {
+                throw new ArgumentException(ErrorMessages.ProductNotFound);
+            }
 
             UserProduct userProduct = await repo.All<UserProduct>()
-                .FirstOrDefaultAsync(p => p.ProductId.ToString() == id &&
+                .FirstOrDefaultAsync(p => p.ProductId == id &&
                 p.ApplicationUserId == user.Id);
 
             user.FavouriteProducts.Remove(product);

@@ -70,7 +70,7 @@ namespace LDBeauty.Core.Services
 
         }
 
-        public async Task DeleteProduct(string id, string userName)
+        public async Task DeleteProduct(int id, string userName)
         {
             var user = await GetUserByUserName(userName);
 
@@ -82,7 +82,7 @@ namespace LDBeauty.Core.Services
             var cartId = cart.Id;
 
             AddedProduct product = await repo.All<AddedProduct>()
-                .Where(p => p.ProductId.ToString() == id && p.CartId == cartId)
+                .Where(p => p.ProductId == id && p.CartId == cartId)
                 .FirstOrDefaultAsync();
 
             Product currProduct = await repo.All<Product>()
