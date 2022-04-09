@@ -8,7 +8,7 @@ namespace LDBeauty.Core.Models.Cart
 {
     public class CartDetailsViewModel
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         public decimal TotalPrice { get; set; }
 
