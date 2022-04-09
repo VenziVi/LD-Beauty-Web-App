@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LDBeauty.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220312115509_addedPriceRange")]
-    partial class addedPriceRange
+    [Migration("20220409094807_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,47 +24,22 @@ namespace LDBeauty.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("ClientImage", b =>
-                {
-                    b.Property<int>("FavouriteImagesId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("UsersFaovuriteId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("FavouriteImagesId", "UsersFaovuriteId");
-
-                    b.HasIndex("UsersFaovuriteId");
-
-                    b.ToTable("ClientImage");
-                });
-
-            modelBuilder.Entity("ClientProduct", b =>
-                {
-                    b.Property<Guid>("FavouriteProductsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UsersFavouriteId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("FavouriteProductsId", "UsersFavouriteId");
-
-                    b.HasIndex("UsersFavouriteId");
-
-                    b.ToTable("ClientProduct");
-                });
-
             modelBuilder.Entity("LDBeauty.Infrastructure.Data.AddedProduct", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("CartId")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("CartId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -73,6 +48,8 @@ namespace LDBeauty.Infrastructure.Migrations
 
                     b.HasIndex("CartId");
 
+                    b.HasIndex("OrderId");
+
                     b.HasIndex("ProductId");
 
                     b.ToTable("AddedProducts");
@@ -80,11 +57,24 @@ namespace LDBeauty.Infrastructure.Migrations
 
             modelBuilder.Entity("LDBeauty.Infrastructure.Data.Cart", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Carts");
                 });
@@ -107,44 +97,6 @@ namespace LDBeauty.Infrastructure.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("LDBeauty.Infrastructure.Data.Client", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasMaxLength(17)
-                        .HasColumnType("nvarchar(17)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.ToTable("Clients");
-                });
-
             modelBuilder.Entity("LDBeauty.Infrastructure.Data.Image", b =>
                 {
                     b.Property<int>("Id")
@@ -152,6 +104,9 @@ namespace LDBeauty.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("CategoruId")
                         .HasColumnType("int");
@@ -165,6 +120,8 @@ namespace LDBeauty.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("CategoruId");
 
@@ -183,6 +140,10 @@ namespace LDBeauty.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("ImgUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -209,25 +170,25 @@ namespace LDBeauty.Infrastructure.Migrations
 
             modelBuilder.Entity("LDBeauty.Infrastructure.Data.Order", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<Guid>("CartId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ClientFirstName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<Guid?>("ClientId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ClientLastName")
                         .IsRequired()
@@ -238,25 +199,34 @@ namespace LDBeauty.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasMaxLength(17)
                         .HasColumnType("nvarchar(17)");
 
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CartId");
-
-                    b.HasIndex("ClientId");
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("LDBeauty.Infrastructure.Data.Product", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
@@ -285,6 +255,8 @@ namespace LDBeauty.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ApplicationUserId");
+
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("MakeId");
@@ -292,48 +264,34 @@ namespace LDBeauty.Infrastructure.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("LDBeauty.Infrastructure.Data.Service", b =>
+            modelBuilder.Entity("LDBeauty.Infrastructure.Data.UserImage", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("ImageId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("ImageId", "ApplicationUserId");
 
-                    b.Property<string>("ImgUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.HasIndex("ApplicationUserId");
 
-                    b.Property<string>("ServiceName")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Services");
+                    b.ToTable("UsersImages");
                 });
 
-            modelBuilder.Entity("LDBeauty.Infrastructure.Data.Tag", b =>
+            modelBuilder.Entity("LDBeauty.Infrastructure.Data.UserProduct", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("TagName")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                    b.HasKey("ProductId", "ApplicationUserId");
 
-                    b.HasKey("Id");
+                    b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("Tags");
+                    b.ToTable("UsersProducts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -400,6 +358,10 @@ namespace LDBeauty.Infrastructure.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -451,6 +413,8 @@ namespace LDBeauty.Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -538,49 +502,25 @@ namespace LDBeauty.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("ProductTag", b =>
+            modelBuilder.Entity("LDBeauty.Infrastructure.Data.Identity.ApplicationUser", b =>
                 {
-                    b.Property<Guid>("ProductsId")
-                        .HasColumnType("uniqueidentifier");
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
-                    b.Property<int>("TagsId")
-                        .HasColumnType("int");
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("ProductsId", "TagsId");
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.HasIndex("TagsId");
+                    b.HasIndex("Email")
+                        .IsUnique()
+                        .HasFilter("[Email] IS NOT NULL");
 
-                    b.ToTable("ProductTag");
-                });
-
-            modelBuilder.Entity("ClientImage", b =>
-                {
-                    b.HasOne("LDBeauty.Infrastructure.Data.Image", null)
-                        .WithMany()
-                        .HasForeignKey("FavouriteImagesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LDBeauty.Infrastructure.Data.Client", null)
-                        .WithMany()
-                        .HasForeignKey("UsersFaovuriteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ClientProduct", b =>
-                {
-                    b.HasOne("LDBeauty.Infrastructure.Data.Product", null)
-                        .WithMany()
-                        .HasForeignKey("FavouriteProductsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LDBeauty.Infrastructure.Data.Client", null)
-                        .WithMany()
-                        .HasForeignKey("UsersFavouriteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasDiscriminator().HasValue("ApplicationUser");
                 });
 
             modelBuilder.Entity("LDBeauty.Infrastructure.Data.AddedProduct", b =>
@@ -591,6 +531,10 @@ namespace LDBeauty.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("LDBeauty.Infrastructure.Data.Order", "Order")
+                        .WithMany("Products")
+                        .HasForeignKey("OrderId");
+
                     b.HasOne("LDBeauty.Infrastructure.Data.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
@@ -599,11 +543,26 @@ namespace LDBeauty.Infrastructure.Migrations
 
                     b.Navigation("Cart");
 
+                    b.Navigation("Order");
+
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("LDBeauty.Infrastructure.Data.Cart", b =>
+                {
+                    b.HasOne("LDBeauty.Infrastructure.Data.Identity.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("LDBeauty.Infrastructure.Data.Image", b =>
                 {
+                    b.HasOne("LDBeauty.Infrastructure.Data.Identity.ApplicationUser", null)
+                        .WithMany("FavouriteImages")
+                        .HasForeignKey("ApplicationUserId");
+
                     b.HasOne("LDBeauty.Infrastructure.Data.ImgCategory", "Category")
                         .WithMany("Images")
                         .HasForeignKey("CategoruId")
@@ -615,23 +574,21 @@ namespace LDBeauty.Infrastructure.Migrations
 
             modelBuilder.Entity("LDBeauty.Infrastructure.Data.Order", b =>
                 {
-                    b.HasOne("LDBeauty.Infrastructure.Data.Cart", "Cart")
-                        .WithMany()
-                        .HasForeignKey("CartId")
+                    b.HasOne("LDBeauty.Infrastructure.Data.Identity.ApplicationUser", "ApplicationUser")
+                        .WithMany("Orders")
+                        .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LDBeauty.Infrastructure.Data.Client", "Client")
-                        .WithMany("Orders")
-                        .HasForeignKey("ClientId");
-
-                    b.Navigation("Cart");
-
-                    b.Navigation("Client");
+                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("LDBeauty.Infrastructure.Data.Product", b =>
                 {
+                    b.HasOne("LDBeauty.Infrastructure.Data.Identity.ApplicationUser", null)
+                        .WithMany("FavouriteProducts")
+                        .HasForeignKey("ApplicationUserId");
+
                     b.HasOne("LDBeauty.Infrastructure.Data.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
@@ -647,6 +604,44 @@ namespace LDBeauty.Infrastructure.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("Make");
+                });
+
+            modelBuilder.Entity("LDBeauty.Infrastructure.Data.UserImage", b =>
+                {
+                    b.HasOne("LDBeauty.Infrastructure.Data.Identity.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LDBeauty.Infrastructure.Data.Image", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Image");
+                });
+
+            modelBuilder.Entity("LDBeauty.Infrastructure.Data.UserProduct", b =>
+                {
+                    b.HasOne("LDBeauty.Infrastructure.Data.Identity.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LDBeauty.Infrastructure.Data.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -700,21 +695,6 @@ namespace LDBeauty.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ProductTag", b =>
-                {
-                    b.HasOne("LDBeauty.Infrastructure.Data.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LDBeauty.Infrastructure.Data.Tag", null)
-                        .WithMany()
-                        .HasForeignKey("TagsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("LDBeauty.Infrastructure.Data.Cart", b =>
                 {
                     b.Navigation("AddedProducts");
@@ -725,11 +705,6 @@ namespace LDBeauty.Infrastructure.Migrations
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("LDBeauty.Infrastructure.Data.Client", b =>
-                {
-                    b.Navigation("Orders");
-                });
-
             modelBuilder.Entity("LDBeauty.Infrastructure.Data.ImgCategory", b =>
                 {
                     b.Navigation("Images");
@@ -738,6 +713,20 @@ namespace LDBeauty.Infrastructure.Migrations
             modelBuilder.Entity("LDBeauty.Infrastructure.Data.Make", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("LDBeauty.Infrastructure.Data.Order", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("LDBeauty.Infrastructure.Data.Identity.ApplicationUser", b =>
+                {
+                    b.Navigation("FavouriteImages");
+
+                    b.Navigation("FavouriteProducts");
+
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }
