@@ -8,7 +8,7 @@
 
         public const string ImageNotFound = "Image not found, please try again later.";
 
-        public const string UserImafeNotFound = "Something went wrong, please try again later.";
+        public const string SomethingWrong = "Something went wrong, please try again later.";
 
         public const string ProductNotFound = "Product not found, please try again later.";
 
