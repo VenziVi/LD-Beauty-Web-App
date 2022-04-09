@@ -10,7 +10,7 @@ namespace LDBeauty.Infrastructure.Data
         [ForeignKey(nameof(ApplicationUserId))]
         public ApplicationUser ApplicationUser { get; set; }
 
-        public Guid ProductId { get; set; }
+        public int ProductId { get; set; }
 
         [ForeignKey(nameof(ProductId))]
         public Product Product { get; set; }

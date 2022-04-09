@@ -6,9 +6,9 @@ namespace LDBeauty.Infrastructure.Data
     public class AddedProduct
     {
         [Key]
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public int Id { get; init; }
 
-        public Guid ProductId { get; set; }
+        public int ProductId { get; set; }
 
         [ForeignKey(nameof(ProductId))]
         public Product Product { get; set; }
@@ -16,13 +16,13 @@ namespace LDBeauty.Infrastructure.Data
         [Required]
         public int Quantity { get; set; }
 
-        public Guid CartId { get; set; }
+        public int CartId { get; set; }
 
         [ForeignKey(nameof(CartId))]
         public Cart Cart { get; set; }
 
         [ForeignKey(nameof(Order))]
-        public Guid? OrderId { get; set; }
+        public int? OrderId { get; set; }
 
         public Order? Order { get; set; }
 

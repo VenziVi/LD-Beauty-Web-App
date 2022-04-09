@@ -7,7 +7,7 @@ namespace LDBeauty.Infrastructure.Data
     public class Product
     {
         [Key]
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public int Id { get; init; }
 
         [Required]
         [StringLength(30)]

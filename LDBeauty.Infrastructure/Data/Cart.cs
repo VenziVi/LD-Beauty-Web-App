@@ -7,7 +7,7 @@ namespace LDBeauty.Infrastructure.Data
     public class Cart
     {
         [Key]
-        public Guid Id { get; set; }
+        public int Id { get; init; }
 
         public IList<AddedProduct> AddedProducts { get; set; } = new List<AddedProduct>();
 

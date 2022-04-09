@@ -5,7 +5,7 @@ namespace LDBeauty.Infrastructure.Data
     public class Make
     {
         [Key]
-        public int Id { get; set; }
+        public int Id { get; init; }
 
         [Required]
         [StringLength(20)]

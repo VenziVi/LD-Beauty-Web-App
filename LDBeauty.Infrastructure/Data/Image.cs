@@ -7,7 +7,7 @@ namespace LDBeauty.Infrastructure.Data
     public class Image
     {
         [Key]
-        public int Id { get; set; }
+        public int Id { get; init; }
 
         [Required]
         public string Description { get; set; }
