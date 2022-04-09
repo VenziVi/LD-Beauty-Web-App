@@ -50,7 +50,7 @@ namespace LDBeauty.Areas.Admin.Controllers
             return Redirect("AddProduct");
         }
 
-        public async Task<IActionResult> EditProduct(string id)
+        public async Task<IActionResult> EditProduct(int id)
         {
 
             ProductDetailsViewModel product = null;
@@ -68,7 +68,7 @@ namespace LDBeauty.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditProduct(AddProductViewModel model, string id)
+        public async Task<IActionResult> EditProduct(AddProductViewModel model, int id)
         {
 
             if (!ModelState.IsValid)
