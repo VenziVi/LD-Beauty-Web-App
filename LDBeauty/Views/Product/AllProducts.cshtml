@@ -12,7 +12,7 @@ else
 {
     <section class="py-5">
         <div class="container px-4 px-lg-5">
-            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-5 justify-content-center">
+            <div class="row gx-4 gx-lg-5 row-cols-4 row-cols-md-3 row-cols-xl-5 justify-content-center">
                 <div class="dropdown">
                     <button class="btn btn-outline-dark mt-auto dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
                         Choose category
@@ -35,6 +35,10 @@ else
                         }
                     </ul>
                 </div>
+                <form class="d-flex ">
+                    <input class="form-control col-auto" type="search" placeholder="Product name..." name="ProductName" aria-label="Search">
+                    <button class="btn btn-outline-dark mt-auto" type="submit" asp-action="searchByName" asp-controller="product" asp-route-id="ProductName">Search</button>
+                </form>
             </div>
         </div>
     </section>

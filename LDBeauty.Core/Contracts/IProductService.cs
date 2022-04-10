@@ -14,5 +14,6 @@ namespace LDBeauty.Core.Contracts
         Task RemoveFromFavourite(int id, ApplicationUser user);
         Task<IEnumerable<GetProductViewModel>> GetProductsByCategory(int id);
         Task<IEnumerable<GetProductViewModel>> GetProductsByMake(int id);
+        Task<List<GetProductViewModel>> GetProductsByName(string productName);
     }
 }

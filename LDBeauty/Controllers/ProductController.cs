@@ -35,6 +35,12 @@ namespace LDBeauty.Controllers
                 AddProductToCart.IsAddedToCart = false;
             }
 
+            if (SearchedProductNotFound.IsFound)
+            {
+                ViewData[MessageConstant.ErrorMessage] = SearchedProductNotFound.Message;
+                SearchedProductNotFound.IsFound = false;
+            }
+
             IEnumerable<GetProductViewModel> products = null;
 
             try
@@ -162,6 +168,28 @@ namespace LDBeauty.Controllers
 
             ViewData[MessageConstant.SuccessMessage] = "Product was added successfuly";
             return View("Details", product);
+        }
+
+        public async Task<IActionResult> SearchByName(string productName)
+        {
+            List<GetProductViewModel> products = null;
+
+            try
+            {
+                products = await productService.GetProductsByName(productName);
+            }
+            catch (Exception)
+            {
+                return DatabaseError();
+            }
+
+            if (products.Count() == 0)
+            {
+                SearchedProductNotFound.IsFound = true;
+                return RedirectToAction("AllProducts");
+            }
+
+            return View("AllProducts", products);
         }
 
         private IActionResult DatabaseError()

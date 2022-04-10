@@ -176,6 +176,24 @@ namespace LDBeauty.Core.Services
                 }).ToListAsync();
         }
 
+        public async Task<List<GetProductViewModel>> GetProductsByName(string productName)
+        {
+            return await repo.All<Product>()
+                .Where(p => p.ProductName.Contains(productName))
+                .Select(p => new GetProductViewModel()
+                {
+                    Id = p.Id,
+                    ProductName = p.ProductName,
+                    ProductUrl = p.ProductUrl,
+                    Price = p.Price,
+                    Quantity = p.Quantity,
+                    Make = p.Make.MakeName,
+                    MakeId = p.MakeId,
+                    Category = p.Category.CategoryName,
+                    CategoryId = p.CategoryId
+                }).ToListAsync();
+        }
+
         public async Task RemoveFromFavourite(int id, ApplicationUser user)
         {
             Product product = await repo.All<Product>()
