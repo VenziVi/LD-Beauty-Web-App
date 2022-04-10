@@ -61,6 +61,16 @@ namespace LDBeauty.Test
         }
 
         [Test]
+        public void ShouldReturnNullUserByID()
+        {
+            var service = serviceProvider.GetService<IUserService>();
+
+            var user = service.GetUserById("323").Result;
+
+            Assert.IsNull(user);
+        }
+
+        [Test]
         public void ShouldReturnCorrectUserByUserName()
         {
             var service = serviceProvider.GetService<IUserService>();
@@ -71,6 +81,16 @@ namespace LDBeauty.Test
         }
 
         [Test]
+        public void ShouldReturnNullUserByUserName()
+        {
+            var service = serviceProvider.GetService<IUserService>();
+
+            var user = service.GetUser("dogg").Result;
+
+            Assert.IsNull(user);
+        }
+
+        [Test]
         public void ShouldReturnCorrectUserByName()
         {
             var service = serviceProvider.GetService<IUserService>();
@@ -78,6 +98,16 @@ namespace LDBeauty.Test
             var user = service.GetUSerByName("dog", 555).Result.Email;
 
             Assert.AreEqual("d@abv.bg", user);
+        }
+
+        [Test]
+        public void ShouldReturnNullUserByName()
+        {
+            var service = serviceProvider.GetService<IUserService>();
+
+            var user = service.GetUSerByName("dogyy", 555).Result;
+
+            Assert.IsNull(user);
         }
 
 
