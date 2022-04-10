@@ -10,7 +10,6 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LDBeauty.Test
@@ -58,6 +57,17 @@ namespace LDBeauty.Test
         }
 
         [Test]
+        public void ShouldReturnNullProductByCategory()
+        {
+
+            var service = serviceProvider.GetService<IProductService>();
+
+            var product = service.GetProductsByCategory(555).Result.Count();
+
+            Assert.AreEqual(0, product);
+        }
+
+        [Test]
         public void ShouldReturnCorrectProduct()
         {
 
@@ -77,6 +87,39 @@ namespace LDBeauty.Test
             var product = service.GetProductsByMake(2).Result.Count();
 
             Assert.AreEqual(1, product);
+        }
+
+        [Test]
+        public void ShouldReturnNullProductByMake()
+        {
+
+            var service = serviceProvider.GetService<IProductService>();
+
+            var product = service.GetProductsByMake(555).Result.Count();
+
+            Assert.AreEqual(0, product);
+        }
+
+        [Test]
+        public void ShouldReturnProductCountByName()
+        {
+
+            var service = serviceProvider.GetService<IProductService>();
+
+            var product = service.GetProductsByName("VVVV").Result.Count();
+
+            Assert.AreEqual(2, product);
+        }
+
+        [Test]
+        public void ShouldReturnNullForNonProductByName()
+        {
+
+            var service = serviceProvider.GetService<IProductService>();
+
+            var product = service.GetProductsByName("ZZZZ").Result.Count();
+
+            Assert.AreEqual(0, product);
         }
 
         [Test]
