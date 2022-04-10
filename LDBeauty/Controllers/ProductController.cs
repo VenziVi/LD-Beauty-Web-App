@@ -39,6 +39,7 @@ namespace LDBeauty.Controllers
             {
                 ViewData[MessageConstant.ErrorMessage] = SearchedProductNotFound.Message;
                 SearchedProductNotFound.IsFound = false;
+                SearchedProductNotFound.Message = string.Empty;
             }
 
             IEnumerable<GetProductViewModel> products = null;
@@ -172,6 +173,14 @@ namespace LDBeauty.Controllers
 
         public async Task<IActionResult> SearchByName(string productName)
         {
+
+            if (productName == null || productName.Length <= 3)
+            {
+                SearchedProductNotFound.IsFound = true;
+                SearchedProductNotFound.Message = "You must add min 4 character.";
+                return RedirectToAction("AllProducts");
+            }
+
             List<GetProductViewModel> products = null;
 
             try
@@ -186,6 +195,7 @@ namespace LDBeauty.Controllers
             if (products.Count() == 0)
             {
                 SearchedProductNotFound.IsFound = true;
+                SearchedProductNotFound.Message = "There are no products with that name.";
                 return RedirectToAction("AllProducts");
             }
 
