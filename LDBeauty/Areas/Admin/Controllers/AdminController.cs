@@ -23,11 +23,13 @@ namespace LDBeauty.Areas.Admin.Controllers
 
         public async Task<IActionResult> AllUsers()
         {
+            var admin = User.Identity.Name;
+
             List<AllUsersViewModel> users = null;
 
             try
             {
-                users = await userService.GetAllUsers();
+                users = await userService.GetAllUsers(admin);
             }
             catch (Exception)
             {

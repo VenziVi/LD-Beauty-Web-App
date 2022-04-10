@@ -16,9 +16,10 @@ namespace LDBeauty.Core.Services
             repo = _repo;
         }
 
-        public async Task<List<AllUsersViewModel>> GetAllUsers()
+        public async Task<List<AllUsersViewModel>> GetAllUsers(string name)
         {
             return await repo.All<ApplicationUser>()
+                .Where(u => u.Email != name)
                 .Select(x => new AllUsersViewModel()
                 {
                     Id = x.Id,
