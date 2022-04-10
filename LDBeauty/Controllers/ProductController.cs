@@ -31,7 +31,7 @@ namespace LDBeauty.Controllers
         {
             if (AddProductToCart.IsAddedToCart)
             {
-                ViewData[MessageConstant.SuccessMessage] = "Product was added successfuly to cart.";
+                ViewData[MessageConstant.SuccessMessage] = ConfirmationMessage.ProductAdded;
                 AddProductToCart.IsAddedToCart = false;
             }
 
@@ -163,11 +163,11 @@ namespace LDBeauty.Controllers
             }
             catch (Exception)
             {
-                ViewData[MessageConstant.ErrorMessage] = "Product already exists in favourites!";
+                ViewData[MessageConstant.ErrorMessage] = ErrorMessages.ProductEists;
                 return View("Details", product);
             }
 
-            ViewData[MessageConstant.SuccessMessage] = "Product was added successfuly";
+            ViewData[MessageConstant.SuccessMessage] = ErrorMessages.ProductAddedToFavoutites;
             return View("Details", product);
         }
 
@@ -177,7 +177,7 @@ namespace LDBeauty.Controllers
             if (productName == null || productName.Length <= 3)
             {
                 SearchedProductNotFound.IsFound = true;
-                SearchedProductNotFound.Message = "You must add min 4 character.";
+                SearchedProductNotFound.Message = ErrorMessages.MinCharacters;
                 return RedirectToAction("AllProducts");
             }
 
@@ -195,7 +195,7 @@ namespace LDBeauty.Controllers
             if (products.Count() == 0)
             {
                 SearchedProductNotFound.IsFound = true;
-                SearchedProductNotFound.Message = "There are no products with that name.";
+                SearchedProductNotFound.Message = ErrorMessages.MissingProduct;
                 return RedirectToAction("AllProducts");
             }
 

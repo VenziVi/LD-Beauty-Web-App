@@ -7,5 +7,7 @@
         public const string OrderConfirmed = "Order confirmed.";
 
         public const string ImageAdded = "Image was added successfuly";
+
+        public const string ProductAdded = "Product was added successfuly to cart.";
     }
 }
