@@ -35,9 +35,19 @@ namespace LDBeauty.Test
         {
             var service = serviceProvider.GetService<IUserService>();
 
-            var user = service.GetAllUsers();
+            var user = service.GetAllUsers("ivan@");
 
             Assert.AreEqual(3, user.Result.Count());
+        }
+
+        [Test]
+        public void ShouldReturnCorrectUserCountWithoutAdmin()
+        {
+            var service = serviceProvider.GetService<IUserService>();
+
+            var user = service.GetAllUsers("a@abv.bg");
+
+            Assert.AreEqual(2, user.Result.Count());
         }
 
         [Test]
