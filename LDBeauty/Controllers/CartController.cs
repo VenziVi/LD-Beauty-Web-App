@@ -12,12 +12,14 @@ namespace LDBeauty.Controllers
     public class CartController : Controller
     {
         private readonly ICartService cartService;
-        
+        private readonly ILogger<CartController> logger;
 
         public CartController(
-            ICartService _cartService)
+            ICartService _cartService,
+            ILogger<CartController> _logger)
         {
             cartService = _cartService;
+            logger = _logger;
         }
 
 
@@ -48,8 +50,9 @@ namespace LDBeauty.Controllers
             {
                 cart = await cartService.GetCart(userName);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex, "CartController/Details");
                 return DatabaseError();
             }
 
@@ -66,8 +69,9 @@ namespace LDBeauty.Controllers
             {
                 await cartService.DeleteProduct(id, userName);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex, "CartController/Delete");
                 return DatabaseError();
             }
 

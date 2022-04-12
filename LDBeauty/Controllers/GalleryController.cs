@@ -12,13 +12,16 @@ namespace LDBeauty.Controllers
     {
         private readonly IGalleryService galleryService;
         private readonly IUserService userService;
+        private readonly ILogger<GalleryController> logger;
 
         public GalleryController(
             IGalleryService _galleryService,
-            IUserService _userService)
+            IUserService _userService,
+            ILogger<GalleryController> _logger)
         {
             galleryService = _galleryService;
             userService = _userService;
+            logger = _logger;
         }
 
         public async Task<IActionResult> Category()
@@ -29,8 +32,9 @@ namespace LDBeauty.Controllers
             {
                 model = await galleryService.GetCategories();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex, "GalleryController/Category");
                 return DatabaseError();
             }
 
@@ -47,8 +51,9 @@ namespace LDBeauty.Controllers
                 {
                     images = await galleryService.AllImages();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    logger.LogError(ex, "GalleryController/Images");
                     return DatabaseError();
                 }
             }
@@ -58,8 +63,9 @@ namespace LDBeauty.Controllers
                 {
                     images = await galleryService.GetImages(id);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    logger.LogError(ex, "GalleryController/Images");
                     return DatabaseError();
                 }
             }
@@ -75,8 +81,9 @@ namespace LDBeauty.Controllers
             {
                 imageDetails = await galleryService.GetImgDetails(id);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex, "GalleryController/Details");
                 return DatabaseError();
             }
 
@@ -94,8 +101,9 @@ namespace LDBeauty.Controllers
             {
                 imageDetails = await galleryService.GetImgDetails(int.Parse(id));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex, "GalleryController/AddImageToFavourites");
                 return DatabaseError();
             }
 
