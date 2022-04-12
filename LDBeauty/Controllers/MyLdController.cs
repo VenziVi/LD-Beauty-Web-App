@@ -18,17 +18,20 @@ namespace LDBeauty.Controllers
         private readonly IOrderService orderService;
         private readonly IProductService productService;
         private readonly IGalleryService galleryService;
+        private readonly ILogger<MyLdController> logger;
 
         public MyLdController(
             IUserService _userService,
             IOrderService _orderService,
             IProductService _productService,
-            IGalleryService _galleryService)
+            IGalleryService _galleryService,
+            ILogger<MyLdController> _logger)
         {
             userService = _userService;
             orderService = _orderService;
             productService = _productService;
             galleryService = _galleryService;
+            logger = _logger;
         }
 
 
@@ -43,8 +46,9 @@ namespace LDBeauty.Controllers
                 user = await userService.GetUser(userName);
                 products = await orderService.GetUserProducts(user.Id);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex, "MyLdController/Info");
                 return DatabaseError();
             }
 
@@ -68,8 +72,9 @@ namespace LDBeauty.Controllers
                 ApplicationUser user = await userService.GetUser(userName);
                 products = await productService.GetFavouriteProducts(user);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex, "MyLdController/FavoutiteProducts");
                 return DatabaseError();
             }
 
@@ -95,8 +100,9 @@ namespace LDBeauty.Controllers
                     return Redirect("/MyLd/FavouriteProducts");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex, "MyLdController/RemoveProduct");
                 return DatabaseError();
             }
 
@@ -119,8 +125,9 @@ namespace LDBeauty.Controllers
                 ApplicationUser user = await userService.GetUser(userName);
                 images = await galleryService.GetFavouriteImages(user);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex, "MyLdController/FavouriteImages");
                 return DatabaseError();
             }
 
@@ -146,8 +153,9 @@ namespace LDBeauty.Controllers
                     return Redirect("/MyLd/FavouriteImages");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex, "MyLdController/RemoveFromFavourites");
                 return DatabaseError();
             }
 
