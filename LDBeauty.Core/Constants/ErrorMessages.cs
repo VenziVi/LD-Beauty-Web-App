@@ -21,5 +21,9 @@
         public static string MinCharacters = "You must add min 4 character.";
 
         public const string MissingProduct = "There are no products with that name.";
+
+        public const string RemovedProduct = "Product is already removed from favourites.";
+
+        public const string RemovedImage = "Image is already removed from favourites.";
     }
 }
