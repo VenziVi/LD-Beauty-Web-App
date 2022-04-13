@@ -7,7 +7,7 @@ using NUnit.Framework;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LDBeauty.Test
+namespace LDBeauty.Test.ServiceTests
 {
     public class UserServiceTest
     {

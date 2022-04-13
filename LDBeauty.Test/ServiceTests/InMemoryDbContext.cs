@@ -2,7 +2,7 @@
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
-namespace LDBeauty.Test
+namespace LDBeauty.Test.ServiceTests
 {
     public class InMemoryDbContext
     {

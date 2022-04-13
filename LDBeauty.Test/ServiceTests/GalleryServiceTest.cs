@@ -10,7 +10,7 @@ using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
 
-namespace LDBeauty.Test
+namespace LDBeauty.Test.ServiceTests
 {
     public class GalleryerviceTest
     {

@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LDBeauty.Test
+namespace LDBeauty.Test.ServiceTests
 {
     public class ProductServiceTest
     {
