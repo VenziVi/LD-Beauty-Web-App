@@ -13,13 +13,16 @@ namespace LDBeauty.Controllers
     {
         private readonly IOrderService orderService;
         private readonly IUserService userService;
+        private readonly ILogger<OrderController> logger;
 
         public OrderController(
             IOrderService _orderService,
-            IUserService _userService)
+            IUserService _userService,
+            ILogger<OrderController> _logger)
         {
             orderService = _orderService;
             userService = _userService;
+            logger = _logger;
         }
 
         [Authorize]
@@ -33,8 +36,9 @@ namespace LDBeauty.Controllers
             {
                 user = await userService.GetUSerByName(userName, id);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex, "OrderController/Order");
                 return DatabaseError();
             }
 
@@ -59,8 +63,9 @@ namespace LDBeauty.Controllers
                     return Redirect("/Cart/Detail");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex, "OrderController/FinishOrder");
                 return DatabaseError();
             }
             

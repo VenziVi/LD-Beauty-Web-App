@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LDBeauty.Core.Models.Cart
+﻿namespace LDBeauty.Core.Models.Cart
 {
     public class CartDetailsViewModel
     {

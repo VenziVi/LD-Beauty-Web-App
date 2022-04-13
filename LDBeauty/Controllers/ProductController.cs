@@ -15,16 +15,19 @@ namespace LDBeauty.Controllers
         private readonly IProductService productService;
         private readonly ICartService cartService;
         private readonly IUserService userService;
+        private readonly ILogger<ProductController> logger;
 
 
         public ProductController(
             IProductService _productService,
             ICartService _cartService,
-            IUserService _userService)
+            IUserService _userService,
+            ILogger<ProductController> _logger)
         {
             productService = _productService;
             cartService = _cartService;
             userService = _userService;
+            logger = _logger;
         }
 
         public async Task<IActionResult> AllProducts()
@@ -35,10 +38,10 @@ namespace LDBeauty.Controllers
                 AddProductToCart.IsAddedToCart = false;
             }
 
-            if (SearchedProductNotFound.IsFound)
+            if (SearchedProductNotFound.NotFound)
             {
                 ViewData[MessageConstant.ErrorMessage] = SearchedProductNotFound.Message;
-                SearchedProductNotFound.IsFound = false;
+                SearchedProductNotFound.NotFound = false;
                 SearchedProductNotFound.Message = string.Empty;
             }
 
@@ -48,8 +51,9 @@ namespace LDBeauty.Controllers
             {
                 products = await productService.GetAllProducts();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex, "ProductController/AllProducts");
                 return DatabaseError();
             }
 
@@ -65,8 +69,9 @@ namespace LDBeauty.Controllers
             {
                 products = await productService.GetProductsByCategory(id);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex, "ProductController/ProductByCategory");
                 return DatabaseError();
             }
 
@@ -81,8 +86,9 @@ namespace LDBeauty.Controllers
             {
                 products = await productService.GetProductsByMake(id);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex, "ProductController/ProductByMake");
                 return DatabaseError();
             }
 
@@ -99,8 +105,9 @@ namespace LDBeauty.Controllers
             {
                 product = await productService.GetProduct(id);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex, "ProductController/Details");
                 return DatabaseError();
             }
 
@@ -123,8 +130,9 @@ namespace LDBeauty.Controllers
                     RedirectToAction("details", model.ProductId);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex, "ProductController/AddToCart");
                 return DatabaseError();
             }
 
@@ -143,8 +151,9 @@ namespace LDBeauty.Controllers
             {
                 product = await productService.GetProduct(id);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex, "ProductController/AddProductToFavourites");
                 return DatabaseError();
             }
 
@@ -176,7 +185,7 @@ namespace LDBeauty.Controllers
 
             if (productName == null || productName.Length <= 3)
             {
-                SearchedProductNotFound.IsFound = true;
+                SearchedProductNotFound.NotFound = true;
                 SearchedProductNotFound.Message = ErrorMessages.MinCharacters;
                 return RedirectToAction("AllProducts");
             }
@@ -187,14 +196,15 @@ namespace LDBeauty.Controllers
             {
                 products = await productService.GetProductsByName(productName);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogError(ex, "ProductController/SearchByName");
                 return DatabaseError();
             }
 
             if (products.Count() == 0)
             {
-                SearchedProductNotFound.IsFound = true;
+                SearchedProductNotFound.NotFound = true;
                 SearchedProductNotFound.Message = ErrorMessages.MissingProduct;
                 return RedirectToAction("AllProducts");
             }

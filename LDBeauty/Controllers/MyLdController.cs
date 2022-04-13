@@ -95,7 +95,7 @@ namespace LDBeauty.Controllers
                 }
                 catch (ArgumentException aex)
                 {
-                    ProductRemovedFromFavourites.Message = aex.Message;
+                    ProductRemovedFromFavourites.Message = ErrorMessages.RemovedProduct;
                     ProductRemovedFromFavourites.IsRemoved = true;
                     return Redirect("/MyLd/FavouriteProducts");
                 }
@@ -148,7 +148,7 @@ namespace LDBeauty.Controllers
                 }
                 catch (ArgumentException aex)
                 {
-                    ImageRemovedFromFavourites.Message = aex.Message;
+                    ImageRemovedFromFavourites.Message = ErrorMessages.RemovedImage;
                     ImageRemovedFromFavourites.IsRemoved = true;
                     return Redirect("/MyLd/FavouriteImages");
                 }

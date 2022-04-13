@@ -2,7 +2,7 @@
 {
     public static class SearchedProductNotFound
     {
-        public static bool IsFound = false;
+        public static bool NotFound = false;
 
         public static string Message = string.Empty;
     }
