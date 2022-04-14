@@ -42,7 +42,18 @@ namespace LDBeauty.Test.ServiceTests
 
             var products = service.GetAllProducts().Result;
 
-            Assert.AreEqual(2, products.Count());
+            Assert.AreEqual(2, products.Products.Count());
+        }
+
+        [Test]
+        public void ShouldReturnCountOfCategoriesAndMakes()
+        {
+            var service = serviceProvider.GetService<IProductService>();
+
+            var products = service.GetAllProducts().Result;
+
+            Assert.AreEqual(2, products.Categories.Count());
+            Assert.AreEqual(2, products.Makes.Count());
         }
 
         [Test]
@@ -51,7 +62,7 @@ namespace LDBeauty.Test.ServiceTests
 
             var service = serviceProvider.GetService<IProductService>();
 
-            var product = service.GetProductsByCategory(1).Result.Count();
+            var product = service.GetProductsByCategory(1).Result.Products.Count();
 
             Assert.AreEqual(1, product);   
         }
@@ -62,7 +73,7 @@ namespace LDBeauty.Test.ServiceTests
 
             var service = serviceProvider.GetService<IProductService>();
 
-            var product = service.GetProductsByCategory(555).Result.Count();
+            var product = service.GetProductsByCategory(555).Result.Products.Count();
 
             Assert.AreEqual(0, product);
         }
@@ -84,7 +95,7 @@ namespace LDBeauty.Test.ServiceTests
 
             var service = serviceProvider.GetService<IProductService>();
 
-            var product = service.GetProductsByMake(2).Result.Count();
+            var product = service.GetProductsByMake(2).Result.Products.Count();
 
             Assert.AreEqual(1, product);
         }
@@ -95,7 +106,7 @@ namespace LDBeauty.Test.ServiceTests
 
             var service = serviceProvider.GetService<IProductService>();
 
-            var product = service.GetProductsByMake(555).Result.Count();
+            var product = service.GetProductsByMake(555).Result.Products.Count();
 
             Assert.AreEqual(0, product);
         }
@@ -106,7 +117,7 @@ namespace LDBeauty.Test.ServiceTests
 
             var service = serviceProvider.GetService<IProductService>();
 
-            var product = service.GetProductsByName("VVVV").Result.Count();
+            var product = service.GetProductsByName("VVVV").Result.Products.Count();
 
             Assert.AreEqual(2, product);
         }
@@ -117,7 +128,7 @@ namespace LDBeauty.Test.ServiceTests
 
             var service = serviceProvider.GetService<IProductService>();
 
-            var product = service.GetProductsByName("ZZZZ").Result.Count();
+            var product = service.GetProductsByName("ZZZZ").Result.Products.Count();
 
             Assert.AreEqual(0, product);
         }
@@ -142,7 +153,7 @@ namespace LDBeauty.Test.ServiceTests
 
             var products = service.GetAllProducts().Result;
 
-            Assert.AreEqual(3, products.Count());
+            Assert.AreEqual(3, products.Products.Count());
         }
 
         [Test]
