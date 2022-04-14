@@ -7,6 +7,7 @@ using LDBeauty.Core.Models.Product;
 using LDBeauty.Infrastructure.Data.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace LDBeauty.Controllers
 {
@@ -16,18 +17,21 @@ namespace LDBeauty.Controllers
         private readonly ICartService cartService;
         private readonly IUserService userService;
         private readonly ILogger<ProductController> logger;
+        private readonly IMemoryCache cache;
 
 
         public ProductController(
             IProductService _productService,
             ICartService _cartService,
             IUserService _userService,
-            ILogger<ProductController> _logger)
+            ILogger<ProductController> _logger,
+            IMemoryCache _cache)
         {
             productService = _productService;
             cartService = _cartService;
             userService = _userService;
             logger = _logger;
+            cache = _cache;
         }
 
         public async Task<IActionResult> AllProducts()
@@ -45,16 +49,26 @@ namespace LDBeauty.Controllers
                 SearchedProductNotFound.Message = string.Empty;
             }
 
-            IEnumerable<GetProductViewModel> products = null;
+            const string allProductsCacheKey = "AllProductsCacheKey";
 
-            try
+            List<GetProductViewModel> products = cache.Get<List<GetProductViewModel>>(allProductsCacheKey);
+
+            if (products == null)
             {
-                products = await productService.GetAllProducts();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, "ProductController/AllProducts");
-                return DatabaseError();
+                try
+                {
+                    products = await productService.GetAllProducts();
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "ProductController/AllProducts");
+                    return DatabaseError();
+                }
+
+                var cacheOptions = new MemoryCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromDays(1));
+
+                cache.Set(allProductsCacheKey, products, cacheOptions);
             }
 
             return View(products);
@@ -63,7 +77,7 @@ namespace LDBeauty.Controllers
 
         public async Task<IActionResult> ProductByCategory(int id)
         {
-            IEnumerable<GetProductViewModel> products = null;
+            List<GetProductViewModel> products = null;
 
             try
             {
@@ -80,7 +94,7 @@ namespace LDBeauty.Controllers
 
         public async Task<IActionResult> ProductByMake(int id)
         {
-            IEnumerable<GetProductViewModel> products = null;
+            List<GetProductViewModel> products = null;
 
             try
             {
