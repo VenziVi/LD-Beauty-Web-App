@@ -113,16 +113,24 @@ namespace LDBeauty.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
-            ImageDetailsViewModel imageDetails = null;
+            ImageDetailsViewModel imageDetails = cache.Get<ImageDetailsViewModel>($"ImageDetails{id}");
 
-            try
+            if (imageDetails == null)
             {
-                imageDetails = await galleryService.GetImgDetails(id);
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, "GalleryController/Details");
-                return DatabaseError();
+                try
+                {
+                    imageDetails = await galleryService.GetImgDetails(id);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "GalleryController/Details");
+                    return DatabaseError();
+                }
+
+                var cacheOptions = new MemoryCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromDays(1));
+
+                cache.Set($"ImageDetails{id}", imageDetails, cacheOptions);
             }
 
             return View(imageDetails);
