@@ -89,9 +89,9 @@ namespace LDBeauty.Core.Services
             await repo.SaveChangesAsync();
         }
 
-        public async Task<List<GetProductViewModel>> GetAllProducts()
+        public async Task<AllProductsViewModel> GetAllProducts()
         {
-            return await repo.All<Product>()
+            var products = await repo.AllReadonly<Product>()
                 .Select(p => new GetProductViewModel()
                 {
                     Id = p.Id,
@@ -99,11 +99,10 @@ namespace LDBeauty.Core.Services
                     ProductUrl = p.ProductUrl,
                     Price = p.Price,
                     Quantity = p.Quantity,
-                    Make = p.Make.MakeName,
-                    MakeId = p.MakeId,
-                    Category = p.Category.CategoryName,
-                    CategoryId = p.CategoryId
+                    Make = p.Make.MakeName
                 }).ToListAsync();
+
+            return await GetResult(products);
         }
 
         public async Task<List<GetProductViewModel>> GetFavouriteProducts(ApplicationUser user)
@@ -140,9 +139,9 @@ namespace LDBeauty.Core.Services
                 }).FirstOrDefaultAsync();
         }
 
-        public async Task<List<GetProductViewModel>> GetProductsByCategory(int id)
+        public async Task<AllProductsViewModel> GetProductsByCategory(int id)
         {
-            return await repo.All<Product>()
+            var products = await repo.AllReadonly<Product>()
                 .Where(p => p.CategoryId == id)
                 .Select(p => new GetProductViewModel()
                 {
@@ -151,16 +150,15 @@ namespace LDBeauty.Core.Services
                     ProductUrl = p.ProductUrl,
                     Price = p.Price,
                     Quantity = p.Quantity,
-                    Make = p.Make.MakeName,
-                    MakeId = p.MakeId,
-                    Category = p.Category.CategoryName,
-                    CategoryId = p.CategoryId
+                    Make = p.Make.MakeName
                 }).ToListAsync();
+
+            return await GetResult(products);
         }
 
-        public async Task<List<GetProductViewModel>> GetProductsByMake(int id)
+        public async Task<AllProductsViewModel> GetProductsByMake(int id)
         {
-            return await repo.All<Product>()
+            var products = await repo.AllReadonly<Product>()
                 .Where(p => p.MakeId == id)
                 .Select(p => new GetProductViewModel()
                 {
@@ -169,16 +167,15 @@ namespace LDBeauty.Core.Services
                     ProductUrl = p.ProductUrl,
                     Price = p.Price,
                     Quantity = p.Quantity,
-                    Make = p.Make.MakeName,
-                    MakeId = p.MakeId,
-                    Category = p.Category.CategoryName,
-                    CategoryId = p.CategoryId
+                    Make = p.Make.MakeName
                 }).ToListAsync();
+
+            return await GetResult(products);
         }
 
-        public async Task<List<GetProductViewModel>> GetProductsByName(string productName)
+        public async Task<AllProductsViewModel> GetProductsByName(string productName)
         {
-            return await repo.All<Product>()
+            var products = await repo.AllReadonly<Product>()
                 .Where(p => p.ProductName.Contains(productName))
                 .Select(p => new GetProductViewModel()
                 {
@@ -187,11 +184,10 @@ namespace LDBeauty.Core.Services
                     ProductUrl = p.ProductUrl,
                     Price = p.Price,
                     Quantity = p.Quantity,
-                    Make = p.Make.MakeName,
-                    MakeId = p.MakeId,
-                    Category = p.Category.CategoryName,
-                    CategoryId = p.CategoryId
+                    Make = p.Make.MakeName
                 }).ToListAsync();
+
+            return await GetResult(products);
         }
 
         public async Task RemoveFromFavourite(int id, ApplicationUser user)
@@ -248,6 +244,18 @@ namespace LDBeauty.Core.Services
             }
 
             return make;
+        }
+
+        private async Task<AllProductsViewModel> GetResult(List<GetProductViewModel> products)
+        {
+            return new AllProductsViewModel()
+            {
+                Products = products,
+                Categories = await repo.AllReadonly<Category>()
+                .ToListAsync(),
+                Makes = await repo.AllReadonly<Make>()
+                .ToListAsync()
+            };
         }
     }
 }
