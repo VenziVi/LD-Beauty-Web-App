@@ -86,14 +86,25 @@ namespace LDBeauty.Controllers
             }
             else
             {
-                try
+                images = cache.Get<List<ImageViewModel>>($"allImagesWith{id}");
+
+                if (images == null)
                 {
-                    images = await galleryService.GetImages(id);
-                }
-                catch (Exception ex)
-                {
-                    logger.LogError(ex, "GalleryController/Images");
-                    return DatabaseError();
+                    try
+                    {
+                        images = await galleryService.GetImages(id);
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.LogError(ex, "GalleryController/Images");
+                        return DatabaseError();
+                    }
+
+                    var cacheOptions = new MemoryCacheEntryOptions()
+                        .SetAbsoluteExpiration(TimeSpan.FromDays(1));
+
+                    cache.Set($"allImagesWith{id}", images, cacheOptions);
+
                 }
             }
 
