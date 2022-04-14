@@ -29,6 +29,8 @@ builder.Services.AddControllersWithViews(options =>
     options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
 });
 
+builder.Services.AddDistributedMemoryCache();
+
 builder.Services.AddControllersWithViews()
     .AddMvcOptions(options =>
     {

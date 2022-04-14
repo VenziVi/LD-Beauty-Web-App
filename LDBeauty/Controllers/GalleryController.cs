@@ -57,18 +57,31 @@ namespace LDBeauty.Controllers
 
         public async Task<IActionResult> Images(int? id)
         {
+            const string allImagesCacheKey = "AllImagesCacheKey";
+
             List<ImageViewModel> images = null;
 
             if (id == null)
             {
-                try
+                images = cache.Get<List<ImageViewModel>>(allImagesCacheKey);
+
+                if (images == null)
                 {
-                    images = await galleryService.AllImages();
-                }
-                catch (Exception ex)
-                {
-                    logger.LogError(ex, "GalleryController/Images");
-                    return DatabaseError();
+                    try
+                    {
+                        images = await galleryService.AllImages();
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.LogError(ex, "GalleryController/Images");
+                        return DatabaseError();
+                    }
+
+                    var cacheOptions = new MemoryCacheEntryOptions()
+                        .SetAbsoluteExpiration(TimeSpan.FromDays(1));
+
+                    cache.Set(allImagesCacheKey, images, cacheOptions);
+
                 }
             }
             else
