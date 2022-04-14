@@ -62,16 +62,10 @@ else
                                     <!-- Product price-->
                             @product.Price lv.
                                 </div>
-                                @if (product.Quantity <= 0)
+                                @if (product.Quantity > 0)
                                 {
-                                    <div class="text-center">
-                                        Qty: 0
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="text-center">
-                                        Qty: @product.Quantity
+                                    <div class="text-center fw-bolder">
+                                        In Stock
                                     </div>
                                 }
                             </div>

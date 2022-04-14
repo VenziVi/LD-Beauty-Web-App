@@ -66,7 +66,7 @@ namespace LDBeauty.Controllers
                 }
 
                 var cacheOptions = new MemoryCacheEntryOptions()
-                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(15));
 
                 cache.Set(allProductsCacheKey, products, cacheOptions);
             }
@@ -92,7 +92,7 @@ namespace LDBeauty.Controllers
                 }
 
                 var cacheOptions = new MemoryCacheEntryOptions()
-                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(15));
 
                 cache.Set($"ProductsByCategory{id}", products, cacheOptions);
             }
@@ -117,7 +117,7 @@ namespace LDBeauty.Controllers
                 }
 
                 var cacheOptions = new MemoryCacheEntryOptions()
-                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(15));
 
                 cache.Set($"ProductsByMake{id}", products, cacheOptions);
             }
@@ -144,7 +144,7 @@ namespace LDBeauty.Controllers
                 }
 
                 var cacheOptions = new MemoryCacheEntryOptions()
-                   .SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
+                   .SetAbsoluteExpiration(TimeSpan.FromMinutes(5));
 
                 cache.Set($"ProductsDetails{id}", product, cacheOptions);
             }
