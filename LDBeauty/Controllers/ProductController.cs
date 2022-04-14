@@ -77,16 +77,24 @@ namespace LDBeauty.Controllers
 
         public async Task<IActionResult> ProductByCategory(int id)
         {
-            List<GetProductViewModel> products = null;
+            List<GetProductViewModel> products = cache.Get<List<GetProductViewModel>>($"ProductsByCategory{id}");
 
-            try
+            if (products == null)
             {
-                products = await productService.GetProductsByCategory(id);
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, "ProductController/ProductByCategory");
-                return DatabaseError();
+                try
+                {
+                    products = await productService.GetProductsByCategory(id);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "ProductController/ProductByCategory");
+                    return DatabaseError();
+                }
+
+                var cacheOptions = new MemoryCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromDays(1));
+
+                cache.Set($"ProductsByCategory{id}", products, cacheOptions);
             }
 
             return View("AllProducts", products);
