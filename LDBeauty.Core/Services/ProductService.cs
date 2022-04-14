@@ -89,7 +89,7 @@ namespace LDBeauty.Core.Services
             await repo.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<GetProductViewModel>> GetAllProducts()
+        public async Task<List<GetProductViewModel>> GetAllProducts()
         {
             return await repo.All<Product>()
                 .Select(p => new GetProductViewModel()
@@ -140,7 +140,7 @@ namespace LDBeauty.Core.Services
                 }).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<GetProductViewModel>> GetProductsByCategory(int id)
+        public async Task<List<GetProductViewModel>> GetProductsByCategory(int id)
         {
             return await repo.All<Product>()
                 .Where(p => p.CategoryId == id)
@@ -158,7 +158,7 @@ namespace LDBeauty.Core.Services
                 }).ToListAsync();
         }
 
-        public async Task<IEnumerable<GetProductViewModel>> GetProductsByMake(int id)
+        public async Task<List<GetProductViewModel>> GetProductsByMake(int id)
         {
             return await repo.All<Product>()
                 .Where(p => p.MakeId == id)

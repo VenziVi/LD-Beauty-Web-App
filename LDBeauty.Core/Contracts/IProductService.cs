@@ -6,14 +6,14 @@ namespace LDBeauty.Core.Contracts
     public interface IProductService
     {
         Task AddProduct(AddProductViewModel model);
-        Task<IEnumerable<GetProductViewModel>> GetAllProducts();
+        Task<List<GetProductViewModel>> GetAllProducts();
         Task<ProductDetailsViewModel> GetProduct(int id);
         Task EditProduct(AddProductViewModel model, int id);
         Task AddToFavourites(int productId, ApplicationUser user);
         Task<List<GetProductViewModel>> GetFavouriteProducts(ApplicationUser user);
         Task RemoveFromFavourite(int id, ApplicationUser user);
-        Task<IEnumerable<GetProductViewModel>> GetProductsByCategory(int id);
-        Task<IEnumerable<GetProductViewModel>> GetProductsByMake(int id);
+        Task<List<GetProductViewModel>> GetProductsByCategory(int id);
+        Task<List<GetProductViewModel>> GetProductsByMake(int id);
         Task<List<GetProductViewModel>> GetProductsByName(string productName);
     }
 }
