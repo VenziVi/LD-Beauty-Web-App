@@ -1,10 +1,10 @@
 ﻿@using LDBeauty.Core.Models.Product
-@model IEnumerable<GetProductViewModel>
+@model AllProductsViewModel
 
 
 <partial name="_Logo" />
 
-@if (@Model.Count() == 0)
+@if (@Model.Products.Count() == 0)
 {
     <h3 class="display-6 fw-bolder text-center" style="color:black">Product list is empty.</h3>
 }
@@ -18,9 +18,9 @@ else
                         Choose category
                     </button>
                     <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton2">
-                        @foreach (var item in @Model.DistinctBy(c => c.Category))
+                        @foreach (var item in @Model.Categories)
                         {
-                            <li><a class="dropdown-item" asp-action="productByCategory" asp-controller="product" asp-route-id="@item.CategoryId">@item.Category</a></li>
+                            <li><a class="dropdown-item" asp-action="productByCategory" asp-controller="product" asp-route-id="@item.Id">@item.CategoryName</a></li>
                         }
                     </ul>
                 </div>
@@ -29,9 +29,9 @@ else
                         Choose brand
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                        @foreach (var item in @Model.DistinctBy(m => m.Make))
+                        @foreach (var item in @Model.Makes)
                         {
-                            <li><a class="dropdown-item" asp-action="productByMake" asp-controller="product" asp-route-id="@item.MakeId">@item.Make</a></li>
+                            <li><a class="dropdown-item" asp-action="productByMake" asp-controller="product" asp-route-id="@item.Id">@item.MakeName</a></li>
                         }
                     </ul>
                 </div>
@@ -45,7 +45,7 @@ else
     <section class="py-5">
         <div class="container px-4 px-lg-5 ">
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                @foreach (var product in @Model)
+                @foreach (var product in @Model.Products)
                 {
                     <div class="col mb-5">
                         <div class="card h-100">

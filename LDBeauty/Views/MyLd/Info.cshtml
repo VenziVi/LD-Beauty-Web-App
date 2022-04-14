@@ -3,43 +3,52 @@
 
 <h1 class="text-center "> Hello, @ViewData["userName"]!</h1>
 
-<div class="d-grid gap-2 d-md-flex justify-content-md-center mt-5">
-    <a class="btn btn-outline-dark mt-auto " asp-action="favouriteProducts" asp-controller="MyLd" aria-disabled="true">Favourite Products</a>
-    <a class="btn btn-outline-dark mt-auto " asp-action="favouriteImages" asp-controller="MyLd" aria-disabled="true">Favourite Images</a>
-</div>
-
-@if (@Model.Count() == 0)
+@if (User.IsInRole("Admin"))
 {
-    <h3 class="text-center mt-5 m-4">You don't have any orders yet! </h3>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-5">
+        <a class="btn btn-outline-dark mt-auto " asp-area="admin" asp-action="index" asp-controller="home" aria-disabled="true">Go to Admin Area</a>
+    </div>
 }
 else
 {
-    <h3 class="text-center mt-5">Your orders: </h3>
-
-    <div class="container justify-content-center">
-
-        <table class="table table-striped mt-5">
-            <thead>
-                <tr>
-                    <th scope="col">Make</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in @Model)
-                {
-                    <tr>
-                        <th>@item.Make</th>
-                        <td>@item.Name</td>
-                        <td>@item.Quantity</td>
-                        <td>@item.Date</td>
-                        <td>@item.Price lv.</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-5">
+        <a class="btn btn-outline-dark mt-auto " asp-action="favouriteProducts" asp-controller="MyLd" aria-disabled="true">Favourite Products</a>
+        <a class="btn btn-outline-dark mt-auto " asp-action="favouriteImages" asp-controller="MyLd" aria-disabled="true">Favourite Images</a>
     </div>
+
+    @if (@Model.Count() == 0)
+    {
+        <h3 class="text-center mt-5 m-4">You don't have any orders yet! </h3>
+    }
+    else
+    {
+        <h3 class="text-center mt-5">Your orders: </h3>
+
+        <div class="container justify-content-center">
+
+            <table class="table table-striped mt-5">
+                <thead>
+                    <tr>
+                        <th scope="col">Make</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in @Model)
+                    {
+                        <tr>
+                            <th>@item.Make</th>
+                            <td>@item.Name</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Date</td>
+                            <td>@item.Price lv.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
 }

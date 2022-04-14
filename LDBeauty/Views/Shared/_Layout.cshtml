@@ -41,14 +41,13 @@
                         </li>
                         <li class="nav-item"><a class="nav-link" asp-area="" asp-action="allProducts" asp-controller="product">Products</a></li>
                         <li class="nav-item"><a class="nav-link" asp-area="" asp-action="info" asp-controller="myLd">My LD</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-area="" asp-action="Detail" asp-controller="cart">Cart</a></li>
+                        @if (User.IsInRole("Client"))
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-area="" asp-action="Detail" asp-controller="cart">Cart</a></li>
+                        }
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item"><a class="nav-link" asp-area="Identity" asp-page="/Account/Logout">Log out</a></li>
-                        }
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <li class="nav-item"><a class="nav-link" asp-area="admin" asp-action="index" asp-controller="home">Admin</a></li>
                         }
                     </ul>
                 </div>
