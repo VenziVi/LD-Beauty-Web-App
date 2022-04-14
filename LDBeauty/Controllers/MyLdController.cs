@@ -56,6 +56,7 @@ namespace LDBeauty.Controllers
             return View(products);
         }
 
+        [Authorize(Roles = UserConstant.Roles.Client)]
         public async Task<IActionResult> FavouriteProducts()
         {
             if (ProductRemovedFromFavourites.IsRemoved)
@@ -81,6 +82,7 @@ namespace LDBeauty.Controllers
             return View(products);
         }
 
+        [Authorize(Roles = UserConstant.Roles.Client)]
         public async Task<IActionResult> RemoveProduct(int id)
         {
             var userName = User.Identity.Name;
@@ -109,6 +111,7 @@ namespace LDBeauty.Controllers
             return Redirect("/MyLd/FavouriteProducts");
         }
 
+        [Authorize(Roles = UserConstant.Roles.Client)]
         public async Task<IActionResult> FavouriteImages()
         {
             if (ImageRemovedFromFavourites.IsRemoved)
@@ -134,6 +137,7 @@ namespace LDBeauty.Controllers
             return View(images);
         }
 
+        [Authorize(Roles = UserConstant.Roles.Client)]
         public async Task<IActionResult> RemoveFromFavourites(int id)
         {
             var userName = User.Identity.Name;

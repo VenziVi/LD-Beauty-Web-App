@@ -8,9 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Admin\Views\User\**" />
     <Compile Remove="wwwroot\shopPart\**" />
+    <Content Remove="Areas\Admin\Views\User\**" />
     <Content Remove="wwwroot\shopPart\**" />
+    <EmbeddedResource Remove="Areas\Admin\Views\User\**" />
     <EmbeddedResource Remove="wwwroot\shopPart\**" />
+    <None Remove="Areas\Admin\Views\User\**" />
     <None Remove="wwwroot\shopPart\**" />
   </ItemGroup>
 
@@ -34,10 +38,6 @@
     <Content Update="wwwroot\css\styles.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Areas\Admin\Views\User\" />
   </ItemGroup>
 
   <ItemGroup>

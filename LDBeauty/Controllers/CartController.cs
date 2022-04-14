@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LDBeauty.Controllers
 {
+    [Authorize(Roles = UserConstant.Roles.Client)]
     [Authorize]
     public class CartController : Controller
     {

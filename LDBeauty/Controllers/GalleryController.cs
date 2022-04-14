@@ -47,7 +47,7 @@ namespace LDBeauty.Controllers
                 }
 
                 var cacheOptions = new MemoryCacheEntryOptions()
-                    .SetAbsoluteExpiration(TimeSpan.FromDays(1));
+                    .SetAbsoluteExpiration(TimeSpan.FromHours(1));
 
                 cache.Set(categoriesCacheKey, model, cacheOptions);
             }
@@ -78,7 +78,7 @@ namespace LDBeauty.Controllers
                     }
 
                     var cacheOptions = new MemoryCacheEntryOptions()
-                        .SetAbsoluteExpiration(TimeSpan.FromDays(1));
+                        .SetAbsoluteExpiration(TimeSpan.FromHours(1));
 
                     cache.Set(allImagesCacheKey, images, cacheOptions);
 
@@ -101,7 +101,7 @@ namespace LDBeauty.Controllers
                     }
 
                     var cacheOptions = new MemoryCacheEntryOptions()
-                        .SetAbsoluteExpiration(TimeSpan.FromDays(1));
+                        .SetAbsoluteExpiration(TimeSpan.FromHours(1));
 
                     cache.Set($"allImagesWith{id}", images, cacheOptions);
 
@@ -128,7 +128,7 @@ namespace LDBeauty.Controllers
                 }
 
                 var cacheOptions = new MemoryCacheEntryOptions()
-                    .SetAbsoluteExpiration(TimeSpan.FromDays(1));
+                    .SetAbsoluteExpiration(TimeSpan.FromHours(1));
 
                 cache.Set($"ImageDetails{id}", imageDetails, cacheOptions);
             }

@@ -51,7 +51,7 @@ namespace LDBeauty.Controllers
 
             const string allProductsCacheKey = "AllProductsCacheKey";
 
-            List<GetProductViewModel> products = cache.Get<List<GetProductViewModel>>(allProductsCacheKey);
+            AllProductsViewModel products = cache.Get<AllProductsViewModel>(allProductsCacheKey);
 
             if (products == null)
             {
@@ -77,7 +77,7 @@ namespace LDBeauty.Controllers
 
         public async Task<IActionResult> ProductByCategory(int id)
         {
-            List<GetProductViewModel> products = cache.Get<List<GetProductViewModel>>($"ProductsByCategory{id}");
+            AllProductsViewModel products = cache.Get<AllProductsViewModel>($"ProductsByCategory{id}");
 
             if (products == null)
             {
@@ -102,7 +102,7 @@ namespace LDBeauty.Controllers
 
         public async Task<IActionResult> ProductByMake(int id)
         {
-            List<GetProductViewModel> products = cache.Get<List<GetProductViewModel>>($"ProductsByMake{id}");
+            AllProductsViewModel products = cache.Get<AllProductsViewModel>($"ProductsByMake{id}");
 
             if (products == null)
             {
@@ -228,7 +228,7 @@ namespace LDBeauty.Controllers
                 return RedirectToAction("AllProducts");
             }
 
-            List<GetProductViewModel> products = null;
+            AllProductsViewModel products = null;
 
             try
             {
@@ -240,7 +240,7 @@ namespace LDBeauty.Controllers
                 return DatabaseError();
             }
 
-            if (products.Count() == 0)
+            if (products.Products.Count() == 0)
             {
                 SearchedProductNotFound.NotFound = true;
                 SearchedProductNotFound.Message = ErrorMessages.MissingProduct;
