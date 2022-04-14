@@ -14,10 +14,5 @@
 
         public string Make { get; set; }
 
-        public int MakeId { get; set; }
-
-        public string Category { get; set; }
-
-        public int CategoryId { get; set; }
     }
 }
