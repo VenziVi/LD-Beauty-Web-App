@@ -5,6 +5,7 @@ using LDBeauty.Core.Models.Gallery;
 using LDBeauty.Infrastructure.Data.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace LDBeauty.Controllers
 {
@@ -13,29 +14,42 @@ namespace LDBeauty.Controllers
         private readonly IGalleryService galleryService;
         private readonly IUserService userService;
         private readonly ILogger<GalleryController> logger;
+        private readonly IMemoryCache cache;
 
         public GalleryController(
             IGalleryService _galleryService,
             IUserService _userService,
-            ILogger<GalleryController> _logger)
+            ILogger<GalleryController> _logger,
+            IMemoryCache _cache)
         {
             galleryService = _galleryService;
             userService = _userService;
             logger = _logger;
+            cache = _cache;
         }
 
         public async Task<IActionResult> Category()
         {
-            List<GalleryCategoryViewModel> model = null;
+            const string categoriesCacheKey = "CategoriesCacheKey";
 
-            try
+            List<GalleryCategoryViewModel> model = cache.Get<List<GalleryCategoryViewModel>>(categoriesCacheKey);
+
+            if (model == null)
             {
-                model = await galleryService.GetCategories();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, "GalleryController/Category");
-                return DatabaseError();
+                try
+                {
+                    model = await galleryService.GetCategories();
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "GalleryController/Category");
+                    return DatabaseError();
+                }
+
+                var cacheOptions = new MemoryCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromDays(1));
+
+                cache.Set(categoriesCacheKey, model, cacheOptions);
             }
 
             return View(model);
