@@ -1,5 +1,5 @@
 ﻿@using LDBeauty.Core.Models.Gallery
-@model IEnumerable<ImageViewModel>
+@model List<ImageViewModel>
 
 <partial name="_Logo"/>
 
@@ -11,12 +11,12 @@ else
 {
 <section class="album py-5">
     <div class="container">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3 justify-content-center">
             @foreach (var item in @Model)
             {
                 <div class="col">
                     <a asp-action="details" asp-controller="gallery" asp-route-id="@item.Id">
-                    <img src="@item.ImgUrl" width="250" height="400" @*class="img-thumbnail"*@ alt="...">
+                    <img src="@item.ImgUrl" width="250" height="350" @*class="img-thumbnail"*@ alt="...">
                     </a>
                 </div>
             }
