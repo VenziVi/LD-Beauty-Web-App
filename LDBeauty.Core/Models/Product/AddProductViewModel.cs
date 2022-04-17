@@ -10,9 +10,11 @@ namespace LDBeauty.Core.Models.Product
         public string ProductName { get; set; }
 
         [Required]
+        [MinLength(10, ErrorMessage = ViewModelConstraints.MinLengthError)]
         public string ProductUrl { get; set; }
 
         [Required]
+        [MinLength(10, ErrorMessage = ViewModelConstraints.MinLengthError)]
         public string Description { get; set; }
 
         [Range(1.00, 999.99, ErrorMessage = ViewModelConstraints.PriceError)]

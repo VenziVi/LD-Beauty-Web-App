@@ -9,5 +9,7 @@
         public const string PriceError = "Psice must be with min value 1,00 and max value 999,99.";
 
         public const string QuantityError = "Quantity must be between 0 and 100.";
+
+        public const string MinLengthError = "The {0} must be at least {1} characters long.";
     }
 }

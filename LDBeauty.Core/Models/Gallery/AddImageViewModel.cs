@@ -6,6 +6,7 @@ namespace LDBeauty.Core.Models
     public class AddImageViewModel
     {
         [Required]
+        [MinLength(10, ErrorMessage = ViewModelConstraints.MinLengthError)]
         public string PictureUrl { get; set; }
 
         [Required]
@@ -13,6 +14,7 @@ namespace LDBeauty.Core.Models
         public string Category { get; set; }
 
         [Required]
+        [MinLength(10, ErrorMessage = ViewModelConstraints.MinLengthError)]
         public string Description { get; set; }
     }
 }
